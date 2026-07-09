@@ -1,0 +1,27 @@
+# Gitleaks configuration for vookedme-engineering
+# Extends the default ruleset with project-specific allowlists.
+# Run: gitleaks detect --source . --config .gitleaks.toml
+
+title = "vookedme-engineering gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Known safe patterns in this repository"
+paths = [
+  # The pre-commit hook contains credential PATTERNS (not credentials)
+  ".githooks/pre-commit",
+  # This config file contains the allowlist itself
+  ".gitleaks.toml",
+  # Security policy explains what is and is not a real credential
+  "SECURITY.md",
+]
+
+# Pattern allowlist for test fixtures that use clearly fake values
+regexes = [
+  # Test JWTs use obviously fake secrets
+  "test-secret",
+  "example-secret",
+  "your-secret-here",
+]

@@ -1,0 +1,64 @@
+name: Bug Report
+description: Report a bug in the source code or documentation
+title: "[Bug]: "
+labels: ["type: fix"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report a bug.
+        Please be as specific as possible — file name, line number, and reproduction steps help significantly.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: What happened? What did you expect?
+      placeholder: "When I call X with Y, it returns Z instead of the expected W."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Numbered steps to reproduce the issue
+      placeholder: |
+        1. Clone the repository
+        2. Run `mvn test`
+        3. Observe failure in `AppointmentServiceTest`
+    validations:
+      required: true
+
+  - type: input
+    id: java-version
+    attributes:
+      label: Java version
+      placeholder: "21.0.3 (Temurin)"
+    validations:
+      required: false
+
+  - type: input
+    id: maven-version
+    attributes:
+      label: Maven version
+      placeholder: "3.9.6"
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output or stack trace
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Links to relevant ADRs, architecture docs, or related Issues
+    validations:
+      required: false

@@ -1,0 +1,44 @@
+name: Feature Request
+description: Propose an improvement or new capability
+title: "[Feat]: "
+labels: ["type: feat"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before submitting, please check if an ADR or Discussion already covers this topic.
+        Good feature requests describe the problem first, not just the solution.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the pain point or gap this addresses
+      placeholder: "The current implementation of X makes it difficult to Y because..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What would you like to see?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you've considered
+      description: What other approaches could solve this? Why is your proposal better?
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: References to relevant ADRs, architecture decisions, or prior discussions
+    validations:
+      required: false

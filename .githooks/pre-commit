@@ -1,0 +1,76 @@
+#!/bin/sh
+# vookedme-engineering — client-side secret scanner
+# Runs on every commit attempt. Blocks commit if secrets are detected.
+#
+# Setup: git config core.hooksPath .githooks
+#
+# This hook scans staged files for common secret patterns.
+# It is a defence-in-depth measure — Gitleaks CI also scans the full history.
+
+set -e
+
+echo "🔍 Pre-commit: scanning for secrets..."
+
+STAGED=$(git diff --cached --name-only --diff-filter=ACM)
+
+if [ -z "$STAGED" ]; then
+  exit 0
+fi
+
+FAILED=0
+
+for file in $STAGED; do
+  # Skip binary files and this hook itself
+  case "$file" in
+    .githooks/pre-commit) continue ;;
+    .gitleaks.toml) continue ;;
+    *.png|*.jpg|*.svg|*.gif|*.ico|*.pdf) continue ;;
+  esac
+
+  if [ ! -f "$file" ]; then
+    continue
+  fi
+
+  # OpenAI keys
+  if grep -qE "sk-[A-Za-z0-9]{32,}" "$file" 2>/dev/null; then
+    echo "❌ BLOCKED: Possible OpenAI key in $file"
+    FAILED=1
+  fi
+
+  # Resend API keys
+  if grep -qE "re_[A-Za-z0-9]{32,}" "$file" 2>/dev/null; then
+    echo "❌ BLOCKED: Possible Resend key in $file"
+    FAILED=1
+  fi
+
+  # AWS access keys
+  if grep -qE "AKIA[A-Z0-9]{16}" "$file" 2>/dev/null; then
+    echo "❌ BLOCKED: Possible AWS access key in $file"
+    FAILED=1
+  fi
+
+  # GitHub PATs
+  if grep -qE "gh[ps]_[A-Za-z0-9]{36}" "$file" 2>/dev/null; then
+    echo "❌ BLOCKED: Possible GitHub token in $file"
+    FAILED=1
+  fi
+
+  # Generic high-entropy patterns in sensitive files
+  case "$file" in
+    *.yml|*.yaml|*.properties|*.env*)
+      if grep -qE "password\s*[:=]\s*['\"]?[A-Za-z0-9+/]{12,}['\"]?" "$file" 2>/dev/null; then
+        echo "⚠️  WARNING: Possible password in $file — verify this is a placeholder"
+      fi
+      ;;
+  esac
+done
+
+if [ "$FAILED" -eq 1 ]; then
+  echo ""
+  echo "Commit blocked. Remove secrets before committing."
+  echo "If this is a false positive, add an allowlist entry to .gitleaks.toml"
+  exit 1
+fi
+
+echo "✅ Pre-commit scan passed."
+exit 0

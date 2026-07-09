@@ -1,0 +1,18 @@
+# CODEOWNERS — vookedme-engineering
+# All paths require review from the maintainer.
+# See GITHUB_CONFIGURATION.md §7 for rationale.
+
+# Global — all files
+* @GerardGurgui
+
+# Foundation documents (require deliberate review before modification)
+/ENGINEERING_PRODUCT_FOUNDATION.md @GerardGurgui
+/REPOSITORY_STANDARDS.md @GerardGurgui
+/RELEASE_STRATEGY.md @GerardGurgui
+
+# Security-sensitive paths
+/.gitleaks.toml @GerardGurgui
+/.githooks/ @GerardGurgui
+/src/main/java/**/security/ @GerardGurgui
+/src/main/java/**/auth/ @GerardGurgui
+/src/main/java/**/webhook/security/ @GerardGurgui

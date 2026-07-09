@@ -1,0 +1,60 @@
+# ─── Secrets and credentials ─────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+application-local.yml
+application-local.properties
+application-prod.yml
+application-prod.properties
+*.key
+*.pem
+*.p12
+*.jks
+
+# ─── Build artifacts ──────────────────────────────────────────────────────────
+target/
+*.jar
+*.war
+*.ear
+*.class
+
+# ─── Maven wrapper ────────────────────────────────────────────────────────────
+# Keep: .mvn/wrapper/maven-wrapper.properties
+# Keep: mvnw, mvnw.cmd
+
+# ─── IDE ──────────────────────────────────────────────────────────────────────
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+.project
+.classpath
+.settings/
+
+# ─── OS ───────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ─── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+logs/
+log/
+
+# ─── Local dev workflows ──────────────────────────────────────────────────────
+# n8n workflow exports (may contain credentials)
+dev/*.json
+
+# Real seed data (only synthetic seed_example.sql is committed)
+dev/seed_*.sql
+!dev/seed_example.sql
+
+# ─── Test output ──────────────────────────────────────────────────────────────
+surefire-reports/
+
+# ─── Temporary files ──────────────────────────────────────────────────────────
+*.tmp
+*.bak
+*.orig
