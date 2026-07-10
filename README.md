@@ -9,7 +9,7 @@
 
 ---
 
-> **Status:** v0.2.0 — ADR Journey Batch 1 published. [ADR-011](./docs/adr/ADR-011-appointment-temporal-boundary.md), [ADR-001](./docs/adr/ADR-001-single-money-field.md), and [ADR-007](./docs/adr/ADR-007-bot-panel-derive-architecture.md) are live. Further ADR batches and source code follow per the [release strategy](./docs/meta/release-strategy.md).
+> **Status:** v0.3.0 — ADR Journey Batch 2 published. Six ADRs live: [ADR-011](./docs/adr/ADR-011-appointment-temporal-boundary.md), [ADR-001](./docs/adr/ADR-001-single-money-field.md), [ADR-003](./docs/adr/ADR-003-hybrid-audit-strategy.md), [ADR-007](./docs/adr/ADR-007-bot-panel-derive-architecture.md), [ADR-002](./docs/adr/ADR-002-blocked-slot-state-machine.md), [ADR-004](./docs/adr/ADR-004-customer-lifecycle-states.md). Further ADR batches and source code follow per the [release strategy](./docs/meta/release-strategy.md).
 
 ---
 
@@ -119,3 +119,10 @@ git clone https://github.com/GerardGurgui/vookedme-engineering.git
 cd vookedme-engineering
 cp .env.example .env
 mvn test
+```
+
+---
+
+MIT — see [LICENSE](./LICENSE).
+
+*Private production repository remains separate. This repository contains the engineering documentation and a sanitized version of the source.*

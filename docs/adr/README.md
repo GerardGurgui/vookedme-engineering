@@ -8,7 +8,7 @@ An ADR documents a significant architectural decision: the context that made it 
 
 ## Status
 
-> **v0.2.0 — Batch 1 published.** ADR-011, ADR-001, and ADR-007 are live. Further batches follow the [publication pipeline](../meta/publication-pipeline.md).
+> **v0.3.0 — Batch 2 published.** ADR-003, ADR-002, and ADR-004 are live. Further batches follow the [publication pipeline](../meta/publication-pipeline.md).
 
 ---
 
@@ -34,14 +34,9 @@ Start with the editorial value classification. Read FOUNDATIONAL ADRs before COR
 |---|---|---|---|
 | [ADR-011](./ADR-011-appointment-temporal-boundary.md) | Appointment Temporal Boundary (PFT) | FOUNDATIONAL | Accepted |
 | [ADR-001](./ADR-001-single-money-field.md) | Single Money Field Invariant | CORE | Accepted |
+| [ADR-003](./ADR-003-hybrid-audit-strategy.md) | Three-Layer Audit Architecture | CORE | Accepted |
 | [ADR-007](./ADR-007-bot-panel-derive-architecture.md) | Derive Bot State from Source of Truth | CORE | Accepted |
+| [ADR-002](./ADR-002-blocked-slot-state-machine.md) | BlockedSlot State Machine | ADVANCED | Accepted |
+| [ADR-004](./ADR-004-customer-lifecycle-states.md) | Customer Lifecycle States | ADVANCED | Proposed |
 
-### Planned — Batch 2 (State Machine Architecture)
-
-| ADR | Title | Editorial | Status |
-|---|---|---|---|
-| ADR-002 | BlockedSlot State Machine | ADVANCED | Planned |
-| ADR-004 | Customer Lifecycle States | ADVANCED | Planned |
-| ADR-003 | Hybrid Audit Strategy (Three-Layer) | CORE | Planned |
-
-### Planned — Batch 3 (Identity, Data Integr
+### Planned — Batch 3 (Identity, 

@@ -113,8 +113,8 @@ When a system needs to project an event feed from an existing data source, the r
 ## Related
 
 - [ADR-011](./ADR-011-appointment-temporal-boundary.md) — the temporal boundary principle governs which events appear in the operational view (PFT-7: operational dashboards show future appointments only)
-- [ADR-002](./ADR-002-blocked-slot-state-machine.md) — BlockedSlot uses a similar derive-from-columns approach for schedule events *(planned)*
-- [ADR-003](./ADR-003-hybrid-audit-strategy.md) — the three-layer audit architecture that defines what "operational audit" and "forensic audit" each contain *(planned)*
+- [ADR-002](./ADR-002-blocked-slot-state-machine.md) — BlockedSlot state machine; the named audit columns on `blocked_slots` (approved_*, rejected_*, cancelled_*) are the schedule-change data source for the bot audit derive architecture
+- [ADR-003](./ADR-003-hybrid-audit-strategy.md) — the three-layer audit architecture that formally defines the Layer 2 named audit columns the bot audit view derives its event feed from
 
 ## Source Code Reference
 

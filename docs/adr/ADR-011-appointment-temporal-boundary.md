@@ -104,7 +104,7 @@ A timestamp in a domain model is not just a field — it is a potential boundary
 
 ## Related
 
-- [ADR-002](./ADR-002-blocked-slot-state-machine.md) — BlockedSlot established the precedent for timestamp-driven state transitions; the `EXPIRED` state follows the same pattern *(planned)*
+- [ADR-002](./ADR-002-blocked-slot-state-machine.md) — BlockedSlot established the precedent for timestamp-driven state transitions; the `EXPIRED` state follows the same temporal boundary pattern described here
 - [ADR-007](./ADR-007-bot-panel-derive-architecture.md) — Bot activity dashboards must respect PFT-7; operational views show only future appointments
 - [ADR-017](./ADR-017-appointment-fsm-design.md) — The six-state FSM that the temporal boundary governs *(planned)*
 - [Governance: state-machines.md](../governance/state-machines.md) — Canonical FSM definitions for all appointment states *(planned)*
