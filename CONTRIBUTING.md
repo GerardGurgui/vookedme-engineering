@@ -28,4 +28,4 @@ Be direct, technical, and respectful. Critique the design, not the designer.
 
 ---
 
-*This file will be expanded significantly at v2.0.0.*
+*This file will be expanded signific

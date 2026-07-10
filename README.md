@@ -9,7 +9,7 @@
 
 ---
 
-> **Status:** v0.1.0 — Foundation phase. Source code and documentation are being extracted from the production repository. Structure and engineering foundations are in place. See [release strategy](./docs/meta/release-strategy.md) for the full timeline.
+> **Status:** v0.2.0 — ADR Journey Batch 1 published. [ADR-011](./docs/adr/ADR-011-appointment-temporal-boundary.md), [ADR-001](./docs/adr/ADR-001-single-money-field.md), and [ADR-007](./docs/adr/ADR-007-bot-panel-derive-architecture.md) are live. Further ADR batches and source code follow per the [release strategy](./docs/meta/release-strategy.md).
 
 ---
 
@@ -53,16 +53,17 @@ The ADR suite is the primary artifact. An engineer who reads the ADRs will under
 
 ```
 docs/
-├── adr/           Architecture Decision Records — the reasoning behind each design choice
 ├── architecture/  System context, data model, security architecture
+├── adr/           Architecture Decision Records — the reasoning behind each design choice
 ├── governance/    Domain rules: state machines, permission matrix, audit requirements
-└── engineering/   Deep-dives on specific engineering problems
+├── engineering/   Deep-dives on specific engineering problems
+└── case-studies/  Cross-cutting engineering narratives
 src/               Java source — Spring Boot 4.0.3 / Java 21 (arriving in v0.3.0)
 assets/            Architecture diagrams, cover image, screenshots
 dev/               Local development seed data
 ```
 
-Full structure and folder responsibilities: [docs/meta/repository-structure.md](./docs/meta/repository-structure.md)
+Documentation index: [docs/README.md](./docs/README.md) · Full structure: [docs/meta/repository-structure.md](./docs/meta/repository-structure.md)
 
 ---
 
@@ -70,9 +71,9 @@ Full structure and folder responsibilities: [docs/meta/repository-structure.md](
 
 **If you have 60 seconds —** you are here. The product is above. The engineering philosophy is in [engineering-foundation.md](./docs/meta/engineering-foundation.md).
 
-**If you have 5 minutes —** read [docs/architecture/ARCHITECTURE.md](./docs/architecture/ARCHITECTURE.md) for the system overview. Then open [ADR-011](./docs/adr/ADR-011-appointment-temporal-boundary.md): it is the most complete example in this repository of how a production incident became a formal architectural principle. [ADR-001](./docs/adr/ADR-001-single-money-field.md) shows how a legal constraint shaped a domain model decision.
+**If you have 5 minutes —** read [docs/architecture/README.md](./docs/architecture/README.md) for the system overview. Then open [ADR-011](./docs/adr/ADR-011-appointment-temporal-boundary.md): it is the most complete example in this repository of how a production incident became a formal architectural principle. [ADR-001](./docs/adr/ADR-001-single-money-field.md) shows how a legal constraint shaped a domain model decision.
 
-**If you have 30 minutes —** clone the repository. Run `mvn test`. Read `AuthorizationService.java` — the tenant isolation gate — then `AppointmentService.java` — the state machine, assignment engine, and temporal boundary enforcement in a single class. Read [docs/governance/state-machines.md](./docs/governance/state-machines.md) to see the rules the code enforces, and the integration tests to see them specified.
+**If you have 30 minutes —** clone the repository. Run `mvn test`. Read `AuthorizationService.java` — the tenant isolation gate — then `AppointmentService.java` — the state machine, assignment engine, and temporal boundary enforcement in a single class. Read [docs/governance/README.md](./docs/governance/README.md) to see the domain governance model, and the integration tests to see the rules specified.
 
 ---
 
@@ -118,10 +119,3 @@ git clone https://github.com/GerardGurgui/vookedme-engineering.git
 cd vookedme-engineering
 cp .env.example .env
 mvn test
-```
-
----
-
-MIT — see [LICENSE](./LICENSE).
-
-*Private production repository remains separate. This repository contains the engineering documentation and a sanitized version of the source.*

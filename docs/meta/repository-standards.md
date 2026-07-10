@@ -432,6 +432,6 @@ When a source code change requires updating a governance document, architecture 
 
 Zero tolerance for committed secrets. The `.gitleaks.toml` config and `.githooks/pre-commit` scanner enforce this mechanically. If a secret is accidentally committed, it must be treated as compromised and rotated — the git history is public and permanent.
 
----
+### 7.6 Repository Root Policy
 
-*These standards are permanent. They are updated when a genuinely better convention is identified — not for preference or convenience. Changes require a dated update log at the top of this document.*
+The repository root is intentionally minimal. It contains only:

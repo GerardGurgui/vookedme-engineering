@@ -314,4 +314,4 @@ A governance document tells an engineer what the rule is. The corresponding ADR 
 
 ---
 
-*This document reflects the intended structure of the repository at completion. During population phases (Roadmap Phases 1–3), some folders will contain only `README.md` placeholders. The structure itself is canonical from Commit #1.*
+*This document reflects the intended structure of the repository at comp

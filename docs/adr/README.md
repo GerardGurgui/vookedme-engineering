@@ -2,78 +2,46 @@
 
 This directory contains Architecture Decision Records (ADRs) for the VookedMe appointment scheduling platform.
 
-An ADR documents a significant architectural decision: the context that made it necessary, the decision, the alternatives rejected, and the consequences accepted.
+An ADR documents a significant architectural decision: the context that made it necessary, the decision itself, the alternatives considered and rejected, and the consequences accepted. ADRs are the primary artifact of this repository — they answer *why* the system is designed the way it is.
 
 ---
 
 ## Status
 
-> **Pending population.** ADR files will be added in v0.2.0 per the [release strategy](../meta/release-strategy.md).
+> **v0.2.0 — Batch 1 published.** ADR-011, ADR-001, and ADR-007 are live. Further batches follow the [publication pipeline](../meta/publication-pipeline.md).
 
 ---
 
-## Index
+## Reading Order
 
-| ADR | Title | Status |
-|---|---|---|
-| ADR-001 | Single Money Field — Payment Boundary | Accepted |
-| ADR-002 | BlockedSlot State Machine | Accepted |
-| ADR-003 | Hybrid Audit Strategy (L1/L2/L3) | Accepted |
-| ADR-004 | Customer Lifecycle States | Accepted |
-| ADR-006 | User Identity Model | Accepted |
-| ADR-007 | Bot/Panel Derive Architecture | Accepted |
-| ADR-010 | Owner Active Notifications | Accepted |
-| ADR-011 | Appointment Temporal Boundary (PFT) | Accepted |
-| ADR-013 | Customer Communication Consent Policy | Accepted |
+Start with the editorial value classification. Read FOUNDATIONAL ADRs before CORE, CORE before ADVANCED.
+
+**If you have 10 minutes:** Read ADR-011 → ADR-001 → ADR-007 in that order. These three ADRs communicate the system's design philosophy more completely than any other entry point.
+
+**If you are reviewing the security model:** ADR-018 (JWT rotation), ADR-016 (tenant isolation), ADR-003 (audit architecture).
+
+**If you are reviewing the domain model:** ADR-017 (appointment FSM), ADR-011 (temporal boundary), ADR-004 (customer lifecycle).
+
+**If you are reviewing the AI/bot architecture:** ADR-007 (derive architecture), ADR-012 (conversational coherence), ADR-015 (GDPR data minimisation in conversation).
 
 ---
 
-## Writing Guide
+## Complete Index
 
-### When to Write an ADR
+### Published
 
-Write an ADR when:
-- The decision is not obvious to a future engineer reading the code alone
-- The decision has significant architectural consequences
-- Multiple alternatives were seriously considered
-- A future engineer might be tempted to reverse the decision without knowing why it was made
+| ADR | Title | Editorial | Status |
+|---|---|---|---|
+| [ADR-011](./ADR-011-appointment-temporal-boundary.md) | Appointment Temporal Boundary (PFT) | FOUNDATIONAL | Accepted |
+| [ADR-001](./ADR-001-single-money-field.md) | Single Money Field Invariant | CORE | Accepted |
+| [ADR-007](./ADR-007-bot-panel-derive-architecture.md) | Derive Bot State from Source of Truth | CORE | Accepted |
 
-Do not write an ADR for implementation details, style choices, or self-evidently correct decisions.
+### Planned — Batch 2 (State Machine Architecture)
 
-### Format
+| ADR | Title | Editorial | Status |
+|---|---|---|---|
+| ADR-002 | BlockedSlot State Machine | ADVANCED | Planned |
+| ADR-004 | Customer Lifecycle States | ADVANCED | Planned |
+| ADR-003 | Hybrid Audit Strategy (Three-Layer) | CORE | Planned |
 
-```markdown
-# ADR-NNN — Title
-
-**Status:** Accepted
-**Date:** YYYY-MM-DD
-**Authors:** [name]
-
----
-
-## Context
-
-## Decision
-
-## Alternatives Considered
-
-| Option | Why rejected |
-|---|---|
-
-## Consequences
-
-## Related
-```
-
-See [repository standards §3](../meta/repository-standards.md) for the full ADR convention specification.
-
-### Status Values
-
-| Status | Meaning |
-|---|---|
-| Proposed | Under discussion, not yet implemented |
-| Accepted | Decision is final and implemented |
-| Superseded by ADR-NNN | A later decision changed this one |
-| Deprecated | Abandoned before implementation |
-
-ADRs are never deleted. Superseded ADRs remain readable as historical context.
+### Planned — Batch 3 (Identity, Data Integr
