@@ -106,7 +106,7 @@ A timestamp in a domain model is not just a field — it is a potential boundary
 
 - [ADR-002](./ADR-002-blocked-slot-state-machine.md) — BlockedSlot established the precedent for timestamp-driven state transitions; the `EXPIRED` state follows the same temporal boundary pattern described here
 - [ADR-007](./ADR-007-bot-panel-derive-architecture.md) — Bot activity dashboards must respect PFT-7; operational views show only future appointments
-- [ADR-017](./ADR-017-appointment-fsm-design.md) — The six-state FSM that the temporal boundary governs *(planned)*
+- [ADR-017](./ADR-017-appointment-fsm-design.md) — the six-state appointment FSM; ADR-011's temporal boundary governs which transitions are legal before and after `appointment.datetime`
 - [Governance: state-machines.md](../governance/state-machines.md) — Canonical FSM definitions for all appointment states *(planned)*
 
 ## Source Code Reference
@@ -116,4 +116,4 @@ A timestamp in a domain model is not just a field — it is a potential boundary
 - `AppointmentService.java` — temporal boundary enforcement in every operational method; contains the guard clauses for PFT-1 through PFT-7
 - `Appointment.isPast()` — the single encapsulated predicate for boundary evaluation; the only correct definition of "has this appointment's time passed?"
 - `ReminderScheduler.java` — PFT-4: reminder suppression and termination for past appointments
-- `expireStaleCancellationRequests()` — PFT-1: cancellation request cutoff a
+- `expir

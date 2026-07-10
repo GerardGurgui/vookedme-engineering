@@ -79,7 +79,7 @@ Legal constraints are architectural constraints. When a regulatory boundary — 
 ## Related
 
 - [ADR-011](./ADR-011-appointment-temporal-boundary.md) — temporal boundary enforcement on the appointment lifecycle; the `paid` flag is only toggleable in the closure plane
-- [ADR-017](./ADR-017-appointment-fsm-design.md) — the six-state FSM that determines when `togglePaid()` is legal *(planned)*
+- [ADR-017](./ADR-017-appointment-fsm-design.md) — the six-state FSM that governs appointment state; `togglePaid()` is only legal in the closure plane, after `appointment.datetime` has passed
 - [Governance: permissions.md](../governance/permissions.md) — which roles can toggle the `paid` flag and under what conditions *(planned)*
 
 ## Source Code Reference
@@ -88,4 +88,4 @@ Legal constraints are architectural constraints. When a regulatory boundary — 
 
 - `Appointment.java` — entity definition; `price` and `paid` are the only money-bearing fields
 - `AppointmentService.togglePaid()` — the single write path for the `paid` flag; validates role and appointment state before toggling
-- Flyway migrations — the monthly grep target: zero new money-bearing columns in the `appointments` table outside this ADR's
+- Flyway migrations — the monthly grep target: zero new mo

@@ -9,7 +9,7 @@
 
 ---
 
-> **Status:** v0.3.0 — ADR Journey Batch 2 published. Six ADRs live: [ADR-011](./docs/adr/ADR-011-appointment-temporal-boundary.md), [ADR-001](./docs/adr/ADR-001-single-money-field.md), [ADR-003](./docs/adr/ADR-003-hybrid-audit-strategy.md), [ADR-007](./docs/adr/ADR-007-bot-panel-derive-architecture.md), [ADR-002](./docs/adr/ADR-002-blocked-slot-state-machine.md), [ADR-004](./docs/adr/ADR-004-customer-lifecycle-states.md). Further ADR batches and source code follow per the [release strategy](./docs/meta/release-strategy.md).
+> **Status:** v0.4.0 — ADR Journey Batch 3 published. Nine ADRs live: [ADR-016](./docs/adr/ADR-016-tenant-isolation-pattern.md), [ADR-017](./docs/adr/ADR-017-appointment-fsm-design.md), [ADR-011](./docs/adr/ADR-011-appointment-temporal-boundary.md), [ADR-001](./docs/adr/ADR-001-single-money-field.md), [ADR-003](./docs/adr/ADR-003-hybrid-audit-strategy.md), [ADR-006](./docs/adr/ADR-006-user-identity-model.md), [ADR-007](./docs/adr/ADR-007-bot-panel-derive-architecture.md), [ADR-002](./docs/adr/ADR-002-blocked-slot-state-machine.md), [ADR-004](./docs/adr/ADR-004-customer-lifecycle-states.md). Further ADR batches and source code follow per the [release strategy](./docs/meta/release-strategy.md).
 
 ---
 
@@ -58,7 +58,7 @@ docs/
 ├── governance/    Domain rules: state machines, permission matrix, audit requirements
 ├── engineering/   Deep-dives on specific engineering problems
 └── case-studies/  Cross-cutting engineering narratives
-src/               Java source — Spring Boot 4.0.3 / Java 21 (arriving in v0.3.0)
+src/               Java source — Spring Boot 4.0.3 / Java 21 (arriving with source code milestone)
 assets/            Architecture diagrams, cover image, screenshots
 dev/               Local development seed data
 ```
@@ -112,7 +112,7 @@ Deep-dives into specific problems this system forced me to solve. Published cont
 
 ## Running Locally
 
-*Full setup instructions arrive with the source code in v0.3.0. Requirements: Java 21, Maven 3.9+, Docker.*
+*Full setup instructions arrive with source code publication. Requirements: Java 21, Maven 3.9+, Docker.*
 
 ```bash
 git clone https://github.com/GerardGurgui/vookedme-engineering.git
@@ -120,9 +120,3 @@ cd vookedme-engineering
 cp .env.example .env
 mvn test
 ```
-
----
-
-MIT — see [LICENSE](./LICENSE).
-
-*Private production repository remains separate. This repository contains the engineering documentation and a sanitized version of the source.*
