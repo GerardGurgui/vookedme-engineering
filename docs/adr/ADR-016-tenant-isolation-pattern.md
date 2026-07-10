@@ -97,7 +97,7 @@ Tenant isolation in a multi-tenant system must be structural, not conventional. 
 
 - [ADR-006](./ADR-006-user-identity-model.md) — users are global identities; this ADR governs how a global user's access to a specific business's data is validated
 - [ADR-003](./ADR-003-hybrid-audit-strategy.md) — the three-layer audit architecture; every cross-resource action captures both actor identity and business scope
-- [ADR-018](./ADR-018-jwt-refresh-token-rotation.md) — JWT rotation strategy that governs the token lifecycle from which business identity is derived *(planned)*
+- [ADR-018](./ADR-018-jwt-refresh-token-rotation.md) — JWT refresh token rotation; governs the token lifecycle from which business identity is derived, including reuse detection and total session revocation on compromise
 
 ## Source Code Reference
 
@@ -107,4 +107,4 @@ Tenant isolation in a multi-tenant system must be structural, not conventional. 
 - `JwtAuthenticationFilter.java` — extracts authenticated `userId` and role from the JWT on every request; populates the `SecurityContext` used by `AuthorizationService`
 - `BusinessService.java`, `AppointmentService.java`, `CustomerService.java`, etc. — all service entry points call `AuthorizationService` before any data operation; the call is the first statement after method signature and logging
 - `SecurityIntegrationTest` — integration tests verifying that authenticated requests for Business A are rejected when they attempt to access Business B's data; covers all role-level variants
-- `AuthFlowIntegrationTest` — end-to-end authentication and authorisation flow tests
+- `AuthFlowIntegrationTest` 

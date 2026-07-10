@@ -8,7 +8,7 @@ An ADR documents a significant architectural decision: the context that made it 
 
 ## Status
 
-> **v0.4.0 — Batch 3 published.** ADR-016, ADR-017, and ADR-006 are live. Nine ADRs published. Further batches follow the [publication pipeline](../meta/publication-pipeline.md).
+> **v0.5.0 — Batch 4 published.** ADR-018, ADR-005, and ADR-009 are live. Twelve ADRs published. Further batches follow the [publication pipeline](../meta/publication-pipeline.md).
 
 ---
 
@@ -18,9 +18,9 @@ Start with the editorial value classification. Read FOUNDATIONAL ADRs before COR
 
 **If you have 10 minutes:** Read ADR-016 → ADR-017 → ADR-011 in that order. These three establish the system's core invariants: how tenant data is structurally isolated, how the appointment domain entity moves through its lifecycle, and how the temporal boundary divides that lifecycle into two distinct operational planes.
 
-**If you are reviewing the security model:** ADR-016 (tenant isolation), ADR-018 (JWT rotation), ADR-003 (audit architecture).
+**If you are reviewing the security model:** ADR-016 (tenant isolation), ADR-018 (JWT rotation), ADR-005 (email identity), ADR-003 (audit architecture).
 
-**If you are reviewing the domain model:** ADR-017 (appointment FSM), ADR-011 (temporal boundary), ADR-004 (customer lifecycle), ADR-006 (user identity model).
+**If you are reviewing the domain model:** ADR-017 (appointment FSM), ADR-011 (temporal boundary), ADR-004 (customer lifecycle), ADR-006 (user identity model), ADR-009 (customer name policy).
 
 **If you are reviewing the AI/bot architecture:** ADR-007 (derive architecture), ADR-012 (conversational coherence), ADR-015 (GDPR data minimisation in conversation).
 
@@ -35,5 +35,4 @@ Start with the editorial value classification. Read FOUNDATIONAL ADRs before COR
 | [ADR-016](./ADR-016-tenant-isolation-pattern.md) | Tenant Isolation Pattern | FOUNDATIONAL | Accepted |
 | [ADR-017](./ADR-017-appointment-fsm-design.md) | Six-State Appointment FSM | FOUNDATIONAL | Accepted |
 | [ADR-011](./ADR-011-appointment-temporal-boundary.md) | Appointment Temporal Boundary (PFT) | FOUNDATIONAL | Accepted |
-| [ADR-001](./ADR-001-single-money-field.md) | Single Money Field Invariant | CORE | Accepted |
-| [ADR-003](./ADR-003-hybrid-audit-strategy.md) | Three
+| [ADR-001](./ADR-001-single-money-field.md) | Single Money Field Invariant | CORE | Accept
