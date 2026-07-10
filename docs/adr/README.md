@@ -8,7 +8,7 @@ An ADR documents a significant architectural decision: the context that made it 
 
 ## Status
 
-> **Pending population.** ADR files will be added in v0.2.0 per the [RELEASE_STRATEGY.md](../../RELEASE_STRATEGY.md).
+> **Pending population.** ADR files will be added in v0.2.0 per the [release strategy](../meta/release-strategy.md).
 
 ---
 
@@ -65,7 +65,7 @@ Do not write an ADR for implementation details, style choices, or self-evidently
 ## Related
 ```
 
-See [REPOSITORY_STANDARDS.md §3](../../REPOSITORY_STANDARDS.md) for the full ADR convention specification.
+See [repository standards §3](../meta/repository-standards.md) for the full ADR convention specification.
 
 ### Status Values
 

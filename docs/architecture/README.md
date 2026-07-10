@@ -8,7 +8,7 @@ Architecture documents describe **what the system is and how it works** — at t
 
 ## Status
 
-> **Pending population.** Architecture documents will be added in v0.2.0 per the [RELEASE_STRATEGY.md](../../RELEASE_STRATEGY.md).
+> **Pending population.** Architecture documents will be added in v0.2.0 per the [release strategy](../meta/release-strategy.md).
 
 ---
 

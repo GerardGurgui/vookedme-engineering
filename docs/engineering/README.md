@@ -8,7 +8,7 @@ Engineering writeups are more specific than architecture documents and more tran
 
 ## Status
 
-> **Pending population.** Engineering writeups will be added in v0.5.0 per the [RELEASE_STRATEGY.md](../../RELEASE_STRATEGY.md).
+> **Pending population.** Engineering writeups will be added in v0.5.0 per the [release strategy](../meta/release-strategy.md).
 
 ---
 

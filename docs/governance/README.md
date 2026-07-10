@@ -8,7 +8,7 @@ Governance documents are more stable than implementation decisions and more spec
 
 ## Status
 
-> **Pending population.** Governance documents will be added in v0.2.0 per the [RELEASE_STRATEGY.md](../../RELEASE_STRATEGY.md).
+> **Pending population.** Governance documents will be added in v0.2.0 per the [release strategy](../meta/release-strategy.md).
 
 ---
 

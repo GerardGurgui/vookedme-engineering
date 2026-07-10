@@ -74,8 +74,8 @@ For file paths and short inline identifiers, use backtick inline code: `Authoriz
 Internal document links use relative paths:
 
 ```markdown
-See [ADR-001](./docs/adr/ADR-001-single-money-field.md)
-See [ARCHITECTURE.md](./docs/architecture/ARCHITECTURE.md)
+See [ADR-001](../adr/ADR-001-single-money-field.md)
+See [ARCHITECTURE.md](../architecture/ARCHITECTURE.md)
 ```
 
 External links: always include the full URL, never rely on link text alone to identify the target.
@@ -117,10 +117,11 @@ No hard limit, but apply judgement:
 
 | Type | Convention | Example |
 |---|---|---|
-| Foundation/standards documents | `SCREAMING_SNAKE.md` | `ENGINEERING_PRODUCT_FOUNDATION.md` |
+| Root GitHub files | `SCREAMING_SNAKE.md` | `README.md`, `CONTRIBUTING.md`, `SECURITY.md` |
+| Repository meta documents (`docs/meta/`) | `kebab-case.md` | `engineering-foundation.md`, `release-strategy.md` |
 | Architecture documents | `SCREAMING_SNAKE.md` | `ARCHITECTURE.md`, `DATA_MODEL.md` |
 | ADRs | `ADR-NNN-kebab-case.md` | `ADR-001-single-money-field.md` |
-| Governance documents | `kebab-case.md` | `state-machines.md`, `permissions.md` |
+| Domain governance documents | `kebab-case.md` | `state-machines.md`, `permissions.md` |
 | Engineering writeups | `SCREAMING_SNAKE.md` | `CUSTOMER_LEGITIMATION.md` |
 | Case studies | `SCREAMING_SNAKE.md` | `APPOINTMENT_FSM_EVOLUTION.md` |
 | GitHub templates | `kebab-case.yml` / `.md` | `bug_report.yml`, `PULL_REQUEST_TEMPLATE.md` |

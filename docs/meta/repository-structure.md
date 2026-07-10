@@ -22,6 +22,13 @@ vookedme-engineering/
 │   └── CODEOWNERS
 │
 ├── docs/                             # All documentation
+│   ├── meta/                         # Repository meta-documentation
+│   │   ├── README.md
+│   │   ├── engineering-foundation.md # Vision, philosophy, identity
+│   │   ├── repository-structure.md   # ← this document
+│   │   ├── repository-standards.md   # Style and naming conventions
+│   │   ├── release-strategy.md       # Version lifecycle
+│   │   └── github-configuration.md   # GitHub settings specification
 │   ├── adr/                          # Architecture Decision Records
 │   │   ├── README.md                 # ADR index + writing guide
 │   │   ├── ADR-001-*.md
@@ -85,12 +92,6 @@ vookedme-engineering/
 │   └── wrapper/
 │       └── maven-wrapper.properties
 │
-├── ENGINEERING_PRODUCT_FOUNDATION.md # Vision, philosophy, identity
-├── REPOSITORY_STRUCTURE.md           # ← this document
-├── REPOSITORY_STANDARDS.md           # Permanent style and convention rules
-├── GITHUB_CONFIGURATION.md           # GitHub settings specification
-├── RELEASE_STRATEGY.md               # Version lifecycle
-│
 ├── README.md                         # Primary landing page (3-depth)
 ├── CONTRIBUTING.md                   # Contribution guidelines
 ├── SECURITY.md                       # Vulnerability disclosure
@@ -123,14 +124,15 @@ Platform configuration for GitHub. Everything in this folder affects GitHub's be
 
 The documentation hierarchy is the heart of the engineering product. It is designed so that any of the three audience depths (D0/D1/D2) can navigate to the content they need without reading the full tree.
 
-The hierarchy has four layers:
+The hierarchy has five layers:
 
 ```
 docs/
-├── adr/         → Why decisions were made
+├── meta/         → What this repository is and how it is maintained
+├── adr/          → Why decisions were made
 ├── architecture/ → What the system is and how it works
-├── governance/  → What rules the domain follows
-└── engineering/ → How specific problems were solved
+├── governance/   → What rules the domain follows
+└── engineering/  → How specific problems were solved
 ```
 
 #### `docs/adr/`
@@ -191,10 +193,9 @@ Local development utilities. Does not contain production code, production config
 Root-level files are either:
 1. Build tooling (`pom.xml`, `mvnw`, `Dockerfile`, `.mvn/`)
 2. Repository configuration (`.gitignore`, `.gitleaks.toml`, `.githooks/`)
-3. Repository documentation (`README.md`, `LICENSE`, `CONTRIBUTING.md`, `SECURITY.md`)
-4. Foundation documents (`ENGINEERING_PRODUCT_FOUNDATION.md`, `REPOSITORY_STRUCTURE.md`, `REPOSITORY_STANDARDS.md`, `GITHUB_CONFIGURATION.md`, `RELEASE_STRATEGY.md`)
+3. GitHub-convention files (`README.md`, `LICENSE`, `CONTRIBUTING.md`, `SECURITY.md`)
 
-Foundation documents live at the root by deliberate choice: they are the first thing a serious reader should find, and they frame everything else in the repository.
+Repository meta-documentation (`engineering-foundation.md`, `repository-structure.md`, `repository-standards.md`, `release-strategy.md`, `github-configuration.md`) lives in `docs/meta/`. The root contains only what GitHub tooling expects there and what a first-time visitor needs immediately.
 
 ---
 
@@ -282,7 +283,7 @@ Governance documents describe the **rules** that the implementation must follow.
 The governance hierarchy:
 
 ```
-ENGINEERING_PRODUCT_FOUNDATION.md §3   → Engineering Philosophy (most abstract)
+docs/meta/engineering-foundation.md §3 → Engineering Philosophy (most abstract)
 │
 ├── docs/governance/permissions.md     → Who can do what (role × resource × action)
 ├── docs/governance/state-machines.md  → What transitions are legal
@@ -309,7 +310,7 @@ A governance document tells an engineer what the rule is. The corresponding ADR 
 | Local dev utility | `dev/` |
 | GitHub platform config | `.github/` |
 | Build tooling | Root level |
-| Foundation/meta documents | Root level |
+| Repository meta-documentation | `docs/meta/` |
 
 ---
 

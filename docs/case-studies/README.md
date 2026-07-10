@@ -8,7 +8,7 @@ Case studies are longer than ADRs and more narrative than engineering writeups. 
 
 ## Status
 
-> **Pending population.** Case studies will be added in v2.0.0 per the [RELEASE_STRATEGY.md](../../RELEASE_STRATEGY.md).
+> **Pending population.** Case studies will be added in v2.0.0 per the [release strategy](../meta/release-strategy.md).
 
 ---
 

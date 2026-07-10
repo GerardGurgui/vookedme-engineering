@@ -2,7 +2,7 @@
 
 Thank you for your interest in contributing to `vookedme-engineering`.
 
-This is a solo engineering portfolio repository. External contributions are welcome from v2.0.0 onward (see [RELEASE_STRATEGY.md](./RELEASE_STRATEGY.md)).
+This is a solo engineering portfolio repository. External contributions are welcome from v2.0.0 onward (see [release strategy](./docs/meta/release-strategy.md)).
 
 Before v2.0.0, the best way to contribute is:
 
@@ -14,7 +14,7 @@ Before v2.0.0, the best way to contribute is:
 
 ## Standards
 
-All contributions must follow [REPOSITORY_STANDARDS.md](./REPOSITORY_STANDARDS.md):
+All contributions must follow the [repository standards](./docs/meta/repository-standards.md):
 - Conventional Commits for commit messages
 - English-only documentation
 - Mermaid for inline diagrams
