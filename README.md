@@ -9,7 +9,7 @@
 
 ---
 
-> **Status:** v0.6.0 — ADR Journey Batch 5 published. Fifteen ADRs live: [ADR-016](./docs/adr/ADR-016-tenant-isolation-pattern.md), [ADR-017](./docs/adr/ADR-017-appointment-fsm-design.md), [ADR-011](./docs/adr/ADR-011-appointment-temporal-boundary.md), [ADR-001](./docs/adr/ADR-001-single-money-field.md), [ADR-018](./docs/adr/ADR-018-jwt-refresh-token-rotation.md), [ADR-003](./docs/adr/ADR-003-hybrid-audit-strategy.md), [ADR-006](./docs/adr/ADR-006-user-identity-model.md), [ADR-007](./docs/adr/ADR-007-bot-panel-derive-architecture.md), [ADR-002](./docs/adr/ADR-002-blocked-slot-state-machine.md), [ADR-004](./docs/adr/ADR-004-customer-lifecycle-states.md), [ADR-009](./docs/adr/ADR-009-customer-name-policy.md), [ADR-012](./docs/adr/ADR-012-conversational-coherence.md), [ADR-014](./docs/adr/ADR-014-bot-data-minimisation-and-audit-log.md), [ADR-015](./docs/adr/ADR-015-art9-gdpr-minimisation-conversational-flow.md), [ADR-005](./docs/adr/ADR-005-email-identity.md). Further ADR batches and source code follow per the [release strategy](./docs/meta/release-strategy.md).
+> **Status:** v0.7.0 — ADR Journey complete. Seventeen ADRs live: [ADR-016](./docs/adr/ADR-016-tenant-isolation-pattern.md), [ADR-017](./docs/adr/ADR-017-appointment-fsm-design.md), [ADR-011](./docs/adr/ADR-011-appointment-temporal-boundary.md), [ADR-001](./docs/adr/ADR-001-single-money-field.md), [ADR-018](./docs/adr/ADR-018-jwt-refresh-token-rotation.md), [ADR-003](./docs/adr/ADR-003-hybrid-audit-strategy.md), [ADR-006](./docs/adr/ADR-006-user-identity-model.md), [ADR-007](./docs/adr/ADR-007-bot-panel-derive-architecture.md), [ADR-002](./docs/adr/ADR-002-blocked-slot-state-machine.md), [ADR-004](./docs/adr/ADR-004-customer-lifecycle-states.md), [ADR-008](./docs/adr/ADR-008-timestamp-timezone-migration.md), [ADR-009](./docs/adr/ADR-009-customer-name-policy.md), [ADR-012](./docs/adr/ADR-012-conversational-coherence.md), [ADR-013](./docs/adr/ADR-013-customer-appointment-change-communication-policy.md), [ADR-014](./docs/adr/ADR-014-bot-data-minimisation-and-audit-log.md), [ADR-015](./docs/adr/ADR-015-art9-gdpr-minimisation-conversational-flow.md), [ADR-005](./docs/adr/ADR-005-email-identity.md). Source code publication follows per the [release strategy](./docs/meta/release-strategy.md).
 
 ---
 
@@ -101,7 +101,4 @@ Deep-dives into specific problems this system forced me to solve. Published cont
 | Migrations | Flyway — 78 migrations |
 | Testing | JUnit 5 + Testcontainers |
 | Security | Spring Security · JWT · HMAC-SHA256 |
-| Resilience | Resilience4j (circuit breaker on outbound calls) |
-| Observability | Sentry (PII-scrubbed) |
-| Bot channel | Evolution API (WhatsApp, self-hosted) |
-| Workflow o
+| Resilience | Resilience4j (circuit breaker on 
