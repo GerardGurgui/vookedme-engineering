@@ -9,7 +9,7 @@
 
 ---
 
-> **Status:** v0.5.0 — ADR Journey Batch 4 published. Twelve ADRs live: [ADR-016](./docs/adr/ADR-016-tenant-isolation-pattern.md), [ADR-017](./docs/adr/ADR-017-appointment-fsm-design.md), [ADR-011](./docs/adr/ADR-011-appointment-temporal-boundary.md), [ADR-001](./docs/adr/ADR-001-single-money-field.md), [ADR-018](./docs/adr/ADR-018-jwt-refresh-token-rotation.md), [ADR-003](./docs/adr/ADR-003-hybrid-audit-strategy.md), [ADR-006](./docs/adr/ADR-006-user-identity-model.md), [ADR-007](./docs/adr/ADR-007-bot-panel-derive-architecture.md), [ADR-002](./docs/adr/ADR-002-blocked-slot-state-machine.md), [ADR-004](./docs/adr/ADR-004-customer-lifecycle-states.md), [ADR-009](./docs/adr/ADR-009-customer-name-policy.md), [ADR-005](./docs/adr/ADR-005-email-identity.md). Further ADR batches and source code follow per the [release strategy](./docs/meta/release-strategy.md).
+> **Status:** v0.6.0 — ADR Journey Batch 5 published. Fifteen ADRs live: [ADR-016](./docs/adr/ADR-016-tenant-isolation-pattern.md), [ADR-017](./docs/adr/ADR-017-appointment-fsm-design.md), [ADR-011](./docs/adr/ADR-011-appointment-temporal-boundary.md), [ADR-001](./docs/adr/ADR-001-single-money-field.md), [ADR-018](./docs/adr/ADR-018-jwt-refresh-token-rotation.md), [ADR-003](./docs/adr/ADR-003-hybrid-audit-strategy.md), [ADR-006](./docs/adr/ADR-006-user-identity-model.md), [ADR-007](./docs/adr/ADR-007-bot-panel-derive-architecture.md), [ADR-002](./docs/adr/ADR-002-blocked-slot-state-machine.md), [ADR-004](./docs/adr/ADR-004-customer-lifecycle-states.md), [ADR-009](./docs/adr/ADR-009-customer-name-policy.md), [ADR-012](./docs/adr/ADR-012-conversational-coherence.md), [ADR-014](./docs/adr/ADR-014-bot-data-minimisation-and-audit-log.md), [ADR-015](./docs/adr/ADR-015-art9-gdpr-minimisation-conversational-flow.md), [ADR-005](./docs/adr/ADR-005-email-identity.md). Further ADR batches and source code follow per the [release strategy](./docs/meta/release-strategy.md).
 
 ---
 
@@ -45,7 +45,7 @@ The source code matters, but it is not the primary reason this repository exists
 
 Most repositories show *what* was built. This one documents *why*. Every significant design decision — from why the payment amount is stored as a single integer field to why the bot derives its state from appointments rather than maintaining its own event table — is recorded as an Architecture Decision Record: the context that made the decision necessary, the decision itself, the alternatives that were considered and rejected, the consequences that were accepted.
 
-The ADR suite is the primary artifact. An engineer who reads the ADRs will understand more about this system than one who only reads the source code — because decisions documented at the time they are made reveal more than code reconstructed from memory.
+The ADR suite is the primary artefact. An engineer who reads the ADRs will understand more about this system than one who only reads the source code — because decisions documented at the time they are made reveal more than code reconstructed from memory.
 
 ---
 
@@ -104,12 +104,4 @@ Deep-dives into specific problems this system forced me to solve. Published cont
 | Resilience | Resilience4j (circuit breaker on outbound calls) |
 | Observability | Sentry (PII-scrubbed) |
 | Bot channel | Evolution API (WhatsApp, self-hosted) |
-| Workflow orchestration | n8n (self-hosted) |
-| Containerisation | Docker (multi-stage build) |
-| CI | GitHub Actions |
-
----
-
-## Running Locally
-
-*Full setup instructions arrive with source code publication. Requiremen
+| Workflow o

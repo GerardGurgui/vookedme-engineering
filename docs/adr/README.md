@@ -2,13 +2,13 @@
 
 This directory contains Architecture Decision Records (ADRs) for the VookedMe appointment scheduling platform.
 
-An ADR documents a significant architectural decision: the context that made it necessary, the decision itself, the alternatives considered and rejected, and the consequences accepted. ADRs are the primary artifact of this repository — they answer *why* the system is designed the way it is.
+An ADR documents a significant architectural decision: the context that made it necessary, the decision itself, the alternatives considered and rejected, and the consequences accepted. ADRs are the primary artefact of this repository — they answer *why* the system is designed the way it is.
 
 ---
 
 ## Status
 
-> **v0.5.0 — Batch 4 published.** ADR-018, ADR-005, and ADR-009 are live. Twelve ADRs published. Further batches follow the [publication pipeline](../meta/publication-pipeline.md).
+> **v0.6.0 — Batch 5 published.** ADR-014, ADR-015, and ADR-012 are live. Fifteen ADRs published. Further batches follow the [publication pipeline](../meta/publication-pipeline.md).
 
 ---
 
@@ -22,7 +22,7 @@ Start with the editorial value classification. Read FOUNDATIONAL ADRs before COR
 
 **If you are reviewing the domain model:** ADR-017 (appointment FSM), ADR-011 (temporal boundary), ADR-004 (customer lifecycle), ADR-006 (user identity model), ADR-009 (customer name policy).
 
-**If you are reviewing the AI/bot architecture:** ADR-007 (derive architecture), ADR-012 (conversational coherence), ADR-015 (GDPR data minimisation in conversation).
+**If you are reviewing the AI/bot architecture:** [ADR-007](./ADR-007-bot-panel-derive-architecture.md) (derive architecture), [ADR-012](./ADR-012-conversational-coherence.md) (conversational coherence), [ADR-014](./ADR-014-bot-data-minimisation-and-audit-log.md) (data minimisation), [ADR-015](./ADR-015-art9-gdpr-minimisation-conversational-flow.md) (GDPR minimisation in conversation).
 
 ---
 
@@ -33,6 +33,4 @@ Start with the editorial value classification. Read FOUNDATIONAL ADRs before COR
 | ADR | Title | Editorial | Status |
 |---|---|---|---|
 | [ADR-016](./ADR-016-tenant-isolation-pattern.md) | Tenant Isolation Pattern | FOUNDATIONAL | Accepted |
-| [ADR-017](./ADR-017-appointment-fsm-design.md) | Six-State Appointment FSM | FOUNDATIONAL | Accepted |
-| [ADR-011](./ADR-011-appointment-temporal-boundary.md) | Appointment Temporal Boundary (PFT) | FOUNDATIONAL | Accepted |
-| [ADR-001](./ADR-001-single-money-field.md) | Single Money Field Invariant | CORE | Accept
+| [ADR-017](./ADR-017-appointment-fsm-design.md) | Six-State Appointment FSM | FOUNDATIONAL | A
