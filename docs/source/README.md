@@ -8,7 +8,7 @@ The Source Code Journey follows the same editorial discipline as the ADR Journey
 
 ## Status
 
-> **v1.0.0 — SC-2 published.** Five additional production artefacts and three integration tests are live. The event system, forensic audit trail, and turn correlation layer are now readable alongside SC-1.
+> **v1.1.0 — SC-3 published.** Six SC-3 production artefacts and four tests are live. The bot domain orchestration layer — `BotEventResolver`, `BotNarrativeRenderer`, `BotPhoneMaskingService`, and supporting domain types — is now readable alongside SC-1 and SC-2.
 
 ---
 
@@ -28,7 +28,7 @@ The Source Code Journey follows the same editorial discipline as the ADR Journey
 |---|---|---|---|
 | SC-1 | Structural Foundation | FOUNDATIONAL, SECURITY, CORE DOMAIN | **Published (v0.9.0)** |
 | SC-2 | Event System and Audit Trail | CORE DOMAIN, OBSERVABILITY, TESTING | **Published (v1.0.0)** |
-| SC-3 | Bot Domain | BOT DOMAIN, TESTING | Planned |
+| SC-3 | Bot Domain | BOT DOMAIN, TESTING | **Published (v1.1.0)** |
 | SC-4 | Privacy Infrastructure | PRIVACY INFRASTRUCTURE, TESTING | Planned |
 | SC-5 | Security Infrastructure | SECURITY, OBSERVABILITY, TESTING | Planned |
 | SC-6 | Temporal Boundary and Concurrency | CORE DOMAIN, TESTING, UTILITY | Planned |
@@ -87,35 +87,32 @@ The Source Code Journey follows the same editorial discipline as the ADR Journey
 
 ---
 
+## SC-3 Artefacts
+
+**Production source** (`src/main/java/com/vookedme/botmanager/`):
+
+| Artefact | Package | Editorial Category |
+|---|---|---|
+| `BotEvent.java` | `bot/domain` | BOT DOMAIN |
+| `BotEventType.java` | `bot/domain` | BOT DOMAIN |
+| `BotNarrativeContext.java` | `bot/domain` | BOT DOMAIN |
+| `BotEventResolver.java` | `bot/service` | BOT DOMAIN |
+| `BotNarrativeRenderer.java` | `bot/service` | BOT DOMAIN |
+| `BotPhoneMaskingService.java` | `bot/service` | BOT DOMAIN |
+
+**Tests** (`src/test/java/com/vookedme/botmanager/`):
+
+| Artefact | Package | What it verifies |
+|---|---|---|
+| `BotEventResolverTest.java` | `bot` | Exhaustive 11-branch derivation coverage and purity guarantees: class shape, no Spring wiring, no instance state, determinism, immutable output |
+| `BotNarrativeRendererTest.java` | `bot` | Full locale output coverage; exact Spanish template strings verified as locale constants; defensive fallbacks; purity contract |
+| `BotPhoneMaskingServiceTest.java` | `bot` | Spain pilot, international known prefixes, generic 2-digit fallback, rejection paths, purity contract |
+| `BotRecentRelevantReadIT.java` | `bot` | Re-anchoring read: active-status inclusion, terminal-status exclusion, 24-hour window boundary precision, verified absence of CANCELLED rows |
+
+---
+
 ## Relationship to the ADR Journey
 
 The ADR Journey is complete. Seventeen ADRs describe *why* the system is designed the way it is.
 
-The Source Code Journey publishes the code that implements those decisions. Every published source batch populates the "Source Code Reference" sections of the relevant ADRs — converting them from standalone arguments into linked pairs of decision and implementation.
-
-A reader of ADR-016 (Tenant Isolation) can now follow the reasoning directly into `AuthorizationService`. A reader of ADR-017 (Appointment FSM) can read the `Appointment` entity and `AppointmentStatus` enum. A reader of ADR-018 (JWT Refresh Rotation) can read `RefreshToken` and `RefreshTokenService`.
-
----
-
-## Editorial Categories
-
-Source artefacts are published under one of seven editorial categories. Full definitions are in [SOURCE_CLASSIFICATION.md](./SOURCE_CLASSIFICATION.md).
-
-- **FOUNDATIONAL** — load-bearing structure; every other artefact depends on these
-- **CORE DOMAIN** — primary business logic and domain invariants
-- **SECURITY** — security controls across the request lifecycle
-- **BOT DOMAIN** — the derive architecture and pure-function pattern
-- **PRIVACY INFRASTRUCTURE** — consent enforcement and architecture guard tests
-- **OBSERVABILITY** — instrumentation, correlation, and diagnostic tooling
-- **TESTING** — integration tests and architecture guard tests as specification
-- **UTILITY** — general-purpose utilities with no domain-specific context
-
----
-
-## Reading Path
-
-A senior engineer reading the source for the first time should follow this path (approximately 30–45 minutes for SC-1 alone; 60 minutes when all batches are published):
-
-**SC-1 (now available):**
-
-1. `Auth
+The Source Code Journey publishes the code that implements those decisions. Every published source batch populates the "Source Code Reference" sections of the relevant ADRs — converting them from standalone arguments

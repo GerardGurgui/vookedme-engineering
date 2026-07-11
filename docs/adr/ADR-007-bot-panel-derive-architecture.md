@@ -118,8 +118,5 @@ When a system needs to project an event feed from an existing data source, the r
 
 ## Source Code Reference
 
-*Populated when source code is present (v0.3.0+).*
-
-- `BotEventResolver.java` — pure function: takes an `Appointment` record, returns `List<BotEvent>`. Contains no I/O. Fully testable in isolation.
-- `BotEventService.java` — impure adapter: issues the database query, applies PFT-7 filtering, maps results through the resolver
-- `BotAuditController.java` — REST endpoint serving the audit view; applies phone masking at the response layer
+- `BotEventResolver.java` *(published — SC-3)* — the pure derive function; takes a single `Appointment` record, returns an ordered `List<BotEvent>`; no I/O, no Spring annotations, no instance state; the 11 numbered branches cover the complete bot event taxonomy; `V69_DEPLOY_TIMESTAMP` is the cutoff constant for the pre-audit-columns fallback heuristic; `isPreV69ApprovalFallback()` is package-private for direct testing
+- `BotEventType.ja
