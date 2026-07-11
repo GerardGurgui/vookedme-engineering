@@ -135,9 +135,6 @@ The compliance boundary of a system is the layer whose execution is deterministi
 
 ## Source Code Reference
 
-*Populated when source code is present.*
-
-- `AppointmentService.findUpcomingAndRecentByCustomerId()` — the re-anchoring query; returns active and recently-transitioned appointments for the customer within the time window, excluding terminal states
-- `AppointmentService.rescheduleFromBot()` — the bot-path reschedule operation; contains the temporal guard that prevents rescheduling past appointments
-- `AppointmentService.cancelFromBot()` — the bot-path cancellation operation; contains the temporal guard that prevents cancellation of past appointments
-- `Appointment.isPast()` — the single predicate for temporal boundary evaluation; used by the write guards
+- `TurnContext.java` *(published — SC-2)* — MDC-based static accessor for the conversational turn identifier; `forensicTurnId()` returns the header-sourced UUID or null for synthetic fallbacks; documents why MDC was chosen over `@RequestScope` (ordering dependency on `RequestContextHolder` binding during the filter phase)
+- `TurnCorrelationFilter.java` *(published — SC-2)* — reads `X-Turn-Id` from webhook requests and binds it to the thread via `TurnContext`; HEADER vs SYNTHETIC source discrimination; MDC cleanup in `finally` prevents thread-pool leaks; positioned after `WebhookApiKeyFilter` and before `WebhookSignatureFilter`
+- `TurnCorrelationIT.java` 

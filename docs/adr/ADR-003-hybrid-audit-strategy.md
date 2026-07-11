@@ -177,10 +177,6 @@ Different categories of auditable event have different query patterns, different
 
 ## Source Code Reference
 
-*Populated when source code is present (v0.3.0+).*
-
-- `AuditLogService.java` — the single writer for Layer 3; called from domain event listeners after transaction commit
-- `AppointmentEventListener.java` — writes Layer 3 entries for cross-resource appointment events (assign, cancel)
-- `BlockedSlotEventListener.java` — writes Layer 3 entries for block approval/rejection/cancellation events
-- `BusinessSettingsEventListener.java` — writes Layer 3 entries for all settings changes
-- `AuditService.getResourceHistory(...)` — unified DTO merging Layer 2 named columns and Layer 3 rows for a given resource
+- `AppointmentEvent.java` *(published — SC-2)* — the mutation event published after every appointment state change; carries actor attribution (`triggeredBy`, `actorUserId`), correlation context (`correlationId` for bulk operations), and turn identifier (`turnId`) for the audit listener
+- `AppointmentAuditLog.java` *(published — SC-2)* — the Layer 3 forensic audit entity for the appointment domain; append-only; `occurred_at` uses `TIMESTAMPTZ` (UTC); `actor_user_id` NULL for non-panel actors, enforced by `chk_audit_actor_user_id` database constraint
+- `AppointmentAuditListener.java` *(published — S

@@ -9,7 +9,7 @@
 
 ---
 
-> **Status:** v0.9.0 — ADR Journey complete (17 ADRs). Source Code Journey SC-1 published: 13 production artefacts and 3 integration tests live. Architectural backbone readable: `AuthorizationService` (tenant isolation), `Appointment` entity (6-state FSM, idempotency, bot approval audit), `RefreshToken` + `RefreshTokenService` (rotation + reuse detection), `WebhookSignatureFilter` (HMAC-SHA256). See the [Source Code Journey](./docs/source/README.md) for the full SC-1 artefact list and reading path.
+> **Status:** v1.0.0 — ADR Journey complete (17 ADRs). Source Code Journey SC-1 and SC-2 published: 18 production artefacts and 6 integration tests live. Event system and forensic audit trail now readable alongside the structural backbone. See the [Source Code Journey](./docs/source/README.md) for the full artefact list and reading path.
 
 ---
 
@@ -73,7 +73,7 @@ Documentation index: [docs/README.md](./docs/README.md) · Full structure: [docs
 
 **If you have 5 minutes —** read [docs/architecture/README.md](./docs/architecture/README.md) for the system overview. Then open [ADR-011](./docs/adr/ADR-011-appointment-temporal-boundary.md): it is the most complete example in this repository of how a production incident became a formal architectural principle. [ADR-001](./docs/adr/ADR-001-single-money-field.md) shows how a legal constraint shaped a domain model decision.
 
-**If you have 30 minutes —** start with [docs/source/README.md](./docs/source/README.md) for the source publication roadmap and recommended reading path. Then follow the path: `AuthorizationService` (the tenant isolation gate) → `Appointment` entity → `AppointmentEvent` → `OutboundLegitimacyGate`. Read [docs/governance/README.md](./docs/governance/README.md) to see the domain governance model, and the integration tests to see the rules specified in executable form.
+**If you have 30 minutes —** start with [docs/source/README.md](./docs/source/README.md) for the source publication roadmap and recommended reading path. Then follow the path: `AuthorizationService` (the tenant isolation gate) → `Appointment` entity → `AppointmentEvent` → `AppointmentAuditListener` → `TurnContext`. Read [docs/governance/README.md](./docs/governance/README.md) to see the domain governance model, and the integration tests to see the rules specified in executable form.
 
 ---
 
@@ -101,4 +101,4 @@ Deep-dives into specific problems this system forced me to solve. Published cont
 | Migrations | Flyway — 78 migrations |
 | Testing | JUnit 5 + Testcontainers |
 | Security | Spring Security · JWT · HMAC-SHA256 |
-| Resilience | Resilience4j (circuit breaker on                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+| Resilience | Resilience4j (circuit breaker on                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          

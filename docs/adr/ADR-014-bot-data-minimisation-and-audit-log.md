@@ -122,10 +122,6 @@ Data minimisation at a system boundary is not a filter applied after the fact �
 
 ## Source Code Reference
 
-*Populated when source code is present.*
-
-- `WebhookAppointmentResponse.java` — the slim boundary DTO; defines the minimised field set returned by all bot-facing webhook endpoints
-- `WebhookController.java` — maps from the internal full DTO to `WebhookAppointmentResponse` at the response boundary
-- `SourceActor.java` — the actor type enum; used in event publishing and in the audit log schema
-- `AppointmentEventListener.java` — the domain event listener that writes audit log entries transactionally with the business operation
-- `appointment_audit_log` — the append-only table; enforced by a database trigger that raises an exception on any `UPDATE` or `DELETE`
+- `AppointmentAuditLog.java` *(published — SC-2)* — the append-only forensic audit entity; `occurred_at` uses `TIMESTAMPTZ`; no direct PII (references appointment by id); `detail` column holds structured JSON-as-text metadata only, never free-text content; `actor_user_id` NULL for CUSTOMER/BOT/SYSTEM/SCHEDULER
+- `AppointmentAuditListener.java` *(published — SC-2)* — the synchronous `@EventListener`; writes the audit row within the same transaction as the mutation; the cancellation reason is reduced to `{reasonProvided, reasonOrigin}` in `detail`, never the reason content; `actor_user_id` is forced to null for non-panel roles
+- `AppointmentEvent.java` *(publish

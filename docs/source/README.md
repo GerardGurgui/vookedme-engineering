@@ -8,7 +8,7 @@ The Source Code Journey follows the same editorial discipline as the ADR Journey
 
 ## Status
 
-> **v0.9.0 — SC-1 published.** Eleven production artefacts and three integration tests are live. The architectural backbone of the system — tenant isolation, the appointment domain entity, the six-state FSM, JWT refresh rotation, webhook security, and the event actor model — is now readable.
+> **v1.0.0 — SC-2 published.** Five additional production artefacts and three integration tests are live. The event system, forensic audit trail, and turn correlation layer are now readable alongside SC-1.
 
 ---
 
@@ -27,7 +27,7 @@ The Source Code Journey follows the same editorial discipline as the ADR Journey
 | Batch | Name | Classification Focus | Status |
 |---|---|---|---|
 | SC-1 | Structural Foundation | FOUNDATIONAL, SECURITY, CORE DOMAIN | **Published (v0.9.0)** |
-| SC-2 | Event System and Audit Trail | CORE DOMAIN, OBSERVABILITY, TESTING | Planned |
+| SC-2 | Event System and Audit Trail | CORE DOMAIN, OBSERVABILITY, TESTING | **Published (v1.0.0)** |
 | SC-3 | Bot Domain | BOT DOMAIN, TESTING | Planned |
 | SC-4 | Privacy Infrastructure | PRIVACY INFRASTRUCTURE, TESTING | Planned |
 | SC-5 | Security Infrastructure | SECURITY, OBSERVABILITY, TESTING | Planned |
@@ -65,6 +65,28 @@ The Source Code Journey follows the same editorial discipline as the ADR Journey
 
 ---
 
+## SC-2 Artefacts
+
+**Production source** (`src/main/java/com/vookedme/botmanager/`):
+
+| Artefact | Package | Editorial Category |
+|---|---|---|
+| `AppointmentEvent.java` | `common/event` | CORE DOMAIN |
+| `AppointmentAuditLog.java` | `appointment/entity` | CORE DOMAIN |
+| `AppointmentAuditListener.java` | `appointment/audit` | CORE DOMAIN |
+| `TurnContext.java` | `config/observability` | OBSERVABILITY |
+| `TurnCorrelationFilter.java` | `webhook/security` | OBSERVABILITY |
+
+**Integration tests** (`src/test/java/com/vookedme/botmanager/`):
+
+| Artefact | Package | What it verifies |
+|---|---|---|
+| `AppointmentAuditFlowIT.java` | `appointment` | End-to-end audit pipeline: actor attribution for PANEL, BOT, SCHEDULER, and bulk cancel paths; correlationId shared across bulk operations |
+| `BotWebhookIdempotencyIT.java` | `appointment` | Webhook idempotency: partial UNIQUE INDEX as authoritative source of truth; sequential retry, concurrent race, cross-tenant scoping, NULL eventId legacy path |
+| `TurnCorrelationIT.java` | `webhook` | Forensic turn_id contract: persisted from header, NULL on fallback; multi-call grouping; re-anchor log contains no PII |
+
+---
+
 ## Relationship to the ADR Journey
 
 The ADR Journey is complete. Seventeen ADRs describe *why* the system is designed the way it is.
@@ -96,18 +118,4 @@ A senior engineer reading the source for the first time should follow this path 
 
 **SC-1 (now available):**
 
-1. `AuthorizationService` — the tenant isolation gate; seven guard methods; every service entry point calls one before touching data
-2. `Appointment` entity — the central domain object; 6-state FSM, idempotency key, bot approval audit, temporal boundary helper
-3. `AppointmentStatus`, `AppointmentSource` — FSM states and typed origin classification
-4. `EventActor`, `SourceActor` — the actor model for audit attribution
-5. `WebhookSignatureFilter` — HMAC-SHA256 with body replay (CachedBodyHttpServletRequest); defence-in-depth composition with WebhookApiKeyFilter
-6. `RefreshToken`, `RefreshTokenService` — rotation with reuse detection; total revocation on compromise
-
-**SC-2 and beyond (planned):**
-
-7. `AppointmentEvent` — what information flows with a mutation
-8. `AppointmentAuditListener` — committed ⟺ audited
-9. `BotEventResolver` — pure derive function
-10. `OutboundLegitimacyGate` — default-deny consent enforcement
-11. `RateLimitingFilter` — deliberate simplicity with explicit scope note
-12. `JvmTimezoneInvariant` — an architectural liability as a startup guard
+1. `Auth
