@@ -8,7 +8,7 @@ The Source Code Journey follows the same editorial discipline as the ADR Journey
 
 ## Status
 
-> **v1.2.0 — SC-4 published.** Five SC-4 production artefacts, four supporting types, and four tests are live. The customer legitimation and consent enforcement layer — `OutboundLegitimacyGate`, `CustomerLegitimacyService`, `LegitimacyTransactionalWriter`, `CustomerLegitimationAuditLog`, and architecture guard tests — is now readable alongside SC-1, SC-2, and SC-3.
+> **v1.3.0 — SC-5 published.** Eight SC-5 production artefacts and four tests are live. The security infrastructure layer — rate limiter, JWT filter, consent enforcement filter, consent service, consent audit entity, JVM timezone guard, and Sentry PII scrubber — is now readable alongside SC-1 through SC-4. The security picture is complete: every request-path control from rate limiting to HMAC validation to consent enforcement is now published.
 
 ---
 
@@ -30,7 +30,7 @@ The Source Code Journey follows the same editorial discipline as the ADR Journey
 | SC-2 | Event System and Audit Trail | CORE DOMAIN, OBSERVABILITY, TESTING | **Published (v1.0.0)** |
 | SC-3 | Bot Domain | BOT DOMAIN, TESTING | **Published (v1.1.0)** |
 | SC-4 | Privacy Infrastructure | PRIVACY INFRASTRUCTURE, TESTING | **Published (v1.2.0)** |
-| SC-5 | Security Infrastructure | SECURITY, OBSERVABILITY, TESTING | Planned |
+| SC-5 | Security Infrastructure | SECURITY, OBSERVABILITY, TESTING | **Published (v1.3.0)** |
 | SC-6 | Temporal Boundary and Concurrency | CORE DOMAIN, TESTING, UTILITY | Planned |
 
 ---
@@ -116,6 +116,4 @@ The Source Code Journey follows the same editorial discipline as the ADR Journey
 **Production source** (`src/main/java/com/vookedme/botmanager/`):
 
 | Artefact | Package | Editorial Category |
-|---|---|---|
-| `LegitimacyDecision.java` | `customer/legitimation` | PRIVACY INFRASTRUCTURE |
-| `Outbo
+|---|---

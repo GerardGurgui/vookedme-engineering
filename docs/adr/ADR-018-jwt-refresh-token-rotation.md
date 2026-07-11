@@ -128,5 +128,5 @@ A refresh token that can be reused after theft provides no security beyond a lon
 - `RefreshToken.java` *(published — SC-1)* — the persistence entity; `revoked`, `revokedAt`, `expiresAt`, `deviceInfo`, `ipAddress`; `isValid()`, `isExpired()`, `revoke()` methods
 - `RefreshTokenService.verifyAndRotate()` *(published — SC-1)* — the single path through which refresh tokens are consumed; performs revocation-first check, total user revocation on reuse, and new token issuance
 - `RefreshTokenService.revokeAllUserTokens()` *(published — SC-1)* — total revocation; called on reuse detection, logout (all-sessions variant), and password reset
-- `JwtService.generateRefreshToken()` — issues a new refresh token with a UUID `jti` claim; carries only the user subject, no business or role claims
-- `JwtService.generateAccessToken()` — issues a new access token with the cu
+- `JwtService.generateRefreshToken()` — issues a new refresh token with a UUID `jti` claim; carries only the user subject, no business or role claims *(published in a subsequent source batch)*
+- `JwtService.generateAccessToken()

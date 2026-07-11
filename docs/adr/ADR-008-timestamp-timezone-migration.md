@@ -237,8 +237,4 @@ A timezone-naive timestamp in a database is a type that lacks the information ne
 
 ## Source Code Reference
 
-*Populated when source code is present.*
-
-- `JvmTimezoneInvariant` — the startup guard that aborts the JVM if the timezone is not `Europe/Madrid`; remains active until the migration is executed and the guard is relaxed
-- `AppointmentService` — the primary write site for appointment lifecycle timestamps; contains approximately 30 `LocalDateTime.now()` calls to be migrated to `OffsetDateTime.now()`
-- `BaseEntity` — the base class contributing `created_at` and `updated_at` to all entities; these fields are excluded from Phase 1 scope
+- `JvmTimezoneInvariant.java` *(published — SC-5)* — the startup guard that aborts the JVM if the timezone is not `Europe/Madrid`; implements `InfoContributor` to expose timezone state at `GET /actuator/info`; controlled by `app.timezone.invariant.enabled` (set to `false` in the test profile so CI integration tests running in UTC are not affected); also tolerates equivalent IANA aliases (e.g. `CET`) with a WARN log rather than a hard failure, as Docker containers sometimes set a non-canonical alias with an equivalent offset; remains 
