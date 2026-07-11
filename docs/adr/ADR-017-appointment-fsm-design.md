@@ -167,10 +167,8 @@ An entity with more than one kind of inactive state — more than one way to not
 
 ## Source Code Reference
 
-*Populated when source code is present (v0.3.0+).*
-
-- `AppointmentStatus.java` — the six-state enum; maps to the `status` column; the order of enum values carries no significance (transitions are validated explicitly, not by ordinal)
-- `AppointmentService.java` — transition validation at every entry point; `confirmAppointment()`, `cancelAppointment()`, `requestCancellation()`, `approveCancellation()`, `rejectCancellation()`, `recordCompletion()`, `recordNoShow()`; each method validates the current state before executing
-- `Appointment.isPast()` — single predicate for temporal boundary evaluation; used by all methods that must distinguish operational from closure operations
-- `AppointmentRepository` — booking overlap queries filter `WHERE status IN ('PENDING', 'CONFIRMED', 'CANCELLATION_REQUESTED')` — all states that occupy a calendar slot
-- `expireStaleCancellationRequests()` — scheduled job implementing PFT-1: transitions `CANCELLATION_REQUESTED` appointments to `CONFIRMED` when `appointment.datetime` has passed without an owner decision
+- `AppointmentStatus.java` *(published — SC-1)* — the six-state enum; maps to the `status` column; the order of enum values carries no significance (transitions are validated explicitly, not by ordinal)
+- `Appointment.java` *(published — SC-1)* — the central domain entity; `@Version` for optimistic locking; `webhookEventId` idempotency key with partial unique index; `AppointmentSource` typed origin; cancellation lifecycle columns; bot approval audit columns; `isPast()` temporal boundary helper
+- `AppointmentSource.java` *(published — SC-1)* — typed origin classification (PANEL, BOT, IMPORT, API); drives approval queue filter and timeout job scoping
+- `Appointment.isPast()` *(published — SC-1)* — single predicate for temporal boundary evaluation; never re-implement `datetime.isBefore(now())` inline — always use this helper
+- `AppointmentService.java` — transition validation at every entry point; `confirmAppointment()`, `cancelAppointment()`, `requestCancellation()`, `approveCancellation()`, `rejectCancellation()`, `recordCompletion(

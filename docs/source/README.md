@@ -2,13 +2,13 @@
 
 This directory contains the editorial framework for the Source Code Journey — the structured publication of the VookedMe backend Java source code.
 
-The Source Code Journey follows the same editorial discipline as the ADR Journey: source artefacts are published in coherent batches, ordered by architectural significance, with every published file sanitised of internal identifiers and annotated with its architectural context.
+The Source Code Journey follows the same editorial discipline as the ADR Journey: source artefacts are published in coherent batches, ordered by architectural significance, with every published file sanitised of internal identifiers and translated to natural technical English.
 
 ---
 
 ## Status
 
-> **v0.8.0 — Source Code Journey framework established.** Publication begins at SC-1 (v0.9.0).
+> **v0.9.0 — SC-1 published.** Eleven production artefacts and three integration tests are live. The architectural backbone of the system — tenant isolation, the appointment domain entity, the six-state FSM, JWT refresh rotation, webhook security, and the event actor model — is now readable.
 
 ---
 
@@ -26,12 +26,42 @@ The Source Code Journey follows the same editorial discipline as the ADR Journey
 
 | Batch | Name | Classification Focus | Status |
 |---|---|---|---|
-| SC-1 | Structural Foundation | FOUNDATIONAL, SECURITY, CORE DOMAIN | Planned |
+| SC-1 | Structural Foundation | FOUNDATIONAL, SECURITY, CORE DOMAIN | **Published (v0.9.0)** |
 | SC-2 | Event System and Audit Trail | CORE DOMAIN, OBSERVABILITY, TESTING | Planned |
 | SC-3 | Bot Domain | BOT DOMAIN, TESTING | Planned |
 | SC-4 | Privacy Infrastructure | PRIVACY INFRASTRUCTURE, TESTING | Planned |
 | SC-5 | Security Infrastructure | SECURITY, OBSERVABILITY, TESTING | Planned |
 | SC-6 | Temporal Boundary and Concurrency | CORE DOMAIN, TESTING, UTILITY | Planned |
+
+---
+
+## SC-1 Artefacts
+
+**Production source** (`src/main/java/com/vookedme/botmanager/`):
+
+| Artefact | Package | Editorial Category |
+|---|---|---|
+| `BaseEntity.java` | `common/entity` | FOUNDATIONAL |
+| `SourceActor.java` | `common/event` | FOUNDATIONAL |
+| `EventActor.java` | `common/event` | FOUNDATIONAL |
+| `AppointmentStatus.java` | `appointment/entity` | CORE DOMAIN |
+| `AppointmentSource.java` | `appointment/entity` | CORE DOMAIN |
+| `ApprovalDecisionSource.java` | `appointment/entity` | CORE DOMAIN |
+| `PaymentMethod.java` | `appointment/entity` | CORE DOMAIN |
+| `Appointment.java` | `appointment/entity` | CORE DOMAIN |
+| `RefreshToken.java` | `auth/entity` | SECURITY |
+| `RefreshTokenService.java` | `auth/service` | SECURITY |
+| `AuthorizationService.java` | `auth/service` | FOUNDATIONAL |
+| `WebhookSignatureFilter.java` | `webhook/security` | SECURITY |
+| `WebhookApiKeyFilter.java` | `webhook/security` | SECURITY |
+
+**Integration tests** (`src/test/java/com/vookedme/botmanager/`):
+
+| Artefact | Package | What it verifies |
+|---|---|---|
+| `AppointmentConcurrencyIntegrationTest.java` | `appointment` | Partial unique index prevents double-booking under concurrent inserts |
+| `AuthFlowIntegrationTest.java` | `auth` | Full login → refresh → logout flow against real PostgreSQL |
+| `WebhookSignatureFilterIT.java` | `webhook` | HMAC validation: GET bypass, POST rejection without HMAC, POST acceptance with correct HMAC |
 
 ---
 
@@ -41,7 +71,7 @@ The ADR Journey is complete. Seventeen ADRs describe *why* the system is designe
 
 The Source Code Journey publishes the code that implements those decisions. Every published source batch populates the "Source Code Reference" sections of the relevant ADRs — converting them from standalone arguments into linked pairs of decision and implementation.
 
-A reader of ADR-016 (Tenant Isolation) will be able to follow a link directly to `AuthorizationService`. A reader of ADR-013 (Customer Communication Policy) will be able to follow a link to `OutboundLegitimacyGate`. The ADR explains the reasoning; the source code is the evidence.
+A reader of ADR-016 (Tenant Isolation) can now follow the reasoning directly into `AuthorizationService`. A reader of ADR-017 (Appointment FSM) can read the `Appointment` entity and `AppointmentStatus` enum. A reader of ADR-018 (JWT Refresh Rotation) can read `RefreshToken` and `RefreshTokenService`.
 
 ---
 
@@ -62,17 +92,22 @@ Source artefacts are published under one of seven editorial categories. Full def
 
 ## Reading Path
 
-*Populated as batches are published.*
+A senior engineer reading the source for the first time should follow this path (approximately 30–45 minutes for SC-1 alone; 60 minutes when all batches are published):
 
-When SC-1 through SC-6 are published, a senior engineer reading the source for the first time should follow this path (approximately 45–60 minutes):
+**SC-1 (now available):**
 
-1. `AuthorizationService` — the tenant isolation model
-2. `Appointment` entity — the central domain object
-3. `AppointmentStatus`, `AppointmentSource` — the FSM state and origin types
-4. `AppointmentEvent` — what information flows with a mutation
-5. `AppointmentAuditListener` — committed ⟺ audited
-6. `BotEventResolver` — pure derive function
-7. `OutboundLegitimacyGate` — default-deny consent enforcement
-8. `WebhookSignatureFilter` — HMAC-SHA256 with body replay
-9. `RateLimitingFilter` — deliberate simplicity with explicit scope note
-10. `JvmTimezoneInvariant` — an architectural liability as a startup guard
+1. `AuthorizationService` — the tenant isolation gate; seven guard methods; every service entry point calls one before touching data
+2. `Appointment` entity — the central domain object; 6-state FSM, idempotency key, bot approval audit, temporal boundary helper
+3. `AppointmentStatus`, `AppointmentSource` — FSM states and typed origin classification
+4. `EventActor`, `SourceActor` — the actor model for audit attribution
+5. `WebhookSignatureFilter` — HMAC-SHA256 with body replay (CachedBodyHttpServletRequest); defence-in-depth composition with WebhookApiKeyFilter
+6. `RefreshToken`, `RefreshTokenService` — rotation with reuse detection; total revocation on compromise
+
+**SC-2 and beyond (planned):**
+
+7. `AppointmentEvent` — what information flows with a mutation
+8. `AppointmentAuditListener` — committed ⟺ audited
+9. `BotEventResolver` — pure derive function
+10. `OutboundLegitimacyGate` — default-deny consent enforcement
+11. `RateLimitingFilter` — deliberate simplicity with explicit scope note
+12. `JvmTimezoneInvariant` — an architectural liability as a startup guard

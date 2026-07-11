@@ -101,10 +101,7 @@ Tenant isolation in a multi-tenant system must be structural, not conventional. 
 
 ## Source Code Reference
 
-*Populated when source code is present (v0.3.0+).*
-
-- `AuthorizationService.java` — the single isolation enforcement point; `validateBusinessAccess(businessId)`, `requireOwner(businessId)`, `requireEmployee(businessId)`, `requireAdmin()` — all service entry points for business-scoped operations call one of these methods first
+- `AuthorizationService.java` *(published — SC-1)* — the single isolation enforcement point; seven guard methods: `checkBusinessAccess(businessId)`, `checkOwnerOrAdmin(businessId)`, `checkSelfOrOwnerOrAdmin(targetUserId)`, `checkSelfClaimOrOwnerOrAdmin(businessId, targetEmployeeId)`, `checkCanManageBlockForEmployee(businessId, targetEmployeeId)`, `checkCanDeleteBlock(businessId, createdByUserId)`, `checkAdmin()` — every service entry point for business-scoped operations calls one of these first
 - `JwtAuthenticationFilter.java` — extracts authenticated `userId` and role from the JWT on every request; populates the `SecurityContext` used by `AuthorizationService`
 - `BusinessService.java`, `AppointmentService.java`, `CustomerService.java`, etc. — all service entry points call `AuthorizationService` before any data operation; the call is the first statement after method signature and logging
-- `SecurityIntegrationTest` — integration tests verifying that authenticated requests for Business A are rejected when they attempt to access Business B's data; covers all role-level variants
-- `AuthFlowIntegrationTest` 
+- `SecurityIntegrationTest` — integration test

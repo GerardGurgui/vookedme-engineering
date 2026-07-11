@@ -9,7 +9,7 @@
 
 ---
 
-> **Status:** v0.8.0 — ADR Journey complete. Source Code Journey framework established. Seventeen ADRs live: [ADR-016](./docs/adr/ADR-016-tenant-isolation-pattern.md), [ADR-017](./docs/adr/ADR-017-appointment-fsm-design.md), [ADR-011](./docs/adr/ADR-011-appointment-temporal-boundary.md), [ADR-001](./docs/adr/ADR-001-single-money-field.md), [ADR-018](./docs/adr/ADR-018-jwt-refresh-token-rotation.md), [ADR-003](./docs/adr/ADR-003-hybrid-audit-strategy.md), [ADR-006](./docs/adr/ADR-006-user-identity-model.md), [ADR-007](./docs/adr/ADR-007-bot-panel-derive-architecture.md), [ADR-002](./docs/adr/ADR-002-blocked-slot-state-machine.md), [ADR-004](./docs/adr/ADR-004-customer-lifecycle-states.md), [ADR-008](./docs/adr/ADR-008-timestamp-timezone-migration.md), [ADR-009](./docs/adr/ADR-009-customer-name-policy.md), [ADR-012](./docs/adr/ADR-012-conversational-coherence.md), [ADR-013](./docs/adr/ADR-013-customer-appointment-change-communication-policy.md), [ADR-014](./docs/adr/ADR-014-bot-data-minimisation-and-audit-log.md), [ADR-015](./docs/adr/ADR-015-art9-gdpr-minimisation-conversational-flow.md), [ADR-005](./docs/adr/ADR-005-email-identity.md). Source code publication begins at SC-1 per the [Source Code Journey](./docs/source/README.md).
+> **Status:** v0.9.0 — ADR Journey complete (17 ADRs). Source Code Journey SC-1 published: 13 production artefacts and 3 integration tests live. Architectural backbone readable: `AuthorizationService` (tenant isolation), `Appointment` entity (6-state FSM, idempotency, bot approval audit), `RefreshToken` + `RefreshTokenService` (rotation + reuse detection), `WebhookSignatureFilter` (HMAC-SHA256). See the [Source Code Journey](./docs/source/README.md) for the full SC-1 artefact list and reading path.
 
 ---
 
@@ -101,4 +101,4 @@ Deep-dives into specific problems this system forced me to solve. Published cont
 | Migrations | Flyway — 78 migrations |
 | Testing | JUnit 5 + Testcontainers |
 | Security | Spring Security · JWT · HMAC-SHA256 |
-| Resilience | Resilience4j (circuit breaker on 
+| Resilience | Resilience4j (circuit breaker on                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
