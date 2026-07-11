@@ -1,6 +1,6 @@
 # Architecture Experience Journey
 
-> **Status:** v1.5.0 — Framework established. Visual publication begins with AX-1.
+> **Status:** v1.6.0 — AX-1 published. System Context and Container Diagram live.
 
 The Architecture Experience Journey is the third editorial phase of this repository.
 
@@ -49,7 +49,7 @@ The Journey is governed by four documents in this directory:
 
 | Batch | Name | Visual Category | Priority | Status |
 |---|---|---|---|---|
-| AX-1 | Context & System Entry | FOUNDATIONAL + ARCHITECTURE | Critical | Planned |
+| AX-1 | Context & System Entry | FOUNDATIONAL + ARCHITECTURE | Critical | [Published (v1.6.0)](./ARCHITECTURE.md) |
 | AX-2 | Domain Model | DOMAIN | Critical | Planned |
 | AX-3 | FSM & Temporal Boundary | GOVERNANCE | Critical | Planned |
 | AX-4 | Security Architecture | SECURITY | High | Planned |

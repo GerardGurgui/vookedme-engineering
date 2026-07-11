@@ -9,7 +9,7 @@
 
 ---
 
-> **Status:** v1.5.0 — ADR Journey complete (17 ADRs). Source Code Journey complete: 50 production artefacts and 23 tests live across six batches. Architecture Experience Journey framework established: visual publication roadmap, classification taxonomy, style guide, and publication plan. Visual artefacts begin with AX-1. See [docs/architecture/README.md](./docs/architecture/README.md) for the Journey overview.
+> **Status:** v1.6.0 — ADR Journey complete (17 ADRs). Source Code Journey complete: 50 production artefacts and 23 tests live across six batches. Architecture Experience Journey: framework established and AX-1 published — System Context (C4 L1) and Container Diagram (C4 L2). See [docs/architecture/ARCHITECTURE.md](./docs/architecture/ARCHITECTURE.md) for the visual entry point.
 
 ---
 
