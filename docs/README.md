@@ -8,7 +8,7 @@ This directory contains all engineering documentation for the VookedMe appointme
 
 | Directory | What it contains | Start here if you want to... |
 |---|---|---|
-| [architecture/](./architecture/README.md) | System context, data model, security architecture | Understand what the system is and how it fits together |
+| [architecture/](./architecture/README.md) | Architecture Experience Journey framework — visual publication plan, classification, style guide, and architecture documents | Understand what the system is and how it fits together |
 | [adr/](./adr/README.md) | Architecture Decision Records | Understand *why* the system is designed the way it is |
 | [source/](./source/README.md) | Published source code — editorial framework and publication roadmap | Understand what source is published and in what order |
 | [governance/](./governance/README.md) | State machines, RBAC matrix, audit requirements, domain rules | Understand what the system is allowed to do |

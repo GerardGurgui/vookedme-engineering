@@ -9,7 +9,7 @@
 
 ---
 
-> **Status:** v1.4.0 — ADR Journey complete (17 ADRs). Source Code Journey complete: 50 production artefacts and 23 tests live across six batches. SC-6 closes the engineering narrative with the temporal boundary principle (ADR-011), the BlockedSlot FSM (ADR-002), phone normalisation, concurrent phone registration, and the full audit constraint test battery. See the [Source Code Journey](./docs/source/README.md) for the full artefact list and reading path.
+> **Status:** v1.5.0 — ADR Journey complete (17 ADRs). Source Code Journey complete: 50 production artefacts and 23 tests live across six batches. Architecture Experience Journey framework established: visual publication roadmap, classification taxonomy, style guide, and publication plan. Visual artefacts begin with AX-1. See [docs/architecture/README.md](./docs/architecture/README.md) for the Journey overview.
 
 ---
 
@@ -55,7 +55,7 @@ This repository is not a mirror of the production backend.
 It is a curated engineering library.
 Every published artefact has been selected because it demonstrates an architectural decision, an engineering pattern or a reusable design principle.
 Operational code, framework boilerplate, integration glue and business-specific implementation details intentionally remain private.
-The objective is not completeness, is clarity.
+The objective is not completeness, it is clarity.
 
 ---
 
