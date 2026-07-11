@@ -49,6 +49,16 @@ The ADR suite is the primary artefact. An engineer who reads the ADRs will under
 
 ---
 
+## What This Repository Is
+
+This repository is not a mirror of the production backend.
+It is a curated engineering library.
+Every published artefact has been selected because it demonstrates an architectural decision, an engineering pattern or a reusable design principle.
+Operational code, framework boilerplate, integration glue and business-specific implementation details intentionally remain private.
+The objective is not completeness, is clarity.
+
+---
+
 ## What Is Inside
 
 ```
