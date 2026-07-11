@@ -309,10 +309,6 @@ Communication eligibility and booking provenance are different properties of a c
 
 ## Source Code Reference
 
-*Populated when source code is present.*
-
-- `CustomerLegitimacyService` — the service that governs legitimacy establishment, revocation, and re-establishment; enforces the reversibility rules for explicit opt-out
-- `OutboundLegitimacyGate` — the gate component that evaluates `channel_legitimacy_status` before any business-initiated outbound communication; replaces the source-based gate when toggled on
-- `CustomerLegitimationAuditLog` — the append-only log of every legitimation event; records the legitimation origin (bot inbound, business attestation, customer reactivation)
-- `WebhookController` — the inbound path that ingests opt-out signals from the messaging channel and triggers the legitimacy revocation workflow
-- `CustomerController` — the administration panel path for business attestation; records the attestation with timestamp and staff identifier
+- `OutboundLegitimacyGate.java` *(published — SC-4)* — the default-deny gate; `evaluate(Long customerId)` performs a fresh database read at dispatch time; `Boolean.TRUE.equals(customer.getChannelLegitimacyStatus())` is the only eligible branch; null and false are both ineligible; feature-flag gated (`app.legitimation.gate-enabled`) with default OFF pending full activation
+- `LegitimacyDecision.java` *(published — SC-4)* — the gate return value; a record with `(boolean eligible, ReasonOfDeny reason)`; compact constructor enforces `eligible=true ⟹ reason=null`; factory methods `allow()` and `deny(reason)` avoid collision with the auto-generated `eligible()` accessor
+- `CustomerLegitimacyService.java` *(published — SC-4)* — the sole write owner for channel legitimacy; four public methods (`legitimateFromBot`, `optOut`, `reactivateByCustomer`, `attest`);

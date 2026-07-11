@@ -9,7 +9,7 @@
 
 ---
 
-> **Status:** v1.1.0 — ADR Journey complete (17 ADRs). Source Code Journey SC-1, SC-2, and SC-3 published: 24 production artefacts and 10 tests live. Bot domain orchestration layer — derive architecture, narrative rendering, and GDPR phone masking — now readable alongside the structural backbone and event system. See the [Source Code Journey](./docs/source/README.md) for the full artefact list and reading path.
+> **Status:** v1.2.0 — ADR Journey complete (17 ADRs). Source Code Journey SC-1 through SC-4 published: 33 production artefacts and 14 tests live. Privacy infrastructure — consent enforcement gate, legitimation state machine, atomic audit write, and architecture guard tests — now readable alongside the structural backbone, event system, and bot domain layer. See the [Source Code Journey](./docs/source/README.md) for the full artefact list and reading path.
 
 ---
 
@@ -101,4 +101,4 @@ Deep-dives into specific problems this system forced me to solve. Published cont
 | Migrations | Flyway — 78 migrations |
 | Testing | JUnit 5 + Testcontainers |
 | Security | Spring Security · JWT · HMAC-SHA256 |
-| Resilience | Resilience4j (circuit breaker on                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+| Resilience | Resilience4j (circuit breaker on                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             

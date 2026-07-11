@@ -8,7 +8,7 @@ The Source Code Journey follows the same editorial discipline as the ADR Journey
 
 ## Status
 
-> **v1.1.0 — SC-3 published.** Six SC-3 production artefacts and four tests are live. The bot domain orchestration layer — `BotEventResolver`, `BotNarrativeRenderer`, `BotPhoneMaskingService`, and supporting domain types — is now readable alongside SC-1 and SC-2.
+> **v1.2.0 — SC-4 published.** Five SC-4 production artefacts, four supporting types, and four tests are live. The customer legitimation and consent enforcement layer — `OutboundLegitimacyGate`, `CustomerLegitimacyService`, `LegitimacyTransactionalWriter`, `CustomerLegitimationAuditLog`, and architecture guard tests — is now readable alongside SC-1, SC-2, and SC-3.
 
 ---
 
@@ -29,7 +29,7 @@ The Source Code Journey follows the same editorial discipline as the ADR Journey
 | SC-1 | Structural Foundation | FOUNDATIONAL, SECURITY, CORE DOMAIN | **Published (v0.9.0)** |
 | SC-2 | Event System and Audit Trail | CORE DOMAIN, OBSERVABILITY, TESTING | **Published (v1.0.0)** |
 | SC-3 | Bot Domain | BOT DOMAIN, TESTING | **Published (v1.1.0)** |
-| SC-4 | Privacy Infrastructure | PRIVACY INFRASTRUCTURE, TESTING | Planned |
+| SC-4 | Privacy Infrastructure | PRIVACY INFRASTRUCTURE, TESTING | **Published (v1.2.0)** |
 | SC-5 | Security Infrastructure | SECURITY, OBSERVABILITY, TESTING | Planned |
 | SC-6 | Temporal Boundary and Concurrency | CORE DOMAIN, TESTING, UTILITY | Planned |
 
@@ -111,8 +111,11 @@ The Source Code Journey follows the same editorial discipline as the ADR Journey
 
 ---
 
-## Relationship to the ADR Journey
+## SC-4 Artefacts
 
-The ADR Journey is complete. Seventeen ADRs describe *why* the system is designed the way it is.
+**Production source** (`src/main/java/com/vookedme/botmanager/`):
 
-The Source Code Journey publishes the code that implements those decisions. Every published source batch populates the "Source Code Reference" sections of the relevant ADRs — converting them from standalone arguments
+| Artefact | Package | Editorial Category |
+|---|---|---|
+| `LegitimacyDecision.java` | `customer/legitimation` | PRIVACY INFRASTRUCTURE |
+| `Outbo

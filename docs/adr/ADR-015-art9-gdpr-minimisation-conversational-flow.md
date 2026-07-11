@@ -147,8 +147,5 @@ The compliance boundary of a system is the layer whose behaviour is deterministi
 
 ## Source Code Reference
 
-*Populated when source code is present.*
-
-- `AppointmentService.createFromBot()` — the bot booking path; contains the unconditional `.notes(null)` assignment that enforces the non-persistence guarantee
-- `BotNotesMinimisationIT` — the integration test suite; runs fourteen test cases against a live PostgreSQL instance; verifies null persistence and booking success for every case
-- The orchestration layer system prompt — contains the behavioural deflection rule as an explicit instruction governing model behaviour for health and sensitive data disclosures
+- `CustomerLegitimationAuditLog.java` *(published — SC-4)* — the channel legitimacy audit log; records that a legitimation event occurred and the legitimation origin, but never stores the content of any message, note, or customer communication; `attestationText` is the business owner's legal basis declaration, not a customer data field; the minimisation principle from ADR-015 (special-category data is discarded before persistence) is reflected here in what the entity does not contain
+- `AppointmentService.createFromBot()` — the bot booking path; contain
