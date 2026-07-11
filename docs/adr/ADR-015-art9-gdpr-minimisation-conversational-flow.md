@@ -148,4 +148,4 @@ The compliance boundary of a system is the layer whose behaviour is deterministi
 ## Source Code Reference
 
 - `CustomerLegitimationAuditLog.java` *(published — SC-4)* — the channel legitimacy audit log; records that a legitimation event occurred and the legitimation origin, but never stores the content of any message, note, or customer communication; `attestationText` is the business owner's legal basis declaration, not a customer data field; the minimisation principle from ADR-015 (special-category data is discarded before persistence) is reflected here in what the entity does not contain
-- `AppointmentService.createFromBot()` — the bot booking path; contain
+- `BotNotesMinimizationIT.java` *(published — SC-6)* — 14-test param

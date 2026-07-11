@@ -9,7 +9,7 @@
 
 ---
 
-> **Status:** v1.3.0 — ADR Journey complete (17 ADRs). Source Code Journey SC-1 through SC-5 published: 41 production artefacts and 18 tests live. Security infrastructure — rate limiter, JWT filter, consent enforcement filter, consent service, consent audit entity, JVM timezone guard, and Sentry PII scrubber — now readable alongside the structural backbone, event system, bot domain, and privacy infrastructure layers. See the [Source Code Journey](./docs/source/README.md) for the full artefact list and reading path.
+> **Status:** v1.4.0 — ADR Journey complete (17 ADRs). Source Code Journey complete: 50 production artefacts and 23 tests live across six batches. SC-6 closes the engineering narrative with the temporal boundary principle (ADR-011), the BlockedSlot FSM (ADR-002), phone normalisation, concurrent phone registration, and the full audit constraint test battery. See the [Source Code Journey](./docs/source/README.md) for the full artefact list and reading path.
 
 ---
 
@@ -101,4 +101,26 @@ Deep-dives into specific problems this system forced me to solve. Published cont
 | Migrations | Flyway — 78 migrations |
 | Testing | JUnit 5 + Testcontainers |
 | Security | Spring Security · JWT · HMAC-SHA256 |
-| Resilience | Resilience4j (circuit breaker on                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+| Resilience | Resilience4j (circuit breaker on outbound HTTP calls) |
+| Observability | Sentry (PII-scrubbed before send) |
+| WhatsApp | Evolution API (self-hosted) |
+| Orchestration | n8n (self-hosted) |
+| Container | Docker (multi-stage build) |
+| CI | GitHub Actions |
+
+---
+
+## Repository Philosophy
+
+This repository is a living engineering artefact — not a curated highlight reel, not a tutorial, and not a toy example. The source code is the real production implementation. The ADRs document real decisions made under real constraints. The test suite specifies real domain contracts.
+
+The engineering philosophy governing every decision in this repository is documented in [docs/meta/engineering-foundation.md](./docs/meta/engineering-foundation.md).
+
+---
+
+## License
+
+MIT — see [LICENSE](./LICENSE).
+
+---
+

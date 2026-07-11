@@ -111,9 +111,5 @@ A timestamp in a domain model is not just a field — it is a potential boundary
 
 ## Source Code Reference
 
-*Populated when source code is present (v0.3.0+).*
-
-- `AppointmentService.java` — temporal boundary enforcement in every operational method; contains the guard clauses for PFT-1 through PFT-7
-- `Appointment.isPast()` — the single encapsulated predicate for boundary evaluation; the only correct definition of "has this appointment's time passed?"
-- `ReminderScheduler.java` — PFT-4: reminder suppression and termination for past appointments
-- `expir
+- `Appointment.isPast()` *(published — SC-1)* — the single encapsulated predicate for temporal boundary evaluation; the only correct definition of "has this appointment's time passed?"; used as the boundary guard in every PFT-gated operation
+- `TemporalBoundaryIT.java` *(published — SC-6)* — integration tests for PFT-1, PFT-3, PFT-4, and PFT-5 against a real PostgreSQL instance; covers: reminder cancellation for past appointments, rejection of 

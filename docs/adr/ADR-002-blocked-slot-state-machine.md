@@ -149,11 +149,6 @@ An entity that carries a multi-step workflow — request, review, approve or rej
 
 ## Source Code Reference
 
-*Populated when source code is present (v0.3.0+).*
-
-- `BlockedSlotStatus.java` — the five-state enum; maps to the `status` column
-- `BlockedSlotService.validateBlockedSlotTransition()` — the single transition validation point; rejects any transition not in the table above
-- `BlockedSlotService.approve()` / `reject()` / `cancel()` — the three owner-triggered transitions; each writes the actor and timestamp to the corresponding named columns
-- `BlockedSlotRepository.findOverlapping*` — all overlap queries filter `WHERE status = 'APPROVED'`; this invariant is enforced here, not in service logic
-- `expireApprovedBlocksJob()` — scheduled job; transitions `APPROVED` → `EXPIRED` for all blocks where `end_datetime < now()`
-- `BlockedSlotEventListener.java` — dispatches notifications and writes Layer 3 audit entries after each state transition
+- `BlockedSlot.java` *(published — SC-6)* — the entity; `@Version` field for optimistic locking (the same pattern as `Appointment`); `status` column with `@Builder.Default` of `APPROVED` (direct OWNER/ADMIN creates skip the REQUESTED phase); per-state timestamp and actor columns; `urgentNotificationSent` deduplication flag for the approval-request notification job
+- `BlockedSlotStatus.java` *(published — SC-6)* — the five-state enum with transition rules in Javadoc; the calendar-visibility rule (`APPROVED` only) is documented here as the authoritative definition
+- `BlockedSlotPolicy.java` *(published — SC-6)* — the permission policy class; `canEmployeeRequestBlocks(Business)` reads the per-business `allow_employee_block_requests` flag; `checkEmployeeMayRequestBlocks(Business, User)` is the throwing variant; inner `BlockedSlotPolicyDenie
