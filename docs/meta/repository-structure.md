@@ -33,6 +33,11 @@ vookedme-engineering/
 │   │   ├── README.md                 # ADR index + writing guide
 │   │   ├── ADR-001-*.md
 │   │   └── ...
+│   ├── source/                       # Source Code Journey — editorial framework and publication roadmap
+│   │   ├── README.md                 # Source journey index, roadmap status, reading path
+│   │   ├── SOURCE_PUBLICATION_AUDIT.md  # Publication philosophy and editorial conclusions
+│   │   ├── SOURCE_CLASSIFICATION.md     # Editorial taxonomy — classification categories and table
+│   │   └── SOURCE_PUBLICATION_PLAN.md   # Batch roadmap — SC-1 through SC-6
 │   ├── architecture/                 # System architecture documents
 │   │   ├── README.md
 │   │   ├── ARCHITECTURE.md           # System overview (primary)
@@ -167,7 +172,7 @@ Cross-cutting case studies that tell the story of a design decision from incepti
 
 ### `src/`
 
-The Java source code of the VookedMe multi-tenant appointment scheduling backend. The source is the sanitized-but-production-grade implementation — not simplified for readability, not rewritten for demonstration.
+The Java source code of the VookedMe multi-tenant appointment scheduling backend. The source is the sanitised-but-production-grade implementation — not simplified for readability, not rewritten for demonstration.
 
 See `REPOSITORY_STRUCTURE.md §Package Architecture` below for the package breakdown.
 
@@ -304,6 +309,7 @@ A governance document tells an engineer what the rule is. The corresponding ADR 
 | Why a decision was made | `docs/adr/` |
 | What the system looks like | `docs/architecture/` |
 | What rules the domain follows | `docs/governance/` |
+| Source code publication framework and roadmap | `docs/source/` |
 | How a specific problem was solved | `docs/engineering/` |
 | Case study (full story) | `docs/case-studies/` |
 | Visual asset (diagram, screenshot) | `assets/` |
@@ -314,4 +320,4 @@ A governance document tells an engineer what the rule is. The corresponding ADR 
 
 ---
 
-*This document reflects the intended structure of the repository at comp
+*This document reflects the intended structure of the repository at completion. During population phases (Roadmap Phases 1–3), some folders will contain only `README.md` placeholders. The structure itself is canonical from Commit #1.*

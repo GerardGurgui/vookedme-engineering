@@ -435,3 +435,17 @@ Zero tolerance for committed secrets. The `.gitleaks.toml` config and `.githooks
 ### 7.6 Repository Root Policy
 
 The repository root is intentionally minimal. It contains only:
+
+- GitHub-convention files that tooling or visitors expect at root: `README.md`, `LICENSE`, `CONTRIBUTING.md`, `SECURITY.md`
+- Repository configuration: `.gitignore`, `.gitleaks.toml`, `.githooks/`
+- GitHub platform configuration: `.github/`
+- Build tooling when the project reaches that phase: `pom.xml`, `mvnw`, `Dockerfile`, `.mvn/`
+- Top-level directories: `docs/`, `src/`, `assets/`, `dev/`
+
+**No documentation file is ever added to the repository root** unless it is one of the GitHub-convention files listed above. All engineering documentation — architecture, ADRs, governance, investigations, meta — lives under `docs/`. This policy is permanent and applies to every future phase of the repository.
+
+If a new documentation file does not fit under an existing `docs/` subdirectory, create the appropriate subdirectory — do not place the file at root.
+
+---
+
+*These standards are permanent. They are updated when a genuinely better convention is identified — not for preference or convenience. Changes require a dated update log at the top of this document.*
