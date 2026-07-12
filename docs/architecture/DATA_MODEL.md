@@ -22,7 +22,7 @@ VookedMe is a multi-tenant appointment scheduling platform. The domain model mus
 
 **The appointment as a state machine.** An appointment is not a passive record. It has six named states with defined legal transitions, actor restrictions, and temporal guards. The status field drives a formal FSM (ADR-017).
 
-**Two booking channels.** Appointments can arrive through the administration panel or through the WhatsApp bot. The booking channel is a first-class property of the Appointment, not metadata — it drives approval routing, audit classification, and notification behaviour.
+**Four booking channels.** Appointments can arrive through the administration panel, the WhatsApp bot, bulk import, or the public API. The booking channel is a first-class property of the Appointment, not metadata — it drives approval routing, audit classification, and notification behaviour.
 
 **GDPR-aware customer model.** A customer's eligibility to receive outbound WhatsApp messages is a structural property of the Customer entity, not a runtime check. The channelLegitimacyStatus field enforces this at the application layer.
 
@@ -44,12 +44,13 @@ erDiagram
     }
     Customer {
         string phone "WhatsApp identifier"
+        enum status "ACTIVE | ARCHIVED | ANONYMIZED"
         enum channelLegitimacyStatus "GDPR consent state — ADR-004"
     }
     Appointment {
         enum status "PENDING | CONFIRMED | CANCELLATION_REQUESTED | CANCELLED | COMPLETED | NO_SHOW"
         datetime datetime "scheduled time"
-        enum source "BOT | PANEL"
+        enum source "BOT | PANEL | IMPORT | API"
         decimal price "snapshot at creation — ADR-001"
         boolean paid
     }
@@ -87,7 +88,7 @@ erDiagram
     Business ||--o{ Offering : "catalogues"
     Business ||--o{ Schedule : "configures"
     Business ||--o{ Appointment : "owns"
-    Business ||--o{ BlockedSlot : "reserves capacity"
+    Business ||--o{ BlockedSlot : "owns"
     Customer ||--o{ Appointment : "books"
     User |o--o{ Appointment : "assigned to"
     Offering |o--o{ Appointment : "selected for"
@@ -110,7 +111,7 @@ Every entity in the domain carries a `business_id` foreign key. The Business is 
 
 The Appointment is the central entity of the domain. It binds a Customer to a Business, optionally assigns an employee (User), optionally references an offered service (Offering), and carries a formal lifecycle. Two properties give the Appointment its architectural weight:
 
-**Source** (`BOT | PANEL`): the booking channel is captured at creation and is immutable. It drives approval routing — a bot-created appointment in `PENDING` state requires explicit owner approval before becoming `CONFIRMED` — and determines which audit events are emitted and how notifications are phrased.
+**Source** (`BOT | PANEL | IMPORT | API`): the booking channel is captured at creation and is immutable. It drives approval routing — a bot-created appointment in `PENDING` state requires explicit owner approval before becoming `CONFIRMED` — and determines which audit events are emitted and how notifications are phrased.
 
 **Temporal boundary** (ADR-011): `appointment.datetime` divides the lifecycle into two operationally distinct planes. Before the appointment time: operational decisions are possible (confirm, reschedule, cancel). After: only closure states are reachable (COMPLETED, NO_SHOW). No transition guard is hardcoded — the boundary is evaluated at runtime by the `isPast()` method on the entity.
 
@@ -152,7 +153,7 @@ Both audit entities follow the same pattern: they are append-only, written synch
 |---|---|
 | [ADR-001 — Single Money Field Invariant](../adr/ADR-001-single-money-field.md) | Why Appointment has exactly two money-bearing fields and why the count is a constitutional invariant |
 | [ADR-002 — BlockedSlot State Machine](../adr/ADR-002-blocked-slot-state-machine.md) | The five-state approval lifecycle of BlockedSlot |
-| [ADR-003 — Hybrid Audit Strategy](../adr/ADR-003-hybrid-audit-strategy.md) | Why AppointmentAuditLog is append-only, synchronous, and references by id |
+| [ADR-003 — Three-Layer Audit Architecture](../adr/ADR-003-hybrid-audit-strategy.md) | Why AppointmentAuditLog is append-only, synchronous, and references by id |
 | [ADR-004 — Customer Lifecycle States](../adr/ADR-004-customer-lifecycle-states.md) | The channelLegitimacyStatus field on Customer and its legal basis |
 | [ADR-011 — Appointment Temporal Boundary](../adr/ADR-011-appointment-temporal-boundary.md) | How appointment.datetime divides the FSM into operational and closure planes |
 | [ADR-015 — Art.9 GDPR in Conversational Flow](../adr/ADR-015-art9-gdpr-minimisation-conversational-flow.md) | Why CustomerLegitimationAuditLog exists and what it records |

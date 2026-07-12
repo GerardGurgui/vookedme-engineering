@@ -9,7 +9,7 @@
 
 ---
 
-> **Status:** v1.7.0 — ADR Journey complete (17 ADRs). Source Code Journey complete: 50 production artefacts and 23 tests live across six batches. Architecture Experience Journey: AX-1 (System Context + Container Diagram) and AX-2 (Core Domain Model) published. See [docs/architecture/README.md](./docs/architecture/README.md) for the visual entry point.
+> **Status:** v1.7.1 — ADR Journey complete (17 ADRs). Source Code Journey complete: 50 production artefacts and 23 tests live across six batches. Architecture Experience Journey: AX-1 (System Context + Container Diagram) and AX-2 (Core Domain Model) published. See [docs/architecture/README.md](./docs/architecture/README.md) for the visual entry point.
 
 ---
 
