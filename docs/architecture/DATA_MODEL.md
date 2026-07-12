@@ -32,70 +32,7 @@ VookedMe is a multi-tenant appointment scheduling platform. The domain model mus
 
 ## Figure 1 — Core Domain Model
 
-```mermaid
-%%{init: {'theme': 'default'}}%%
-erDiagram
-    Business {
-        string name
-    }
-    User {
-        string email "globally unique — ADR-005"
-        enum role "ADMIN | OWNER | EMPLOYEE"
-    }
-    Customer {
-        string phone "WhatsApp identifier"
-        enum status "ACTIVE | ARCHIVED | ANONYMIZED"
-        enum channelLegitimacyStatus "GDPR consent state — ADR-004"
-    }
-    Appointment {
-        enum status "PENDING | CONFIRMED | CANCELLATION_REQUESTED | CANCELLED | COMPLETED | NO_SHOW"
-        datetime datetime "scheduled time"
-        enum source "BOT | PANEL | IMPORT | API"
-        decimal price "snapshot at creation — ADR-001"
-        boolean paid
-    }
-    Offering {
-        string name
-        decimal price
-        int durationMinutes
-    }
-    Schedule {
-        int dayOfWeek "1 Mon — 7 Sun"
-        time startTime
-        time endTime
-    }
-    BlockedSlot {
-        enum status "REQUESTED | APPROVED | REJECTED | CANCELLED | EXPIRED"
-        datetime startDatetime
-        datetime endDatetime
-    }
-    AppointmentAuditLog {
-        enum eventType
-        enum triggeredBy "BOT | PANEL | SYSTEM"
-        string previousStatus
-        string newStatus
-        offsetdatetime occurredAt "UTC enforced"
-    }
-    CustomerLegitimationAuditLog {
-        enum eventType
-        string fromState
-        string toState
-        offsetdatetime occurredAt "UTC enforced"
-    }
-
-    Business ||--o{ User : "employs"
-    Business ||--o{ Customer : "serves"
-    Business ||--o{ Offering : "catalogues"
-    Business ||--o{ Schedule : "configures"
-    Business ||--o{ Appointment : "owns"
-    Business ||--o{ BlockedSlot : "owns"
-    Customer ||--o{ Appointment : "books"
-    User |o--o{ Appointment : "assigned to"
-    Offering |o--o{ Appointment : "selected for"
-    User |o--o{ BlockedSlot : "requests"
-    Appointment ||--o{ AppointmentAuditLog : "audited by"
-    Customer ||--o{ CustomerLegitimationAuditLog : "legitimation events"
-```
+![Figure 1 — Core Domain Model](./assets/ax2-core-domain-model.png)
 
 > **Figure 1** — *Core domain model — VookedMe appointment scheduling platform*: How is the VookedMe business domain modelled? See [ADR-016 — Tenant Isolation Pattern](../adr/ADR-016-tenant-isolation-pattern.md) and [ADR-017 — Six-State Appointment FSM](../adr/ADR-017-appointment-fsm-design.md).
 
@@ -172,3 +109,4 @@ Both audit entities follow the same pattern: they are append-only, written synch
 | [CustomerLegitimationAuditLog.java](../../src/main/java/com/vookedme/botmanager/customer/entity/CustomerLegitimationAuditLog.java) | Legitimation transition record — loose FK, data minimisation, GDPR evidence |
 | [AppointmentStatus.java](../../src/main/java/com/vookedme/botmanager/appointment/entity/AppointmentStatus.java) | The six FSM states |
 | [BlockedSlotStatus.java](../../src/main/java/com/vookedme/botmanager/schedule/entity/BlockedSlotStatus.java) | The five BlockedSlot lifecycle states |
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
