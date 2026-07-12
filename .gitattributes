@@ -1,0 +1,12 @@
+# Auto-detect text files and normalize line endings
+* text=auto
+
+# Markdown — always LF
+*.md text eol=lf
+
+# Binary files — never diff
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.svg binary
