@@ -1,3 +1,5 @@
+<!-- DERIVED (narrated) · Watches: bot-manager-api/docs/adr/ADR-013-customer-appointment-change-communication-policy.md@f64e9f318eb848db2a4ffd6a4f40f21f4cd8b87e0aeef960f07c31fc4e8c6816 · On source change: FLAG for human re-narration (NOT auto-diff, NOT "do not edit" — this mirror is re-authored by hand by design) · KGS Mechanism v2 pilot, ADR-014 · hash = sha256 of the git-normalized source blob (git show HEAD:<file> | sha256sum) -->
+
 # ADR-013 — Customer Appointment Change Communication Policy
 
 **Status:** Accepted — Implementation Pending  
