@@ -121,4 +121,19 @@ Grounded in `BlockedSlotService.validateTransition()` (lines 1546–1558) and th
 | `REQUESTED` → `APPROVED` | OWNER / ADMIN | Actor cannot be the same user who created the request. |
 | `REQUESTED` → `REJECTED` | OWNER / ADMIN | Rejection reason required (`rejection_reason` field). Actor cannot be the creator. |
 | `REQUESTED` → `CANCELLED` | EMPLOYEE (own request) | `withdraw()` — creator withdraws pending request. |
-| `REQUESTED` → `CANCELLED` | OWNER / ADMIN | `delete()` on a REQUES
+| `REQUESTED` → `CANCELLED` | OWNER / ADMIN | `delete()` on a REQUESTED row — equivalent to withdraw. |
+| `APPROVED` → `CANCELLED` | OWNER / ADMIN only | EMPLOYEE authority revoked post-V40 — see implementation notes. |
+| `APPROVED` → `EXPIRED` | System | `BlockedSlotExpirationJob` — `end_datetime ≤ now`. |
+
+### Implementation notes — ADR-002 discrepancies
+
+Three points in the implementation differ from or extend ADR-002. The diagram and table above reflect implementation ground truth. ADR-002 requires a future update to align with all three.
+
+**`(creation) → APPROVED` — Bot actor:**  
+ADR-002 lists OWNER / ADMIN only for direct-to-APPROVED creation. The implementation (`BlockedSlotService`, creation path) additionally routes Bot-originated blocks directly to `APPROVED`, treating Bot as operationally equivalent to OWNER / ADMIN for this transition. ADR-002 does not document this path.
+
+**`REQUESTED → CANCELLED` actor:**  
+ADR-002 specifies creator only. The implementation (`BlockedSlotStatus.java` Javadoc, `withdraw()` and `delete()` in `BlockedSlotService`) permits EMPLOYEE (own request) **or** OWNER / ADMIN. The broader actor set is the enforced rule.
+
+**`APPROVED → CANCELLED` actor:**  
+ADR-002 specifies OWNER / ADMIN or EMPLOYEE on self-owned blocks. A subsequent policy change (V40 P1C) revoked EMPLOYEE authority entirely for `APPROVED` cancellations (`BlockedSlotService.delete()`, lines 654–661). `OWNER / ADMIN only` is the enforced rule. The `BlockedSlotStatus.java` Javadoc is stale on this point and must be updated. ADR-002 must also be updated to reflect this.
