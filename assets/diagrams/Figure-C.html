@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AX-4 — Figure C — Editorial Blueprint</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --paper: #ffffff;
+    --paper-soft: #f6f6f4;
+    --rule: #d8d8d4;
+    --line-soft: #8a8a8a;
+    --accent: #1c3d5a;   /* the colour of last resort — see Visual Grammar */
+    --deny: #7a2727;     /* outcome marker only — never a fill; unused in this figure, kept for palette consistency */
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 40px 24px 80px;
+    background: var(--paper-soft);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .doc {
+    max-width: 980px;
+    margin: 0 auto;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+  }
+
+  .doc-header { padding: 32px 40px 24px; border-bottom: 2px solid var(--ink); }
+  .doc-header .kicker {
+    font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-soft); margin: 0 0 6px;
+  }
+  .doc-header h1 { font-size: 24px; margin: 0 0 4px; font-weight: 600; }
+  .doc-header .subtitle { font-size: 14px; color: var(--ink-soft); margin: 0; }
+
+  .version-banner {
+    background: var(--paper-soft);
+    border-bottom: 1px solid var(--rule);
+    padding: 10px 40px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+
+  section { padding: 28px 40px; border-bottom: 1px solid var(--rule); }
+  section:last-child { border-bottom: none; }
+
+  h2 {
+    font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-soft); margin: 0 0 14px; font-weight: 600;
+  }
+  h2 .num { display: inline-block; width: 22px; color: var(--line-soft); }
+  h3 { font-size: 14px; margin: 18px 0 8px; font-weight: 600; color: var(--ink); }
+  h4 { font-size: 12.5px; margin: 14px 0 6px; font-weight: 600; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.04em; }
+
+  p { margin: 0 0 10px; }
+
+  .eq-block {
+    border-left: 3px solid var(--accent);
+    background: #eaf0f5;
+    padding: 14px 18px;
+    font-size: 15px;
+    font-style: italic;
+  }
+
+  .principle-block {
+    border-left: 3px solid var(--ink);
+    background: var(--paper-soft);
+    padding: 12px 18px;
+    margin: 10px 0;
+  }
+  .principle-block b { display: block; margin-bottom: 3px; }
+
+  .not-block {
+    border-left: 3px solid var(--line-soft);
+    background: var(--paper-soft);
+    padding: 10px 18px;
+    margin: 8px 0;
+    font-size: 14px;
+  }
+  .not-block b { color: var(--ink-soft); }
+
+  .family-block {
+    border-left: 3px solid var(--accent);
+    background: var(--paper-soft);
+    padding: 10px 18px;
+    margin: 14px 0 10px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+  }
+  .family-block b { color: var(--ink); }
+
+  code, .mono {
+    font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+    font-size: 13px; background: var(--paper-soft); border: 1px solid var(--rule);
+    padding: 1px 5px; border-radius: 2px;
+  }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin: 10px 0 6px; }
+  th, td { text-align: left; padding: 8px 10px; border: 1px solid var(--rule); vertical-align: top; }
+  th {
+    background: var(--paper-soft); font-size: 11.5px; text-transform: uppercase;
+    letter-spacing: 0.04em; color: var(--ink-soft); font-weight: 600;
+  }
+
+  ul, ol { margin: 6px 0 12px; padding-left: 22px; }
+  li { margin-bottom: 5px; }
+
+  .checklist { list-style: none; padding-left: 0; }
+  .checklist li { padding-left: 26px; position: relative; margin-bottom: 8px; }
+  .checklist li::before { content: "☐"; position: absolute; left: 0; color: var(--line-soft); }
+
+  .constraint-list { list-style: none; padding-left: 0; }
+  .constraint-list li { padding-left: 22px; position: relative; margin-bottom: 8px; font-weight: 500; }
+  .constraint-list li::before { content: "▸"; position: absolute; left: 0; color: var(--accent); }
+
+  .swatch {
+    display: inline-block; width: 26px; height: 12px; vertical-align: middle;
+    margin-right: 8px; border: 1px solid var(--line-soft);
+  }
+  .lineswatch {
+    display: inline-block; width: 30px; height: 0; vertical-align: middle;
+    margin-right: 8px; border-top: 2px solid var(--ink);
+  }
+  .lineswatch.dashed { border-top-style: dashed; border-top-color: var(--line-soft); }
+  .lineswatch.dotted { border-top-style: dotted; border-top-color: var(--line-soft); border-top-width: 3px; }
+  .shapeswatch {
+    display: inline-block; width: 18px; height: 14px; vertical-align: middle; margin-right: 8px;
+  }
+
+  footer { padding: 18px 40px; font-size: 11.5px; color: var(--line-soft); text-align: center; }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <div class="doc-header">
+    <p class="kicker">Architecture Experience Journey — AX-4 — Authorization Architecture</p>
+    <h1>Figure C — Authorization Mechanism Composition</h1>
+    <p class="subtitle">Editorial blueprint · Source of truth: <code>docs/architecture/AUTHORIZATION.md</code> (frozen, Figure C section) · Supporting discovery: <code>Figure-C-blueprint.md</code> (Phase 2, refined Phase 2.5) · Style reference: <code>Figure-A-v2.html</code>, <code>Figure-B.html</code></p>
+  </div>
+
+  <div class="version-banner">
+    <b>This is an editorial specification, not the diagram itself.</b> It contains no pixel coordinates, no SVG, no rendering code, and no invented architecture. Every statement below maps back to a sentence already present in the frozen <code>AUTHORIZATION.md</code> Figure C section, or to the conceptual model and taxonomy already reviewed and approved in <code>Figure-C-blueprint.md</code>. This document is the canonical source for the eventual rendering pass.
+  </div>
+
+  <div class="version-banner" style="border-bottom: 2px solid var(--ink);">
+    <b>Corrections log — Phase 8, first rendering pass.</b> A Staff Engineer audit of the first Claude Design render found the architecture and taxonomy faithfully reproduced (all six elements, all three families, no forbidden content), but flagged two rendering defects requiring a re-render before freeze: (1) the Override and Independence connectors overlapped in a shared band at the top of the canvas, garbling the Override label; (2) the Structural Context sub-label used the word "first," reintroducing a temporal connotation the scoping relationship explicitly disclaims. §8 and §14 below now carry explicit, mandatory corrections for both. No semantic content changed — this is a rendering-defect correction only.
+  </div>
+
+  <div class="version-banner" style="border-bottom: 2px solid var(--ink);">
+    <b>Corrections log — delta audit, publication-defect pass.</b> Layout, connector routing, taxonomy, and hierarchy all passed the delta audit against the Phase 8 corrections. One remaining publication defect was found: the phrase "ahead of any single decision" (used to describe the Scoping relationship in the Architectural Message and in the §8 connector table) still carried a temporal/sequential implication despite not appearing on the banned-word list verbatim. Both occurrences are replaced below with the wording already approved for Structural Context's sub-label: "decides which parts of the lifecycle exist at all, for a given business." The banned lexicon in §10 is extended to explicitly include "ahead of." No node, connector, layout, or typography change accompanies this pass — text only.
+  </div>
+
+  <!-- 1. Purpose -->
+  <section>
+    <h2><span class="num">01</span>Purpose</h2>
+    <p>
+      Figure A taught a reader where authorization is enforced. Figure B taught a reader how a decision is
+      conceptually built. Neither teaches something this figure must: that within one real aggregate, authorization
+      is not one uniform mechanism applied consistently everywhere. A reader who has already understood Figures A
+      and B should leave this figure understanding that Appointment's lifecycle is protected by several
+      architecturally different kinds of influence at once — some that resolve a decision outright, some that
+      constrain a decision already resolved, and one that decides whether there is anything to authorize at all —
+      and that none of this composition required the state machine itself to change.
+    </p>
+    <p>
+      This figure exists because that composition cannot be read out of Figure A, Figure B, or AX-3 individually.
+      Figure A and B describe mechanisms in the abstract, system-wide. AX-3 shows the FSM and which actor triggers
+      which transition, but says nothing about what kind of mechanism stands behind that actor assignment. Figure C
+      fills that gap, using Appointment only as the concrete surface on which the composition can be observed.
+    </p>
+  </section>
+
+  <!-- 2. Engineering Question -->
+  <section>
+    <h2><span class="num">02</span>Engineering Question</h2>
+    <div class="eq-block">
+      How do multiple distinct authorization mechanisms coexist within a single aggregate's lifecycle without
+      altering its state machine?
+    </div>
+    <p style="margin-top:10px;">
+      This is the question frozen in <code>AUTHORIZATION.md</code>'s Figure C section, verbatim. It is not a
+      question about which actor performs which transition — that is AX-3's question, already answered and
+      already published. It is not a question about execution order or request lifecycle — that is Figure A's
+      question. It is not a question about how a decision is abstractly assembled — that is Figure B's question.
+    </p>
+  </section>
+
+  <!-- 3. Architectural Message -->
+  <section>
+    <h2><span class="num">03</span>Architectural Message</h2>
+    <div class="eq-block" style="border-left-color: var(--ink); background: var(--paper-soft); font-style: normal;">
+      Authorization inside Appointment is not implemented by one mechanism. Different decisions across the same
+      lifecycle are protected by different, complementary architectural influences: some resolve a decision
+      outright, some constrain a decision a resolution mechanism already reached, and one decides which parts of
+      the lifecycle exist at all, for a given business. These
+      influences coexist rather than compete, and none of their coexistence required the Appointment state machine
+      — already published in the Governance Journey — to change shape.
+    </div>
+  </section>
+
+  <!-- 4. Visual Philosophy -->
+  <section>
+    <h2><span class="num">04</span>Visual Philosophy</h2>
+
+    <div class="principle-block">
+      <b>This figure represents conceptual coexistence — not execution, not chronology, not processing order, and
+      not priority.</b> It is a composition, not a pipeline, not a lifecycle, not a flowchart, not a state machine,
+      not a transition graph, not a role matrix, and not a CRUD matrix. A reader should come away with a mental
+      model of "several different kinds of influence, present at once," never a map of a request travelling
+      through steps.
+    </div>
+
+    <div class="principle-block">
+      <b>The figure must communicate exactly one idea and nothing beyond it.</b> Authorization inside Appointment
+      is a composition of different architectural influences. Every visual decision is subordinate to that single
+      idea. If a rendering choice would additionally suggest a second idea — sequence, priority, or completeness of
+      coverage — the choice has exceeded this figure's scope, even if the added idea happens to be true elsewhere.
+    </div>
+
+    <div class="principle-block">
+      <b>Families are visually distinguishable but never visually competitive.</b> The three conceptual families
+      frozen in Phase 2.5 — Resolution Mechanisms, Governing Constraints, Structural Context — must read as
+      different <i>kinds</i> of thing, not as a ranking. A reader should never conclude that one family matters
+      more than another; only that they act on an authorization decision in different ways.
+    </div>
+
+    <div class="principle-block">
+      <b>The Case Study Frame is a boundary, not a participant.</b> Appointment must never compete visually with the
+      five mechanism nodes it contains. It is the one element in this figure that does nothing — it resolves
+      nothing, constrains nothing, and scopes nothing. Its only role is to say "everything else in this figure is
+      being observed here."
+    </div>
+  </section>
+
+  <!-- 5. Conceptual Model -->
+  <section>
+    <h2><span class="num">05</span>Conceptual Model</h2>
+    <p>The model frozen in <code>Figure-C-blueprint.md</code> §4, refined by taxonomy in §4 of the same document (Phase 2.5), stated in full:</p>
+    <div class="eq-block" style="font-style: normal; text-align:center; line-height: 2;">
+      Case Study Frame — Appointment<br>
+      ( contains, does not act )<br>
+      <br>
+      Resolution Mechanisms &nbsp;·&nbsp; Governing Constraints &nbsp;·&nbsp; Structural Context
+    </div>
+    <p>
+      Read as a sentence, not as a diagram: inside one real aggregate's lifecycle, some decisions are resolved by a
+      dedicated platform-wide component and some by logic inside the domain service itself — two alternative
+      resolution points, never both at once for the same decision. Layered above either, a governance constraint or
+      a temporal boundary can still restrict what a resolution point would otherwise allow, each for a reason
+      unrelated to who the actor is. Prior to all of this, a per-business setting decides whether a given part of
+      the lifecycle is reachable at all. All three families are present within the same aggregate, at the same
+      time, without requiring the aggregate's state machine to take on a different shape.
+    </p>
+    <p>
+      This is a composition, read jointly, not a sequence read in order. No family is a precondition for another to
+      be drawn or understood.
+    </p>
+  </section>
+
+  <!-- 6. Node Taxonomy -->
+  <section>
+    <h2><span class="num">06</span>Node Taxonomy</h2>
+    <p>
+      Six elements: five that relate to authorization, organised into three families, plus one framing device that
+      belongs to none of them. For each element, this section explains why it exists, why it is not folded into a
+      neighbour, which family it belongs to (if any), and — as important as what it represents — what it explicitly
+      does <b>not</b> represent.
+    </p>
+
+    <div class="family-block"><b>Family 1 — Resolution Mechanisms.</b> The point where an actual permit/deny verdict is produced for a specific actor performing a specific action.</div>
+
+    <h3>Dedicated Authorization Component</h3>
+    <table>
+      <tr><td style="width:190px">Why it is a node</td><td>It is the mechanism the reader already knows from Figure A and Figure B — the single platform-wide component responsible for business-, ownership-, and self-scoped decisions.</td></tr>
+      <tr><td>Why not folded elsewhere</td><td>It must remain distinct from Domain-Service Authorization: the two are alternative resolution points, and collapsing them would hide that more than one legitimate place exists to resolve a decision.</td></tr>
+      <tr><td>Family</td><td>Resolution Mechanisms.</td></tr>
+      <tr><td>Represents</td><td>The mechanism already enumerated in <code>AUTHORIZATION.md</code>'s "Authorization Service Responsibilities," reused here as one of two resolution points, not reintroduced as new architecture.</td></tr>
+      <tr><td>Does NOT represent</td><td>The only resolution point in the system. This figure exists precisely because it is not.</td></tr>
+    </table>
+
+    <h3>Domain-Service Authorization</h3>
+    <table>
+      <tr><td style="width:190px">Why it is a node</td><td>Some decisions are resolved inside the domain service itself, using context the dedicated component does not carry in a reusable way — the narrower authority an EMPLOYEE holds over their own assigned work, already described in <code>AUTHORIZATION.md</code>'s "Appointment Authorization" section.</td></tr>
+      <tr><td>Why not folded elsewhere</td><td>It is a genuine second resolution point, not a variant of the first. Folding it into the dedicated component would misstate where the decision is actually made.</td></tr>
+      <tr><td>Family</td><td>Resolution Mechanisms.</td></tr>
+      <tr><td>Represents</td><td><b>Scope, narrowed deliberately:</b> only the published, intentional instances of this pattern already named in "Appointment Authorization" (EMPLOYEE's narrower self and closure authority). This is a frozen scope decision from Phase 2 — see Non-Negotiable Constraints.</td></tr>
+      <tr><td>Does NOT represent</td><td>Any broader claim that every place authorization logic lives outside the dedicated component is an intentional pattern. <code>AUTHORIZATION.md</code>'s own "Authorization Architecture" section already names that broader condition as legacy, not design; this node must never be read as contradicting that statement.</td></tr>
+    </table>
+
+    <div class="family-block"><b>Family 2 — Governing Constraints.</b> Do not themselves resolve anything. They restrict or veto what a resolution mechanism would otherwise allow, each for a reason unrelated to resolving who the actor is.</div>
+
+    <h3>Governance Constraint</h3>
+    <table>
+      <tr><td style="width:190px">Why it is a node</td><td>A restriction that holds regardless of which resolution point reached a decision — the self-approval bar, already published in <code>AUTHORIZATION.md</code>'s "Governance Rules" section, is the concrete example.</td></tr>
+      <tr><td>Why not folded elsewhere</td><td>It cannot be folded into either resolution mechanism: it is not a way of reaching a verdict, it is a reason to override one already reached.</td></tr>
+      <tr><td>Family</td><td>Governing Constraints.</td></tr>
+      <tr><td>Represents</td><td>A rule that can override an actor who has already passed a resolution mechanism's check.</td></tr>
+      <tr><td>Does NOT represent</td><td>A role check, a further grading of standing, or a third resolution point.</td></tr>
+    </table>
+
+    <h3>Temporal Boundary</h3>
+    <table>
+      <tr><td style="width:190px">Why it is a node</td><td>Certain transitions are authorized or barred purely by whether a timestamp has passed, independent of who the actor is — already published as ADR-011 and referenced in "Appointment Authorization."</td></tr>
+      <tr><td>Why not folded elsewhere</td><td>It shares Governance Constraint's family because both restrict rather than resolve, but it must remain a distinct node: its relationship to the resolution layer is independence, not override — it does not react to who passed a check, only to the clock.</td></tr>
+      <tr><td>Family</td><td>Governing Constraints.</td></tr>
+      <tr><td>Represents</td><td>The one mechanism in this figure that never asks "who," only "when."</td></tr>
+      <tr><td>Does NOT represent</td><td>A new FSM state, a materialised lifecycle stage, or any restatement of the Appointment FSM itself.</td></tr>
+    </table>
+
+    <div class="family-block"><b>Family 3 — Structural Context.</b> Defines the environment in which resolution and constraint operate at all, decided before any specific decision is evaluated.</div>
+
+    <h3>Configuration-Dependent Reachability</h3>
+    <table>
+      <tr><td style="width:190px">Why it is a node</td><td>A per-business setting changes which parts of the lifecycle, and which creating actor, are even reachable — a fact already visible in AX-3's mode table, reframed here as an authorization-relevant mechanism in its own right.</td></tr>
+      <tr><td>Why not folded elsewhere</td><td>It cannot be folded into either constraint or either resolution mechanism: it operates at a different level entirely — deciding whether there is anything to authorize, not whether a specific actor may do it.</td></tr>
+      <tr><td>Family</td><td>Structural Context — alone in its family.</td></tr>
+      <tr><td>Represents</td><td>The idea that some authorization-relevant facts are settled before any decision-time mechanism runs.</td></tr>
+      <tr><td>Does NOT represent</td><td>The specific configuration setting by name, or the specific states it affects. The figure represents the existence and effect of this class of mechanism, not an implementation-level account of it.</td></tr>
+    </table>
+
+    <div class="family-block"><b>Outside every family.</b></div>
+
+    <h3>Case Study Frame — Appointment</h3>
+    <table>
+      <tr><td style="width:190px">Why it exists</td><td>The five mechanisms need to be observed somewhere concrete, or the figure would read as pure abstraction indistinguishable from Figure B. Appointment is that concrete surface.</td></tr>
+      <tr><td>Why it is not a node</td><td>It must never be drawn, sized, or weighted as a peer of the five mechanisms. It is not a mechanism, not a decision point, and not a participant — it performs no resolution, no constraint, and no scoping of its own.</td></tr>
+      <tr><td>Family</td><td>None. Explicitly outside the taxonomy.</td></tr>
+      <tr><td>Represents</td><td>The architectural boundary inside which the other five elements coexist — a label for "this is where," not a seventh concept.</td></tr>
+      <tr><td>Does NOT represent</td><td>The Appointment FSM, any transition, any actor, or the aggregate's business behaviour beyond serving as the observation boundary.</td></tr>
+    </table>
+  </section>
+
+  <!-- 7. Relationship Semantics -->
+  <section>
+    <h2><span class="num">07</span>Relationship Semantics</h2>
+    <p>Six conceptual relationships, frozen in <code>Figure-C-blueprint.md</code> §5. Each is described here in prose before being assigned a connector treatment in §8 — the relationship is the architecture; the connector is only its visual expression.</p>
+
+    <h4>Composition (the three families, taken together)</h4>
+    <p>The three families are not read as competing alternatives, and not as a checklist to be completed in order — they are read as jointly constituting Appointment's authorization surface. This relationship has no direction; it is the reason the figure exists at all.</p>
+
+    <h4>Alternative resolution (Dedicated Authorization Component ↔ Domain-Service Authorization)</h4>
+    <p>For any given decision, one or the other resolves it — never both — but across the aggregate's full lifecycle, both are in active use. The relationship exists to show the reader that "resolved by the dedicated component" is not universal.</p>
+
+    <h4>Override (Governing Constraints → Resolution Mechanisms)</h4>
+    <p>Specifically Governance Constraint's relationship to the resolution layer: a role check, from either resolution point, can permit an action that a governance constraint still vetoes. The relationship is layered override, not an additional condition inside resolution itself — the self-approval bar is not a role distinction, it is a veto layered on top of one.</p>
+
+    <h4>Independence (Temporal Boundary → Resolution Mechanisms)</h4>
+    <p>Deliberately distinct from override. Temporal Boundary applies regardless of which resolution point or which role passed judgment first — it does not react to the resolution outcome the way Governance Constraint does. The relationship exists to show the reader that not every restriction in this system is actor-shaped; one of them is purely a function of the clock.</p>
+
+    <h4>Scoping (Structural Context → everything else)</h4>
+    <p>Configuration-Dependent Reachability is structurally prior to the other four. It doesn't compete with them or restrict a decision they already reached; it determines whether there is anything for them to act on in the first place, for a given business. The relationship is scoping, not enforcement.</p>
+
+    <h4>Containment (Case Study Frame ⊃ all three families)</h4>
+    <p>Purely illustrative containment. The frame does not act on what it contains — its only relationship to the rest of the figure is "this is observed here," never "this decides," "this permits," or "this restricts."</p>
+  </section>
+
+  <!-- 8. Connector Philosophy -->
+  <section>
+    <h2><span class="num">08</span>Connector Philosophy</h2>
+    <p>Connectors express only the six conceptual relationships in §7. Every connector must resolve to exactly one of: composition, alternative resolution, override, independence, containment, or scoping. None may resemble a process flow, a request path, or a sequence — no connector in this figure means "and then."</p>
+
+    <table>
+      <tr><th>Relationship</th><th>Between</th><th>Meaning</th><th>Must never resemble</th></tr>
+      <tr><td>Composition</td><td>Resolution Mechanisms · Governing Constraints · Structural Context (the three families, as a set)</td><td>These families jointly make up one authorization surface.</td><td>A three-step process; a numbered progression.</td></tr>
+      <tr><td>Alternative resolution</td><td>Dedicated Authorization Component ↔ Domain-Service Authorization</td><td>Either resolves a given decision; never both; both are in active use across the lifecycle.</td><td>A fallback chain ("try this, then that").</td></tr>
+      <tr><td>Override</td><td>Governance Constraint → Resolution Mechanisms (family-level)</td><td>Can veto a verdict a resolution mechanism already reached.</td><td>A downstream validation step in a pipeline.</td></tr>
+      <tr><td>Independence</td><td>Temporal Boundary → Resolution Mechanisms (family-level)</td><td>Applies regardless of resolution outcome; reacts to the clock, not to a role.</td><td>A parallel branch that later rejoins a main path.</td></tr>
+      <tr><td>Scoping</td><td>Configuration-Dependent Reachability → the other four elements</td><td>Decides which parts of the lifecycle exist at all, for a given business — and therefore whether the rest even applies.</td><td>An initial "step zero" in a sequence.</td></tr>
+      <tr><td>Containment</td><td>Case Study Frame ⊃ all five mechanism elements</td><td>Purely illustrative: this is where the composition is observed.</td><td>An entry point, trigger, or starting node of a flow.</td></tr>
+    </table>
+
+    <div class="not-block">
+      <b>What connectors must never do:</b> imply that one family is reached "after" another, or that a decision travels from Structural Context through Governing Constraints into Resolution Mechanisms in that order. Every relationship in this figure is either simultaneous, alternative, or illustrative — never sequential. A connector styled with an arrowhead that reads as "flow direction" rather than "relationship direction" has failed this figure's purpose, even where a relationship (override, scoping) is conceptually asymmetric.
+    </div>
+
+    <div class="not-block">
+      <b>Correction (Phase 8): Override and Independence must never share a path or a band.</b> Both connect into the Resolution Mechanisms family, but they are architecturally distinct relationships (§7) and must be immediately distinguishable at a glance, never merely by reading overlapping labels. Concretely: the Override connector (Governance Constraint → Resolution Mechanisms) and the Independence connector (Temporal Boundary → Resolution Mechanisms) must be routed so that no segment of one crosses, touches, or runs parallel-and-adjacent to the other, and so that neither label sits on top of the other connector's line. Each label must sit closer to, and read as clearly anchored to, its own source node than to the other connector. If both must approach the Resolution Mechanisms family from the same general direction, they should approach at visibly different heights, angles, or with a deliberate gap between them — never as two arcs sweeping the same band.
+    </div>
+  </section>
+
+  <!-- 9. Visual Grammar -->
+  <section>
+    <h2><span class="num">09</span>Visual Grammar</h2>
+
+    <h4>Shapes</h4>
+    <table>
+      <tr><th style="width:220px">Element</th><th>Shape</th><th>Rationale</th></tr>
+      <tr><td>Resolution Mechanisms (2 elements)</td><td>One consistent shape, shared by both, distinct from the other two families</td><td>Sameness within the family signals "alternative instances of the same kind of thing."</td></tr>
+      <tr><td>Governing Constraints (2 elements)</td><td>A second consistent shape, distinct from Resolution Mechanisms and from Structural Context</td><td>Signals "a different kind of influence" without implying either constraint outranks the other.</td></tr>
+      <tr><td>Structural Context (1 element)</td><td>A third distinct shape, used nowhere else in the figure</td><td>Configuration-Dependent Reachability is alone in its family; its shape should read as categorically different, not merely as "one more box."</td></tr>
+      <tr><td>Case Study Frame</td><td>An enclosing boundary, not a node shape at all</td><td>Must never be mistaken for a seventh mechanism. It is drawn as a container, never as a peer shape to the six others.</td></tr>
+    </table>
+    <div class="not-block">
+      <b>Explicitly excluded from this figure's shape vocabulary:</b> Figure A's double-border rectangle (granted outcome) and octagon (Access Denied). This figure has no outcomes — it is not a decision-flow diagram, and importing Figure A's outcome shapes here would falsely suggest it resolves to a granted/denied result the way Figures A and B do.
+    </div>
+
+    <h4>Borders and family distinction</h4>
+    <p>The three families must be visually distinguishable at a glance — through shape and/or border treatment — but no family's treatment may read as heavier, more prominent, or more "correct" than another's. Family distinction communicates <i>kind</i>, never <i>rank</i>.</p>
+
+    <h4>Typography</h4>
+    <table>
+      <tr><th style="width:220px">Element</th><th>Specification</th></tr>
+      <tr><td>Mechanism titles (all five)</td><td>Sans-serif, medium weight, identical size across all five — no exceptions, regardless of family.</td></tr>
+      <tr><td>Family labels</td><td>Sans-serif, smaller than mechanism titles, uppercase or small-caps, clearly subordinate — a label for a group, never a heading competing with the mechanism titles it groups.</td></tr>
+      <tr><td>Case Study Frame label</td><td>The lightest-weight text on the canvas — it names a boundary, not a concept to be studied on its own terms.</td></tr>
+      <tr><td>Legend and captions</td><td>Sans-serif, regular weight, the smallest text tier on the canvas.</td></tr>
+    </table>
+
+    <h4>Accent colours</h4>
+    <p>The single reserved accent colour already established for this Journey (used for Figure A's anchor and Figure B's primary tier) may be used to mark family membership — for example, one consistent tint per family — but must never be concentrated on a single mechanism node. If colour is used to distinguish families, it must be applied identically to every member of a family and must remain distinguishable in greyscale through shape and label alone, consistent with the Journey's existing colour-is-never-load-bearing principle.</p>
+
+    <h4>Weight</h4>
+    <p>All five mechanism nodes carry equal visual weight regardless of family. Family membership is communicated through shape and grouping, never through size or boldness differences between one mechanism and another. The Case Study Frame is the single quietest element on the canvas — a boundary line, not a filled shape competing for attention.</p>
+  </section>
+
+  <!-- 10. Layout Blueprint -->
+  <section>
+    <h2><span class="num">10</span>Layout Blueprint</h2>
+    <p>Described relationally only. No pixel coordinates, no grid, no exact geometry, and no prescribed artistic technique — only composition rules a renderer must satisfy.</p>
+
+    <div class="principle-block">
+      <b>This is a composition, not a pipeline.</b> A rendering that arranges the five mechanisms in a line, a column, a funnel, or any shape that reads as "start here, end there" has misread this figure. The layout must communicate "these coexist," never "these proceed."
+    </div>
+
+    <h4>Semantic grouping</h4>
+    <p>The five mechanisms are visually organised into their three families — two elements grouped as Resolution Mechanisms, two grouped as Governing Constraints, one standing as Structural Context. Grouping is expressed through proximity and shared visual treatment within each family, not through connecting lines that could be mistaken for flow.</p>
+
+    <h4>Visual balance</h4>
+    <p>No family may dominate the canvas by size, position, or centrality. Structural Context, despite containing only one element, must not read as minor or as an afterthought — its single-element status is architectural (it is genuinely alone in its family), not a sign of lesser importance, and the composition must give it presence equal in visual seriousness to the two two-element families.</p>
+
+    <h4>Conceptual emphasis</h4>
+    <p>The one idea the whole composition serves — coexistence of different kinds of influence — should be legible before any individual mechanism is read. A viewer glancing at the figure for a few seconds should register "three different kinds of thing, working together" before registering any single mechanism's name.</p>
+
+    <h4>Negative space</h4>
+    <p>Clear separation between the three families is itself part of the message — a reader should be able to tell where one family ends and another begins without reading a single label. A further, distinct zone of separation marks the Case Study Frame's boundary from its contents, so the frame reads as "the space these operate within," not as a fourth family.</p>
+
+    <h4>Family separation</h4>
+    <p>The two resolution mechanisms sit close enough to each other to read as alternatives within one family; the two governing constraints likewise; Structural Context sits apart from both, consistent with its scoping relationship being conceptually prior rather than a peer of the other two families. None of this proximity may be read as a processing order — "prior" here means conceptually foundational, not "drawn first" or "occurring earlier in time."</p>
+    <div class="not-block">
+      <b>Correction (Phase 8): banned lexicon for any label, sub-label, or connector caption in this figure.</b> "first," "then," "next," "before," "after," "prior to," "ahead of," "starts with," "begins," "step," and "settles ... first" (or any equivalent ordinal/sequential phrasing) may not appear anywhere on the rendered canvas, including inside a mechanism's descriptive sub-label — not only on connectors. Structural Context's scoping relationship is asymmetric but not sequential; its sub-label must express that using non-ordinal language (for example: "decides reachability, independent of any single decision" or "settles reachability up front" is still borderline — prefer "decides which parts of the lifecycle exist at all, for a given business," with no time-word of any kind).
+    </div>
+
+    <h4>Relationship clarity</h4>
+    <p>Where relationships are drawn (override, independence, scoping, alternative resolution), each must remain visually distinct from the others per §8 — a reader should never be able to mistake an override connector for an alternative-resolution connector, or a scoping connector for containment. The composition otherwise remains free-form; the renderer chooses the specific arrangement, provided every distinction required by §7 and §8 survives.</p>
+  </section>
+
+  <!-- 11. Reading Order -->
+  <section>
+    <h2><span class="num">11</span>Reading Order</h2>
+    <ol>
+      <li>The reader first notices the Case Study Frame and reads it as a boundary, not as a starting point — "this is Appointment, and what follows is observed inside it," not "begin here."</li>
+      <li>The reader notices three distinct visual families before reading any individual label — "there are different kinds of thing here," registered through shape and grouping alone.</li>
+      <li>The reader identifies Resolution Mechanisms as the family that produces verdicts, and notices its two members are alternatives to one another, not a sequence.</li>
+      <li>The reader identifies Governing Constraints as a family that acts on verdicts already reached, and distinguishes its two members from one another — one reacting to who the actor is (override), one reacting only to time (independence).</li>
+      <li>The reader identifies Structural Context as standing apart from the other two families, understanding it as conceptually prior — deciding whether anything is reachable at all — rather than as a smaller or lesser family.</li>
+      <li>The reader finishes with the composed understanding: authorization is not implemented by one universal mechanism; multiple complementary architectural influences coexist inside one aggregate, and the aggregate's state machine — already published elsewhere — never had to change to accommodate any of them.</li>
+    </ol>
+    <p>A reader who comes away thinking "step 1, step 2, step 3" has misread the figure, even if every family and mechanism was correctly identified. A reader who comes away thinking "this one aggregate uses several genuinely different kinds of authorization influence, at the same time, without needing a different state machine" has read it correctly.</p>
+  </section>
+
+  <!-- 12. Publication Checklist -->
+  <section>
+    <h2><span class="num">12</span>Publication Checklist</h2>
+    <ul class="checklist">
+      <li>Every mechanism node maps to a sentence already present in <code>AUTHORIZATION.md</code>'s "Appointment Authorization," "Authorization Service Responsibilities," or "Governance Rules" sections.</li>
+      <li>Temporal Boundary maps to ADR-011; the Dedicated Authorization Component maps to ADR-016; Configuration-Dependent Reachability maps to AX-3's published mode table.</li>
+      <li>Domain-Service Authorization represents only the published EMPLOYEE-narrower-authority instances named in "Appointment Authorization" — not the unpublished, debt-flavoured inconsistency surfaced in Phase 1 discovery. This scope narrowing is frozen and must not be widened during rendering.</li>
+      <li>No node represents an implementation detail — no class, no method, no endpoint, no field, no configuration-flag name.</li>
+      <li>No connector implies chronology, execution order, or request lifecycle.</li>
+      <li>The Appointment FSM does not appear anywhere in the figure, in redrawn, partial, or implied form.</li>
+      <li>No transition list, transition table, role matrix, or CRUD matrix appears anywhere in the figure.</li>
+      <li>The Case Study Frame is visually subordinate to, and never competes with, the five mechanism nodes it contains.</li>
+      <li>The three families are visually distinguishable but never visually ranked against one another.</li>
+      <li>Every visual distinction on the canvas has an architectural meaning stated somewhere in this document — nothing is decorative.</li>
+      <li>The figure survives being reproduced in greyscale, with no loss of any distinction described in §9.</li>
+      <li>No decorative elements: no gradients, no drop shadows, no icons, no illustrative imagery.</li>
+    </ul>
+  </section>
+
+  <!-- 13. Non-Negotiable Constraints -->
+  <section>
+    <h2><span class="num">13</span>Non-Negotiable Constraints</h2>
+    <ul class="constraint-list">
+      <li>Exactly five mechanism nodes plus one framing device: Dedicated Authorization Component, Domain-Service Authorization, Governance Constraint, Temporal Boundary, Configuration-Dependent Reachability, and the Case Study Frame (Appointment). No node may be added.</li>
+      <li>Exactly three families, exactly as frozen in Phase 2.5: Resolution Mechanisms, Governing Constraints, Structural Context. No family may be renamed, merged, or split during rendering.</li>
+      <li>Exactly six relationships, exactly as enumerated in §7 and §8: composition, alternative resolution, override, independence, scoping, containment. No relationship may be added, removed, or repointed.</li>
+      <li>The Case Study Frame must never be rendered as a node, a decision point, a participant, or a central/dominant element of the composition. It contains; it does not act.</li>
+      <li>The renderer must not visually imply that all five mechanisms belong to the same category. Different families may be visually grouped, but must never appear interchangeable.</li>
+      <li>No connector may resemble a process flow, request pipeline, execution sequence, or the Appointment FSM.</li>
+      <li>No pixel coordinates, absolute positioning, or fixed canvas dimensions may govern the rendering — only the relational rules in §10.</li>
+      <li>No new architecture, no new governance rule, and no reinterpretation of <code>AUTHORIZATION.md</code> or <code>Figure-C-blueprint.md</code> may be introduced through this figure. If a rendering choice would require inventing a fact not already documented, the rendering choice is wrong, not the documentation.</li>
+      <li>The only class or component name permitted anywhere in the figure is <span class="mono">AuthorizationService</span> — already published in AX-4's Related Source Artefacts — and only in prose, never as a node label, and the figure must not require it to be understood.</li>
+      <li>No controller name, service name, method name, field name, migration identifier, or other private-repository detail may appear anywhere in the figure, including in comments or notes within any HTML or source file produced from this blueprint.</li>
+      <li>The figure must not use Figure A's or Figure B's outcome shapes (double-border rectangle, octagon) — this figure has no granted/denied outcomes and must not borrow vocabulary that implies it does.</li>
+    </ul>
+  </section>
+
+  <!-- 14. Rendering Notes -->
+  <section>
+    <h2><span class="num">14</span>Rendering Notes</h2>
+    <p>Practical guidance for whoever converts this specification into the final publication asset, including explicit warnings learned from producing Figures A and B:</p>
+    <ul>
+      <li><b>The renderer must never transform this into a pipeline.</b> If the rendered figure could reasonably be read left-to-right or top-to-bottom as "step one, step two, step three," the renderer has misunderstood the blueprint, regardless of how faithfully each individual node's content was reproduced.</li>
+      <li><b>The renderer must never create five visually equivalent mechanisms.</b> Figure B deliberately made four dimensions equal because they genuinely are peers in that model. Figure C's five mechanisms are <i>not</i> uniform peers — they belong to three different families with three different relationships to a decision. A rendering that gives all five identical shape, size, and treatment has erased the taxonomy this blueprint exists to communicate.</li>
+      <li><b>Appointment must never become the central node.</b> Unlike Figure A, which earned a single dominant anchor, Figure C's frame is not an anchor at all — it is a boundary. If the rendered figure draws the eye to Appointment first and the mechanisms second, the hierarchy has inverted.</li>
+      <li><b>Family grouping is semantic, not decorative.</b> Any visual grouping technique the renderer chooses (proximity, shared colour, shared shape, an enclosing outline) must correspond exactly to the three families in §6 — never to a grouping invented for visual convenience.</li>
+      <li><b>Symmetry must never override meaning.</b> A composition that looks balanced only by giving Structural Context the same visual footprint as a two-element family, or by forcing Governance Constraint and Temporal Boundary to look identical despite their different relationship types (override vs. independence), has prioritised symmetry over the architecture. Visual hierarchy must always follow architectural hierarchy, not the reverse.</li>
+      <li><b>If the rendered figure can reasonably be mistaken for a flowchart, request pipeline, FSM, or role matrix, the renderer has misunderstood the blueprint</b> — this is the single test every draft should be checked against before proceeding.</li>
+      <li>Do not attempt to reuse Figure B's four-equal-dimensions template for this figure's five mechanisms. Figure C requires its own template family — one shape/treatment pattern per family, not one pattern for all five.</li>
+      <li><b>Corrections carried from the Phase 8 Staff Engineer audit of the first render:</b> re-route the Override and Independence connectors so they occupy visibly separate paths with no shared band and no label-on-line overlap (see §8's dedicated correction block); and replace any ordinal/temporal wording in Structural Context's label or any connector caption per the banned lexicon in §10. Both are rendering-defect fixes only — no node, family, or relationship changes. A corrected render must be re-audited (delta audit) against these two items specifically before this figure may be frozen.</li>
+      <li>Before this figure is treated as publication-ready, confirm the §15 caption — stating the Engineering Question, citing both ADR-011 and ADR-016, including the AX-3 disambiguation sentence, and avoiding "pipeline," "flow," "sequence," and "steps" — is attached at the point this figure is embedded in <code>AUTHORIZATION.md</code>. The rendered canvas itself carries no caption; the caption is a publication-time requirement, not a canvas element.</li>
+      <li>This document supersedes no architecture and introduces none. Any question about what a node means should be answered by re-reading <code>AUTHORIZATION.md</code>'s Figure C section and <code>Figure-C-blueprint.md</code>, not by inferring further detail from this HTML specification.</li>
+    </ul>
+  </section>
+
+  <!-- 15. Caption Requirements -->
+  <section>
+    <h2><span class="num">15</span>Caption Requirements</h2>
+    <p>The published caption must follow the Architecture Style Guide's established format, exactly as used for Figures A and B in <code>AUTHORIZATION.md</code>:</p>
+    <div class="principle-block" style="font-family: 'IBM Plex Mono', monospace; font-size: 13px;">
+      ![Figure C — Authorization Mechanism Composition](assets/&lt;filename&gt;.png)<br><br>
+      &gt; <b>Figure C</b> — <i>Authorization Mechanism Composition</i>: &lt;engineering question&gt;. See [ADR-011 — Appointment Temporal Boundary](../adr/ADR-011-appointment-temporal-boundary.md) and [ADR-016 — Tenant Isolation Pattern](../adr/ADR-016-tenant-isolation-pattern.md).
+    </div>
+    <p>Required content, beyond the format itself:</p>
+    <ul>
+      <li>The caption must state the Engineering Question from §2, in substance, not merely link to it.</li>
+      <li>The caption must include one explicit disambiguating sentence distinguishing this figure from AX-3: it introduces no new architectural fact beyond what <code>AUTHORIZATION.md</code> and the Governance Journey already establish, only a new way of composing what they already establish — it does not modify, replace, or redraw the Appointment FSM.</li>
+      <li>The caption must cite both ADR-011 and ADR-016, since this figure draws on both (temporal boundary and the dedicated authorization component respectively) — unlike Figure A and Figure B, which each cite ADR-016 alone.</li>
+      <li>The caption must not name Domain-Service Authorization's narrowed scope in detail — that nuance belongs to this blueprint and to <code>AUTHORIZATION.md</code>'s prose, not to a one-sentence caption.</li>
+      <li>The caption must not use the words "pipeline," "flow," "sequence," or "steps" in describing the figure's composition.</li>
+    </ul>
+  </section>
+
+  <footer>
+    Editorial blueprint for figure production only — not a published artefact of the Architecture Experience Journey until rendered and reviewed.
+  </footer>
+
+</div>
+</body>
+</html>

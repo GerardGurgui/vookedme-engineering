@@ -5,7 +5,9 @@
 **Date:** 2026-07-11  
 **Status:** Canonical
 
-> This document is the publication roadmap for the Architecture Experience Journey. It defines six batches, their contents, dependencies, rationale, and effort. No visual artefact is published until its batch is executed.
+> This document is the publication roadmap for the Architecture Experience Journey. It defines seven batches, their contents, dependencies, rationale, and effort. No visual artefact is published until its batch is executed.
+>
+> **Note on AX-4:** this batch was originally scoped as Security Architecture. It was later redefined as Authorization Architecture, with Security Architecture moved to AX-5 (and Audit & Compliance and Navigation shifted to AX-6 and AX-7 accordingly). The AX-4 entry below reflects the current definition; see [AUTHORIZATION.md](./AUTHORIZATION.md) for the frozen document.
 
 ---
 
@@ -16,9 +18,10 @@
 | AX-1 | Context & System Entry | System Context, Bot-to-Backend Flow | FOUNDATIONAL + ARCHITECTURE | Critical | Low-Medium | Planned |
 | AX-2 | Domain Model | Core Entity Relationship Diagram | DOMAIN | Critical | Medium | Planned |
 | AX-3 | FSM & Temporal Boundary | Appointment FSM + Boundary, BlockedSlot FSM | GOVERNANCE | Critical | Medium | Planned |
-| AX-4 | Security Architecture | Tenant Isolation, Filter Chain, JWT Rotation | SECURITY | High | Low-Medium | Planned |
-| AX-5 | Audit & Compliance | Three-Layer Audit, Legitimation Gate | RUNTIME + REFERENCE | Medium | Medium | Planned |
-| AX-6 | Navigation | Repository Reading Map | REFERENCE | Low-Medium | Low | Planned |
+| AX-4 | Authorization Architecture | Enforcement Architecture, Authorization Decision Model, Authorization Mechanism Composition, BlockedSlot Transition Authorization | GOVERNANCE + ARCHITECTURE | High | Medium | Draft — Figures A/B/C frozen, pending D |
+| AX-5 | Security Architecture | Tenant Isolation, Filter Chain, JWT Rotation | SECURITY | High | Low-Medium | Planned |
+| AX-6 | Audit & Compliance | Three-Layer Audit, Legitimation Gate | RUNTIME + REFERENCE | Medium | Medium | Planned |
+| AX-7 | Navigation | Repository Reading Map | REFERENCE | Low-Medium | Low | Planned |
 
 ---
 
@@ -130,33 +133,84 @@ Medium (AX-3-A: the combined diagram requires designing a visual that does not y
 
 ---
 
-## AX-4 — Security Architecture
+## AX-4 — Authorization Architecture
 
 ### Rationale
 
-AX-4 addresses the security architecture — the third load-bearing dimension of the system after domain model (AX-2) and FSM/temporal boundary (AX-3). The three security visuals form a coherent set that engineers reviewing the security model need together: how tenant data is isolated, what the request pipeline looks like, and how sessions are protected against theft.
+AX-4 addresses business authorization — who is allowed to perform each business operation, under what conditions, and where that decision is made. It is documented directly in [AUTHORIZATION.md](./AUTHORIZATION.md), whose text is frozen; three of its four figures (A, B, C) are frozen, and Figure D remains outstanding.
 
-All three visuals in AX-4 have highly stable content — the security architecture is not expected to change. The filter chain order and the tenant isolation gate are established in published source artefacts.
-
-AX-4 should follow AX-1 (system context provides the architectural frame) and AX-2 (the tenant isolation diagram references tenant-scoped entities by name). AX-4 is independent of AX-3.
+AX-4 is independent of AX-5 (Security), which governs authentication and the request-security pipeline rather than business authorization. The two are deliberately separated: authorization answers "what may an already-identified caller do," while security answers "how is that caller identified and protected."
 
 ### Assets
 
-**Asset AX-4-A — Tenant Isolation Architecture**
+**Figure A — Authorization Enforcement Architecture**
+Category: GOVERNANCE + ARCHITECTURE
+Engineering question: Where in the request lifecycle is a business-authorization decision actually made, and by what mechanism?
+Content: Three enforcement tiers of increasing precision — a coarse platform-wide role gate, a declarative per-endpoint role gate, and a dedicated authorization component resolving every business-, ownership-, and self-scoped decision — with the dedicated component as the primary and most heavily used tier.
+Placement: `docs/architecture/AUTHORIZATION.md` — first visual.
+ADR cross-reference: ADR-016 (tenant isolation pattern).
+
+**Figure B — Authorization Decision Model**
+Category: GOVERNANCE + ARCHITECTURE
+Engineering question: How is an authorization decision progressively built, from identifying the actor to allowing a protected business operation?
+Content: A conceptual-narrowing model of four equally-weighted dimensions (Role Model, Business Membership, Authorization Scope, Governance Rules) resolving to a granted operation or a shared Access Denied outcome; Customer/Bot/System are authorized through a separate, non-panel mechanism. Describes the conceptual dimensions of a decision, not the request-execution order shown in Figure A.
+Placement: `docs/architecture/AUTHORIZATION.md` — second visual.
+ADR cross-reference: ADR-016 (tenant isolation pattern).
+
+**Figure C — Authorization Mechanism Composition**
+Category: GOVERNANCE + ARCHITECTURE
+Engineering question: How do multiple distinct authorization mechanisms coexist within a single aggregate's lifecycle without altering its state machine?
+Content: Using Appointment as a case study rather than as the subject, classifies three families of authorization mechanism — Resolution Mechanisms, Governing Constraints, Structural Context — and shows how they compose without requiring any change to the Appointment FSM already published in AX-3. Does not enumerate transitions or name an actor per transition.
+Placement: `docs/architecture/AUTHORIZATION.md` — third visual.
+ADR cross-reference: ADR-011 (appointment temporal boundary), ADR-016 (tenant isolation pattern).
+
+**Figure D — BlockedSlot Transition Authorization** *(outstanding)*
+Category: GOVERNANCE
+Engineering question: For each transition in the BlockedSlot lifecycle already published in the Governance Journey, which actor is authorized to trigger it, and how has that authority changed over time?
+Content: A new authorization artefact that complements the frozen AX-3 state-machine diagrams; it does not modify or replace them.
+Placement: `docs/architecture/AUTHORIZATION.md` — fourth visual.
+
+### Deliverable
+
+`docs/architecture/AUTHORIZATION.md` — text frozen; Figures A and B frozen; Figures C–D outstanding.
+
+### Dependencies
+
+AX-1 (system context), AX-2 (entity vocabulary), AX-3 (the Appointment/BlockedSlot state machines that Figures C/D annotate).
+
+### Effort
+
+Medium. Figure A requires careful enforcement-tier modelling; Figures B–D translate already-published RBAC and state-machine content into tabular/diagram form.
+
+---
+
+## AX-5 — Security Architecture
+
+### Rationale
+
+AX-5 addresses the security architecture — the third load-bearing dimension of the system after domain model (AX-2) and FSM/temporal boundary (AX-3). The three security visuals form a coherent set that engineers reviewing the security model need together: how tenant data is isolated, what the request pipeline looks like, and how sessions are protected against theft.
+
+All three visuals in AX-5 have highly stable content — the security architecture is not expected to change. The filter chain order and the tenant isolation gate are established in published source artefacts.
+
+AX-5 should follow AX-1 (system context provides the architectural frame) and AX-2 (the tenant isolation diagram references tenant-scoped entities by name). AX-5 is independent of AX-3.
+
+### Assets
+
+**Asset AX-5-A — Tenant Isolation Architecture**
 Category: SECURITY
 Engineering question: How does the system ensure that data belonging to one tenant is structurally inaccessible to another, and where exactly in the request lifecycle is this enforced?
 Content: HTTP request → `JwtAuthenticationFilter` (extracts `userId` from token) → `AuthorizationService.requireMembership()` gate (the single enforcement point) → service layer with `businessId` propagated as explicit parameter → PostgreSQL queries with `business_id` filter. Structural impossibility annotations: "business identity derived from token, never from request body"; "default deny — any non-member request is rejected with 403".
 Placement: `docs/architecture/SECURITY.md` — first visual.
 ADR cross-reference: ADR-016 (tenant isolation pattern).
 
-**Asset AX-4-B — Security Filter Chain**
+**Asset AX-5-B — Security Filter Chain**
 Category: SECURITY
 Engineering question: What is the complete security pipeline for an incoming HTTP request, in what order are security checks applied, and what is the exit response when each check fails?
 Content: Six filters in registration order: `RateLimitingFilter` (429 on excess), `JwtAuthenticationFilter`/`WebhookApiKeyFilter` (401 on invalid credential), `LegalAcceptanceFilter` (403 on terms not accepted), `WebhookSignatureFilter` (401 on invalid HMAC), `TurnCorrelationFilter` (graceful degradation, no exit). Annotation: which filters apply to panel requests vs. webhook requests.
 Placement: `docs/architecture/SECURITY.md` — second visual.
 ADR cross-reference: ADR-016 (authentication), ADR-018 (JWT), ADR-014 (webhook signature).
 
-**Asset AX-4-C — JWT Refresh Token Rotation Sequence**
+**Asset AX-5-C — JWT Refresh Token Rotation Sequence**
 Category: SECURITY (sequence diagram — touches RUNTIME but primarily a security artefact)
 Engineering question: What is the complete token rotation lifecycle, and at what exact point is token theft detected and contained?
 Content: Happy path: client presents refresh token → server validates `jti` against database → token revoked → new token issued → returned to client. Theft detection branch: client presents already-revoked token → server detects reuse → ALL tokens for that user revoked → total session termination.
@@ -173,28 +227,28 @@ AX-1 (system context), AX-2 (entity vocabulary for tenant-scoped entities). Inde
 
 ### Effort
 
-Low (AX-4-A and AX-4-B: content is precisely specified in ADRs and published source; translation to visual is straightforward). Medium (AX-4-C: the sequence diagram requires careful scoping of the failure branch without overcomplicating the happy path).
+Low (AX-5-A and AX-5-B: content is precisely specified in ADRs and published source; translation to visual is straightforward). Medium (AX-5-C: the sequence diagram requires careful scoping of the failure branch without overcomplicating the happy path).
 
 ---
 
-## AX-5 — Audit & Compliance
+## AX-6 — Audit & Compliance
 
 ### Rationale
 
-AX-5 addresses two cross-cutting concerns that the ADRs document rigorously but that benefit from visual compression: the three-layer audit architecture (ADR-003) and the outbound legitimation gate (consent enforcement architecture). These are the most GDPR-relevant visuals in the repository.
+AX-6 addresses two cross-cutting concerns that the ADRs document rigorously but that benefit from visual compression: the three-layer audit architecture (ADR-003) and the outbound legitimation gate (consent enforcement architecture). These are the most GDPR-relevant visuals in the repository.
 
-AX-5 has lower priority than AX-1 through AX-4 because the ADR prose for both concepts is already highly legible — the visual is additive rather than prerequisite. An engineer reading ADR-003 can understand the three-layer architecture without a diagram. The diagram makes it faster, not possible.
+AX-6 has lower priority than AX-1 through AX-5 because the ADR prose for both concepts is already highly legible — the visual is additive rather than prerequisite. An engineer reading ADR-003 can understand the three-layer architecture without a diagram. The diagram makes it faster, not possible.
 
 ### Assets
 
-**Asset AX-5-A — Three-Layer Audit Architecture**
+**Asset AX-6-A — Three-Layer Audit Architecture**
 Category: REFERENCE
 Engineering question: Which category of event goes to which audit layer, and how does a single appointment operation produce entries in multiple layers simultaneously?
 Content: Three layers — L1 (`@PreUpdate` universal tracking), L2 (named audit columns per entity), L3 (`audit_logs` table). A representative flow showing one appointment cancellation producing: L1 `updated_by` stamp, L2 `cancelled_*` column write, L3 `audit_logs` row. Placement decision rule annotated.
 Placement: `docs/architecture/ARCHITECTURE.md` — added to existing document as a third visual.
 ADR cross-reference: ADR-003 (three-layer audit architecture).
 
-**Asset AX-5-B — OutboundLegitimacyGate Flow**
+**Asset AX-6-B — OutboundLegitimacyGate Flow**
 Category: RUNTIME
 Engineering question: What is the complete execution path of an outbound communication attempt, and where exactly is consent enforced before any message is dispatched?
 Content: Notification queued → `OutboundLegitimacyGate.evaluate(customer)` → `CustomerLegitimacyService` computes `LegitimationState` → ALLOW branch (message dispatched) / BLOCK branch (message suppressed, suppression event logged to `CustomerLegitimationAuditLog`).
@@ -203,27 +257,27 @@ ADR cross-reference: No dedicated ADR exists for the legitimation gate — the A
 
 ### Deliverable
 
-`docs/architecture/ARCHITECTURE.md` updated with AX-5-A. `docs/engineering/CUSTOMER_LEGITIMATION.md` first population with AX-5-B.
+`docs/architecture/ARCHITECTURE.md` updated with AX-6-A. `docs/engineering/CUSTOMER_LEGITIMATION.md` first population with AX-6-B.
 
 ### Dependencies
 
-AX-1 (context), AX-2 (entity vocabulary — audit log entities appear in AX-5-A), AX-3 (FSM context — appointment states appear in the audit flow).
+AX-1 (context), AX-2 (entity vocabulary — audit log entities appear in AX-6-A), AX-3 (FSM context — appointment states appear in the audit flow).
 
 ### Effort
 
-Low (AX-5-A: the ADR-003 table already specifies every layer; the visual translates a table to a flow). Medium (AX-5-B: the legitimation gate flow requires tracing published source artefacts across `OutboundLegitimacyGate`, `CustomerLegitimacyService`, `LegitimationState`, and `CustomerLegitimationAuditLog` to produce a coherent sequence).
+Low (AX-6-A: the ADR-003 table already specifies every layer; the visual translates a table to a flow). Medium (AX-6-B: the legitimation gate flow requires tracing published source artefacts across `OutboundLegitimacyGate`, `CustomerLegitimacyService`, `LegitimationState`, and `CustomerLegitimationAuditLog` to produce a coherent sequence).
 
 ---
 
-## AX-6 — Navigation
+## AX-7 — Navigation
 
 ### Rationale
 
-AX-6 is the last batch because the Repository Reading Map references everything that exists. A reading map built before its content is complete would require constant revision. Published last, it can be stable.
+AX-7 is the last batch because the Repository Reading Map references everything that exists. A reading map built before its content is complete would require constant revision. Published last, it can be stable.
 
 ### Assets
 
-**Asset AX-6-A — Repository Reading Map**
+**Asset AX-7-A — Repository Reading Map**
 Category: REFERENCE
 Engineering question: Where does a reader with role X and time budget Y start, and what is the recommended sequence?
 Content: A matrix or flow showing three reading levels (10 seconds / 5 minutes / 30 minutes) against three reader profiles (Staff Backend Engineer, Software Architect, Technical Recruiter / Hiring Manager). Each cell maps to specific documents in the repository. Entry points are the first visual in each Architecture batch.
@@ -235,7 +289,7 @@ Placement: `docs/README.md` or as a standalone `docs/meta/reading-guide.md` refe
 
 ### Dependencies
 
-AX-1 through AX-5. The reading map cannot be accurate until the content it maps exists.
+AX-1 through AX-6. The reading map cannot be accurate until the content it maps exists.
 
 ### Effort
 
@@ -250,14 +304,16 @@ AX-1 (Context & System Entry)
   ↓
 AX-2 (Domain Model) ←→ AX-3 (FSM & Temporal Boundary)
   ↓                          ↓
-AX-4 (Security Architecture)
+AX-4 (Authorization Architecture) ←───────┘
   ↓
-AX-5 (Audit & Compliance)
+AX-5 (Security Architecture)
   ↓
-AX-6 (Navigation)
+AX-6 (Audit & Compliance)
+  ↓
+AX-7 (Navigation)
 ```
 
-AX-2 and AX-3 are independent of each other and can be executed in either order. All other batches follow the dependency chain.
+AX-2 and AX-3 are independent of each other and can be executed in either order. AX-4 depends on both (entity vocabulary from AX-2, transition authorization annotated onto the state machines from AX-3). AX-5 is independent of AX-4. All other batches follow the dependency chain.
 
 ---
 
@@ -265,10 +321,12 @@ AX-2 and AX-3 are independent of each other and can be executed in either order.
 
 **AX-1 first** because it is the visual prerequisite for every other batch. Without a system context, all subsequent diagrams are context-free.
 
-**AX-2 and AX-3** are the two highest-impact batches after AX-1. AX-3 contains the repository's flagship visual (the combined FSM + Temporal Boundary) and closes four unresolved ADR forward references. AX-2 provides the entity vocabulary that makes every other diagram readable. Both should be published before AX-4 because security diagrams reference tenant-scoped entities (AX-2) and the audit flow in AX-5 references appointment states (AX-3).
+**AX-2 and AX-3** are the two highest-impact batches after AX-1. AX-3 contains the repository's flagship visual (the combined FSM + Temporal Boundary) and closes four unresolved ADR forward references. AX-2 provides the entity vocabulary that makes every other diagram readable. Both should be published before AX-4 and AX-5, because authorization figures annotate the state machines directly (AX-3) and reference tenant-scoped entities (AX-2), and security diagrams reference the same entities; the audit flow in AX-6 references appointment states (AX-3) too.
 
-**AX-4 after AX-2** because the tenant isolation diagram references entity names that readers should recognise. AX-4 is independent of AX-3.
+**AX-4 after AX-2 and AX-3** because Figure D annotates the already-published BlockedSlot state machine, Figure C uses the already-published Appointment state machine as its case study without redrawing it, and Figure B references entities introduced in AX-2.
 
-**AX-5 after AX-3** because the audit architecture flow (AX-5-A) references appointment states that readers should already understand from the FSM diagram.
+**AX-5 after AX-2** because the tenant isolation diagram references entity names that readers should recognise. AX-5 is independent of AX-3 and AX-4.
 
-**AX-6 last** because the navigation map references everything. It has no engineering content of its own — it is pure editorial infrastructure.
+**AX-6 after AX-3** because the audit architecture flow (AX-6-A) references appointment states that readers should already understand from the FSM diagram.
+
+**AX-7 last** because the navigation map references everything. It has no engineering content of its own — it is pure editorial infrastructure.

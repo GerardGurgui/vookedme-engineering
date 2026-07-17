@@ -1,6 +1,6 @@
 # Architecture Experience Journey
 
-> **Status:** v1.7.1 — AX-1 and AX-2 published. System Context, Container Diagram, and Core Domain Model live.
+> **Status:** v1.9.0 — AX-1, AX-2, AX-3, and AX-5 published; AX-4 in draft, Figures A, B, and C frozen, pending Figure D. System Context, Container Diagram, Core Domain Model, Appointment/BlockedSlot FSMs, and Security Architecture live. Authorization Architecture text is frozen; Figures A, B, and C are frozen and awaiting Figure D before publication.
 
 The Architecture Experience Journey is the third editorial phase of this repository.
 
@@ -40,7 +40,7 @@ The Journey is governed by four documents in this directory:
 |---|---|
 | [ARCHITECTURE_EXPERIENCE_AUDIT.md](./ARCHITECTURE_EXPERIENCE_AUDIT.md) | Why this Journey exists; repository strengths and weaknesses; existing and missing visual assets; editorial philosophy |
 | [ARCHITECTURE_VISUAL_CLASSIFICATION.md](./ARCHITECTURE_VISUAL_CLASSIFICATION.md) | The seven visual categories; purpose, engineering question, complexity, and publication criteria for each |
-| [ARCHITECTURE_PUBLICATION_PLAN.md](./ARCHITECTURE_PUBLICATION_PLAN.md) | The complete publication roadmap — six batches, dependencies, rationale, effort |
+| [ARCHITECTURE_PUBLICATION_PLAN.md](./ARCHITECTURE_PUBLICATION_PLAN.md) | The complete publication roadmap — seven batches, dependencies, rationale, effort |
 | [ARCHITECTURE_STYLE_GUIDE.md](./ARCHITECTURE_STYLE_GUIDE.md) | The visual language specification — editorial principles, naming conventions, annotation rules, what must never appear |
 
 ---
@@ -51,10 +51,11 @@ The Journey is governed by four documents in this directory:
 |---|---|---|---|---|
 | AX-1 | Context & System Entry | FOUNDATIONAL + ARCHITECTURE | Critical | [Published (v1.6.0)](./ARCHITECTURE.md) |
 | AX-2 | Domain Model | DOMAIN | Critical | [Published (v1.7.1)](./DATA_MODEL.md) |
-| AX-3 | FSM & Temporal Boundary | GOVERNANCE | Critical | Planned |
-| AX-4 | Security Architecture | SECURITY | High | Planned |
-| AX-5 | Audit & Compliance | RUNTIME + REFERENCE | Medium | Planned |
-| AX-6 | Navigation | REFERENCE | Low-Medium | Planned |
+| AX-3 | FSM & Temporal Boundary | GOVERNANCE | Critical | [Published (v1.8.0)](../governance/state-machines.md) |
+| AX-4 | Authorization Architecture | GOVERNANCE + ARCHITECTURE | High | [Draft — Figures A/B/C frozen, pending D](./AUTHORIZATION.md) |
+| AX-5 | Security Architecture | SECURITY | High | [Published (v1.9.0)](./SECURITY.md) |
+| AX-6 | Audit & Compliance | RUNTIME + REFERENCE | Medium | Planned |
+| AX-7 | Navigation | REFERENCE | Low-Medium | Planned |
 
 Full batch specifications, dependencies, and rationale are in [ARCHITECTURE_PUBLICATION_PLAN.md](./ARCHITECTURE_PUBLICATION_PLAN.md).
 
@@ -74,5 +75,4 @@ Every diagram in this Journey represents a decision already recorded in an ADR a
 
 - [ADR Journey](../adr/README.md) — the *why* behind every design decision
 - [Source Code Journey](../source/README.md) — the *how* in published source artefacts
-- [Governance](../governance/README.md) — domain rules that visual artefacts in AX-3 will illustrate
-- [Visual Classification](./ARCHITECTURE_VISUAL_CLASSIFICATION.md) — the taxonomy governing every diagram in this Journey
+- [Governance](../governance/README.md) — domain rules that visual artefacts in AX-3 

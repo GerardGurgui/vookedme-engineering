@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AX-4 — Figure B — Editorial Blueprint</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --paper: #ffffff;
+    --paper-soft: #f6f6f4;
+    --rule: #d8d8d4;
+    --line-soft: #8a8a8a;
+    --accent: #1c3d5a;   /* the colour of last resort — see Visual Grammar */
+    --deny: #7a2727;     /* outcome marker only — never a fill */
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 40px 24px 80px;
+    background: var(--paper-soft);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .doc {
+    max-width: 980px;
+    margin: 0 auto;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+  }
+
+  .doc-header { padding: 32px 40px 24px; border-bottom: 2px solid var(--ink); }
+  .doc-header .kicker {
+    font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-soft); margin: 0 0 6px;
+  }
+  .doc-header h1 { font-size: 24px; margin: 0 0 4px; font-weight: 600; }
+  .doc-header .subtitle { font-size: 14px; color: var(--ink-soft); margin: 0; }
+
+  .version-banner {
+    background: var(--paper-soft);
+    border-bottom: 1px solid var(--rule);
+    padding: 10px 40px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+
+  section { padding: 28px 40px; border-bottom: 1px solid var(--rule); }
+  section:last-child { border-bottom: none; }
+
+  h2 {
+    font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-soft); margin: 0 0 14px; font-weight: 600;
+  }
+  h2 .num { display: inline-block; width: 22px; color: var(--line-soft); }
+  h3 { font-size: 14px; margin: 18px 0 8px; font-weight: 600; color: var(--ink); }
+  h4 { font-size: 12.5px; margin: 14px 0 6px; font-weight: 600; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.04em; }
+
+  p { margin: 0 0 10px; }
+
+  .eq-block {
+    border-left: 3px solid var(--accent);
+    background: #eaf0f5;
+    padding: 14px 18px;
+    font-size: 15px;
+    font-style: italic;
+  }
+
+  .principle-block {
+    border-left: 3px solid var(--ink);
+    background: var(--paper-soft);
+    padding: 12px 18px;
+    margin: 10px 0;
+  }
+  .principle-block b { display: block; margin-bottom: 3px; }
+
+  .not-block {
+    border-left: 3px solid var(--line-soft);
+    background: var(--paper-soft);
+    padding: 10px 18px;
+    margin: 8px 0;
+    font-size: 14px;
+  }
+  .not-block b { color: var(--ink-soft); }
+
+  code, .mono {
+    font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+    font-size: 13px; background: var(--paper-soft); border: 1px solid var(--rule);
+    padding: 1px 5px; border-radius: 2px;
+  }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin: 10px 0 6px; }
+  th, td { text-align: left; padding: 8px 10px; border: 1px solid var(--rule); vertical-align: top; }
+  th {
+    background: var(--paper-soft); font-size: 11.5px; text-transform: uppercase;
+    letter-spacing: 0.04em; color: var(--ink-soft); font-weight: 600;
+  }
+
+  ul, ol { margin: 6px 0 12px; padding-left: 22px; }
+  li { margin-bottom: 5px; }
+
+  .checklist { list-style: none; padding-left: 0; }
+  .checklist li { padding-left: 26px; position: relative; margin-bottom: 8px; }
+  .checklist li::before { content: "☐"; position: absolute; left: 0; color: var(--line-soft); }
+
+  .constraint-list { list-style: none; padding-left: 0; }
+  .constraint-list li { padding-left: 22px; position: relative; margin-bottom: 8px; font-weight: 500; }
+  .constraint-list li::before { content: "▸"; position: absolute; left: 0; color: var(--accent); }
+
+  .swatch {
+    display: inline-block; width: 26px; height: 12px; vertical-align: middle;
+    margin-right: 8px; border: 1px solid var(--line-soft);
+  }
+  .lineswatch {
+    display: inline-block; width: 30px; height: 0; vertical-align: middle;
+    margin-right: 8px; border-top: 2px solid var(--ink);
+  }
+  .lineswatch.dashed { border-top-style: dashed; border-top-color: var(--line-soft); }
+  .shapeswatch {
+    display: inline-block; width: 18px; height: 14px; vertical-align: middle; margin-right: 8px;
+  }
+
+  footer { padding: 18px 40px; font-size: 11.5px; color: var(--line-soft); text-align: center; }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <div class="doc-header">
+    <p class="kicker">Architecture Experience Journey — AX-4 — Authorization Architecture</p>
+    <h1>Figure B — Authorization Decision Model</h1>
+    <p class="subtitle">Editorial blueprint · Source of truth: <code>docs/architecture/AUTHORIZATION.md</code> (frozen, Figure B section) · Supporting discovery: <code>Figure-B-blueprint.md</code> · Style reference: <code>Figure-A-v2.html</code></p>
+  </div>
+
+  <div class="version-banner">
+    <b>This is an editorial specification, not the diagram itself.</b> It contains no pixel coordinates, no SVG, no rendering code, and no invented architecture. Every statement below maps back to a sentence already present in the frozen <code>AUTHORIZATION.md</code> Figure B section, or to the conceptual model already reviewed and approved in <code>Figure-B-blueprint.md</code>. This document is the canonical source for the eventual rendering pass.
+  </div>
+
+  <!-- 1. Purpose -->
+  <section>
+    <h2><span class="num">01</span>Purpose</h2>
+    <p>
+      Figure A taught a reader where authorization is enforced. This figure teaches something Figure A cannot:
+      how an authorization decision is actually put together, conceptually, before it resolves. A reader who has
+      already understood Figure A's three enforcement tiers should leave this figure understanding that a
+      decision is not a single check — it is a small number of equally necessary conditions, all of which must
+      hold at once, plus a small number of rules that can still override what those conditions alone would grant.
+    </p>
+    <p>
+      This figure exists because that structure cannot be read out of Figure A. Figure A shows <i>where</i> the
+      dedicated authorization component sits in the enforcement pipeline. It says nothing about what that
+      component — or the governance rules layered around it — actually reasons through. Figure B fills that gap,
+      and only that gap.
+    </p>
+  </section>
+
+  <!-- 2. Engineering Question -->
+  <section>
+    <h2><span class="num">02</span>Engineering Question</h2>
+    <div class="eq-block">
+      How is an authorization decision progressively built, from identifying the actor to allowing a protected
+      business operation?
+    </div>
+    <p style="margin-top:10px;">
+      This is the question frozen in <code>AUTHORIZATION.md</code>'s Figure B section, verbatim in substance. It is
+      not a question about execution order, request lifecycle, filters, endpoints, or resources — those belong to
+      Figure A or to a different artefact entirely.
+    </p>
+  </section>
+
+  <!-- 3. Architectural Message -->
+  <section>
+    <h2><span class="num">03</span>Architectural Message</h2>
+    <div class="eq-block" style="border-left-color: var(--ink); background: var(--paper-soft); font-style: normal;">
+      VookedMe builds every authorization decision through the same conceptual sequence, regardless of the
+      operation involved: it starts from the role model, narrows through business membership, narrows again
+      through the breadth of the actor's authorization scope, and finally passes through a small set of
+      governance rules that can still override or restrict what scope alone would grant. A decision that clears
+      every step is granted; failing any one of them denies it. Non-panel actors — Customer, Bot, System — never
+      enter this sequence at all; they are authorized through an entirely separate mechanism, outside the role
+      model altogether.
+    </div>
+  </section>
+
+  <!-- 4. Visual Philosophy -->
+  <section>
+    <h2><span class="num">04</span>Visual Philosophy</h2>
+
+    <div class="principle-block">
+      <b>This figure explains HOW a decision is constructed — not WHERE it is enforced, and not WHEN it executes.</b>
+      It is a conceptual model, not an execution flow, not a request lifecycle, not a filter chain, not a CRUD
+      matrix, not an RBAC table, not an endpoint map, and not a resource map. A reader should come away with a
+      mental model of the reasoning, never a map of the code.
+    </div>
+
+    <div class="principle-block">
+      <b>The composition represents progressive conceptual narrowing, not chronology.</b>
+      Chronology is secondary. Responsibility — in the sense of "what must still be true for this decision to
+      hold" — is primary. Two decisions built through this same model might be evaluated by different services,
+      in a different literal runtime order; what is constant is the set of conditions the decision depends on,
+      narrowing conceptually from broad to specific, not the order any specific request happens to execute them in.
+    </div>
+
+    <div class="principle-block">
+      <b>Authorization here is cumulative, not hierarchical, and not competitive.</b>
+      Figure A earned a single dominant anchor because one component genuinely concentrated most of the
+      responsibility. Figure B has no such anchor, by design. Role Model, Business Membership, Authorization
+      Scope, and Governance Rules are four dimensions that jointly contribute to one decision — a progressive
+      conceptual narrowing from broad to specific, not a queue of steps. Removing any one of them makes the
+      decision incomplete, not merely smaller. No node in this figure is permitted to look more important than
+      the others, and no reading path through them may feel mandatory or ordered.
+    </div>
+
+    <h4>Connector Philosophy</h4>
+    <ul>
+      <li><b>Connectors communicate conceptual narrowing, never chronology.</b> A connector never means "and then." It means "this constraint must also be satisfied."</li>
+      <li><b>Connectors never imply execution.</b> Business Operation is not reached because a series of steps completed in turn; it is reached because every dimension it depends on remains valid at once.</li>
+      <li><b>Nodes teach; connectors only clarify which constraint attaches to which.</b> The same rule established for Figure A holds here — a reader should be able to reconstruct the model from the nodes alone.</li>
+      <li><b>No connector may be styled with more visual weight than the node it touches.</b> This applies equally to all nine connectors in this figure; none of them is permitted to look more consequential than another, matching the "no visual winner" rule that governs the nodes themselves.</li>
+    </ul>
+  </section>
+
+  <!-- 5. Conceptual Model -->
+  <section>
+    <h2><span class="num">05</span>Conceptual Model</h2>
+    <p>The model frozen in <code>AUTHORIZATION.md</code>'s Figure B section, stated in full:</p>
+    <div class="eq-block" style="font-style: normal; text-align:center; line-height: 2;">
+      Role Model<br>↓<br>Business Membership<br>↓<br>Authorization Scope<br>↓<br>Governance Rules<br>↓<br>Business Operation
+    </div>
+    <p>
+      Access Denied is a shared outcome, reachable from more than one of these dimensions — not a fifth dimension
+      reached only after the other four are exhausted. Customer, Bot, and System form an authorization model that
+      is independent of this decision model entirely: they are intentionally outside the platform role hierarchy,
+      and the figure must show them as such, not as a variant path through the same four dimensions.
+    </p>
+    <p>
+      Read as a sentence, not as a diagram: an authorization decision is granted when the caller's role is known,
+      their business membership holds, their authorization scope covers the action, and no governance rule
+      overrides that outcome — four conditions considered jointly, not consumed in turn. Any single failure among
+      those four denies the decision immediately, without needing to evaluate the remaining dimensions.
+    </p>
+  </section>
+
+  <!-- 6. Node Taxonomy -->
+  <section>
+    <h2><span class="num">06</span>Node Taxonomy</h2>
+    <p>
+      Seven nodes. For each, this section explains why it exists as a node at all, why it is not folded into a
+      neighbouring node, why it occupies its position, and — as important as what it represents — what it
+      explicitly does <b>not</b> represent.
+    </p>
+
+    <h3>Role Model</h3>
+    <table>
+      <tr><td style="width:190px">Why it is a node</td><td>It is the question every decision must start from: which kind of actor is asking. No later node can be evaluated before this one is known.</td></tr>
+      <tr><td>Why not folded elsewhere</td><td>It cannot be folded into Business Membership, because two of the three non-panel actor categories never have a business membership question asked of them at all — the departure from the platform role hierarchy belongs to this dimension alone.</td></tr>
+      <tr><td>Why this position</td><td>The entry dimension — every other dimension in the group presumes an actor category is already known.</td></tr>
+      <tr><td>Represents</td><td>The three flat platform roles (ADMIN, OWNER, EMPLOYEE), and the fact that three further actor categories exist entirely outside this role structure.</td></tr>
+      <tr><td>Does NOT represent</td><td>Authentication or credential issuance. This node presumes identity is already known; establishing it is Security Architecture's concern, not this figure's.</td></tr>
+    </table>
+
+    <h3>Business Membership</h3>
+    <table>
+      <tr><td style="width:190px">Why it is a node</td><td>Tenant boundary is a distinct, independently-failing question from "how broad is this actor's standing." A caller can belong to no relevant business at all, which ends the decision before scope is ever asked.</td></tr>
+      <tr><td>Why not folded elsewhere</td><td>It is not part of Authorization Scope, because membership is a yes/no gate with no breadth of its own, while scope is graded (self, ownership, platform-wide). Merging the two would hide that a caller can fail outright before any grading question is even relevant.</td></tr>
+      <tr><td>Why this position</td><td>A dimension conceptually prior to Authorization Scope — it establishes tenant context, which the breadth-of-standing question then presumes, without being reached through it as a processing step.</td></tr>
+      <tr><td>Represents</td><td>The tenant-isolation boundary: does this caller belong to the business the operation targets.</td></tr>
+      <tr><td>Does NOT represent</td><td>Which specific operation is being attempted, or which record is involved. It is a boundary check, not a permission check.</td></tr>
+    </table>
+
+    <h3>Authorization Scope</h3>
+    <table>
+      <tr><td style="width:190px">Why it is a node</td><td>Once membership holds, the model still needs to ask how far the caller's standing reaches — the same membership can carry very different authority depending on whether the caller is acting on their own behalf, holds leadership standing, or holds platform-wide authority.</td></tr>
+      <tr><td>Why not folded elsewhere</td><td>It is not part of Governance Rules, because scope answers "could this caller plausibly do this at all," while governance answers "is there a reason to still say no, even though scope was satisfied." Collapsing the two would hide that governance rules are exceptions layered on top of scope, not another instance of it.</td></tr>
+      <tr><td>Why this position</td><td>A dimension that presumes a business context to evaluate standing within (or, for platform-wide standing, presumes exemption from that context) — conceptually dependent on Business Membership, without being reached through it as a step.</td></tr>
+      <tr><td>Represents</td><td>The breadth of an actor's standing, held as three internal breadths within this single dimension — Self (acting on their own behalf), Leadership (ownership/leadership standing), and Platform-wide (authority independent of any business). These three remain internal content describing one dimension; they are not additional nodes.</td></tr>
+      <tr><td>Does NOT represent</td><td>Any single named check, method, or class. This node is the concept of "how broad," not an inventory of the mechanisms that decide it.</td></tr>
+    </table>
+
+    <h3>Governance Rules</h3>
+    <table>
+      <tr><td style="width:190px">Why it is a node</td><td>Some real, documented restrictions in VookedMe cannot be expressed as "how broad is your standing" at all — they hold regardless of standing, or they narrow a decision for reasons scope has no vocabulary for.</td></tr>
+      <tr><td>Why not folded elsewhere</td><td>It is not part of Authorization Scope for the reason given above; it is not part of Business Operation either, because these rules are evaluated before the operation is reached, not as a property of the operation itself.</td></tr>
+      <tr><td>Why this position</td><td>The dimension conceptually last in narrowing specificity — the one capable of overriding what the other three dimensions alone would already allow.</td></tr>
+      <tr><td>Represents</td><td>A small set of override constraints, applied after Authorization Scope is already satisfied — not a further grading of who-may-act, but a check for standing reasons to still say no: barring self-approval of one's own request, reserving certain actions to a single role, respecting a record's own lifecycle state, and respecting a business's own configuration choices.</td></tr>
+      <tr><td>Does NOT represent</td><td>A general "misc rules" catch-all, and not a further RBAC layer alongside Authorization Scope. Every rule inside this node is individually named and traceable to <code>AUTHORIZATION.md</code>'s Governance Rules section — nothing here is a placeholder for undocumented exceptions.</td></tr>
+    </table>
+
+    <h3>Business Operation</h3>
+    <table>
+      <tr><td style="width:190px">Why it is a node</td><td>The decision model needs a destination — the thing all four dimensions jointly exist to guard.</td></tr>
+      <tr><td>Why not folded elsewhere</td><td>It cannot be merged into Governance Rules: it is an outcome of the decision model, not a dimension within it. Conflating an outcome with a dimension would misstate what this node is.</td></tr>
+      <tr><td>Why this position</td><td>The model's positive resolution — reachable only when every dimension holds simultaneously, not as a next stop after the last one finishes.</td></tr>
+      <tr><td>Represents</td><td>The granted, positive outcome: the protected business action the model exists to guard.</td></tr>
+      <tr><td>Does NOT represent</td><td>Any specific operation, aggregate, or endpoint. It is the concept of "the guarded thing," not an inventory of guarded things.</td></tr>
+    </table>
+    <div class="not-block">
+      <b>Naming reviewed, retained:</b> "Business Operation" was reviewed against whether a clearer term exists for
+      "the protected action after authorization." No better candidate was found that remains faithful to
+      <code>AUTHORIZATION.md</code>'s own language (which describes "the protected business operation" proceeding)
+      while preserving the exact term Figure A already established for the same outcome. The name is unchanged.
+    </div>
+
+    <h3>Access Denied</h3>
+    <table>
+      <tr><td style="width:190px">Why it is a node</td><td>Any of three dimensions can independently fail, and each failure needs a destination. Rather than three separate "denied" endings, one shared node teaches the idea once.</td></tr>
+      <tr><td>Why not folded elsewhere</td><td>It must not be positioned as a fifth dimension. Doing so would misstate it as something reached only after the other four are exhausted, when in fact it can be reached from any of three of them, immediately.</td></tr>
+      <tr><td>Why this position</td><td>Outside the dimension group entirely, reachable from three of its members rather than sitting inline among them.</td></tr>
+      <tr><td>Represents</td><td>The shared negative outcome: a decision denied because membership, scope, or a governance rule failed.</td></tr>
+      <tr><td>Does NOT represent</td><td>A fourth or fifth constraint, a processing stage, or a distinct rule of its own. It performs no reasoning — it is only ever a destination.</td></tr>
+    </table>
+
+    <h3>Non-Panel Actor Authorization</h3>
+    <table>
+      <tr><td style="width:190px">Why it is a node</td><td>Customer, Bot, and System are authorized at all — the figure would misrepresent the model if it simply omitted them.</td></tr>
+      <tr><td>Why not folded elsewhere</td><td>It must not be attached anywhere within the dimension group. None of the three actors passes through Business Membership, Authorization Scope, or Governance Rules — attaching this node to that group would falsely imply they do.</td></tr>
+      <tr><td>Why this position</td><td>Reachable only from Role Model, and connected nowhere else — the departure happens at that one dimension and never rejoins the rest of the model.</td></tr>
+      <tr><td>Represents</td><td>A single concept standing in for three actors: identity-matching (Customer), channel credential (Bot), and trusted-infrastructure status (System).</td></tr>
+      <tr><td>Does NOT represent</td><td>A variant or relaxed version of the role-based dimension group. It is a structurally separate mechanism, not a fourth actor category added to Role Model's three.</td></tr>
+    </table>
+  </section>
+
+  <!-- 7. Node Responsibilities -->
+  <section>
+    <h2><span class="num">07</span>Node Responsibilities</h2>
+    <p>What each node is architecturally responsible for deciding, stated as a single question per node — the same discipline already used for the dedicated authorization component's own responsibilities table in <code>AUTHORIZATION.md</code>.</p>
+    <table>
+      <tr><th style="width:220px">Node</th><th>Responsible for answering</th></tr>
+      <tr><td>Role Model</td><td>Which kind of actor is making this request?</td></tr>
+      <tr><td>Business Membership</td><td>Does this actor belong to the business the operation targets, if any?</td></tr>
+      <tr><td>Authorization Scope</td><td>How broad is this actor's standing — their own behalf, leadership, or platform-wide?</td></tr>
+      <tr><td>Governance Rules</td><td>Is there a standing rule that overrides what scope alone would grant, for this specific request?</td></tr>
+      <tr><td>Business Operation</td><td>(Outcome, not a question) — the operation proceeds.</td></tr>
+      <tr><td>Access Denied</td><td>(Outcome, not a question) — the operation does not proceed.</td></tr>
+      <tr><td>Non-Panel Actor Authorization</td><td>Does the requester's identity, channel, or trust status match what this action requires?</td></tr>
+    </table>
+    <p>No node answers more than one question. No question is answered by more than one node.</p>
+  </section>
+
+  <!-- 8. Connector Philosophy -->
+  <section>
+    <h2><span class="num">08</span>Connector Philosophy</h2>
+    <p>Nine connectors. Every one of them expresses exactly one idea: <i>"this constraint must also be satisfied,"</i> or, for the three denial connectors, <i>"failing this constraint ends the decision here."</i> None expresses order, execution, or timing.</p>
+
+    <table>
+      <tr><th>ID</th><th>From</th><th>To</th><th>Meaning</th><th>Line</th></tr>
+      <tr><td>C1</td><td>Role Model</td><td>Business Membership</td><td>A panel actor's business membership must also be established.</td><td>Solid</td></tr>
+      <tr><td>C2</td><td>Role Model</td><td>Authorization Scope</td><td>Platform-wide standing is exempt from the membership constraint entirely — it is not scoped to a business.</td><td>Dashed</td></tr>
+      <tr><td>C3</td><td>Business Membership</td><td>Authorization Scope</td><td>A held membership does not by itself say how broad the caller's standing is; that must also be satisfied.</td><td>Solid</td></tr>
+      <tr><td>C4</td><td>Authorization Scope</td><td>Governance Rules</td><td>Satisfied scope does not by itself guarantee no override applies; that must also be checked.</td><td>Solid</td></tr>
+      <tr><td>C5</td><td>Governance Rules</td><td>Business Operation</td><td>Every earlier constraint remains valid at once — not "and then," but "and still."</td><td>Solid</td></tr>
+      <tr><td>C6</td><td>Business Membership</td><td>Access Denied</td><td>Failing membership ends the decision here.</td><td>Dashed</td></tr>
+      <tr><td>C7</td><td>Authorization Scope</td><td>Access Denied</td><td>Failing every breadth of scope ends the decision here.</td><td>Dashed</td></tr>
+      <tr><td>C8</td><td>Governance Rules</td><td>Access Denied</td><td>Failing a governance rule ends the decision here, even after scope was satisfied.</td><td>Dashed</td></tr>
+      <tr><td>C9</td><td>Role Model</td><td>Non-Panel Actor Authorization</td><td>Non-panel actors branch away from the decision model entirely and are never subject to it.</td><td>Dashed</td></tr>
+    </table>
+
+    <div class="not-block">
+      <b>What connectors must never do:</b> imply that Business Operation is reached "because a series of steps ran in order." It is reached because every dimension it depends on is simultaneously true. If a rendering ever suggests a countdown — "condition one done, condition two done, condition three done" — the connector styling has failed this figure's purpose.
+    </div>
+  </section>
+
+  <!-- 9. Visual Hierarchy -->
+  <section>
+    <h2><span class="num">09</span>Visual Hierarchy</h2>
+    <p>Unlike Figure A: no dominant anchor, no oversized node, no visual winner. Hierarchy in this figure is expressed through spacing, alignment, negative space, and reading rhythm — never through node size.</p>
+    <table>
+      <tr><th style="width:180px">Tier</th><th>Members</th><th>How the tier is expressed</th></tr>
+      <tr><td>Primary (equal weight)</td><td>Role Model, Business Membership, Authorization Scope, Governance Rules</td><td>Identical size, identical border weight, identical accent treatment. Equal, steady spacing between each. No node in this tier may be rendered larger, heavier, or more saturated than its neighbours, regardless of how much internal detail one node carries versus another.</td></tr>
+      <tr><td>Outcome (lighter)</td><td>Business Operation, Access Denied</td><td>Visibly quieter than the primary tier — destinations, not decisions. Equal to each other.</td></tr>
+      <tr><td>Supporting (quietest)</td><td>Non-Panel Actor Authorization</td><td>The lightest node on the canvas, positioned apart, reached by a single dashed line and nothing further.</td></tr>
+    </table>
+    <div class="not-block">
+      <b>A specific risk to guard against:</b> Authorization Scope and Governance Rules each carry an internal
+      sub-list (three items and four items respectively), which will naturally want to render taller than Role
+      Model or Business Membership. This must not be allowed to read as "these two are bigger, therefore more
+      important." The internal sub-list text must be set small enough, and the four primary-tier containers wide
+      enough and consistent enough in their own right, that any height difference reads as "this one happens to
+      hold a short list," never as a size-based importance signal.
+    </div>
+  </section>
+
+  <!-- 10. Layout Blueprint -->
+  <section>
+    <h2><span class="num">10</span>Layout Blueprint</h2>
+    <p>Described relationally. No pixel coordinates, no embedded mockup, no SVG, no CSS positioning, and no prescribed artistic technique — only relative composition rules for a renderer to satisfy.</p>
+
+    <div class="principle-block">
+      <b>This is a decision model, not a pipeline.</b> Role Model, Business Membership, Authorization Scope, and
+      Governance Rules are four dimensions that jointly constitute one decision — not four steps that process a
+      request in turn. A rendering that resembles a top-to-bottom flowchart, where each box waits for the
+      previous one to finish, has misread this section. The composition must communicate "these four together
+      decide," never "these four happen in turn."
+    </div>
+
+    <h4>Central conceptual axis</h4>
+    <p>The four dimensions form one composed group — a single conceptual backbone the reader treats as one unit, not four independent boxes and not four ordered stages. Whatever concrete arrangement a renderer chooses for this group, no two of the four may be arranged in a way that implies one depends on the completion of another; each is a contributing condition to the same decision, considered together, not consumed in turn.</p>
+
+    <h4>Surrounding reasoning layers</h4>
+    <p>Business Operation and Access Denied sit outside this central group, as its two possible resolutions — not as further dimensions and not as additional stops along a line. Non-Panel Actor Authorization sits further outside still, connected only to Role Model, as a reasoning domain the central group never reaches at all. These surrounding layers frame the dimension group; they do not extend it.</p>
+
+    <h4>Grouped decision dimensions</h4>
+    <p>Authorization Scope and Governance Rules each hold further internal structure (three breadths; four rules), but this internal richness must read as depth within one dimension of the group, never as sub-stages a reader is meant to step through in order. The internal list inside each is detail a reader may consult, not a further layer of narrowing they must traverse.</p>
+
+    <h4>Balanced composition</h4>
+    <p>The four dimensions carry identical visual weight and must be composed so that no reading path through them feels mandatory or ordered. The composition should read as settled and balanced — the four dimensions co-existing as one layered conceptual composition — rather than directional. Business Operation and Access Denied are the only two elements that read as destinations; everything else reads as a dimension or a reasoning domain, considered jointly rather than traversed.</p>
+
+    <h4>Negative space</h4>
+    <p>Three deliberate zones of separation organise the canvas: clear, even space among the four dimensions themselves — no dimension crowds another, and none gains prominence through spacing that another lacks; a further zone of separation between the dimension group and its two outcomes, marking them as resolutions rather than further dimensions; and the widest zone of separation on the canvas between the dimension group and the non-panel reasoning domain, marking it as the most structurally distant relationship in the figure.</p>
+
+    <h4>Alignment</h4>
+    <p>The four dimensions share a consistent visual relationship to one another — proximity and evenness, not a shared processing line. Access Denied is deliberately set apart from the dimension group, reachable from more than one of its members, so it is never read as a continuation of any single one of them. Non-Panel Actor Authorization is set apart further still, in a different direction from Access Denied, so the two elements outside the group are never confused with one another.</p>
+
+    <h4>Relative proportions</h4>
+    <p>All four dimensions share one common size class. Neither Authorization Scope nor Governance Rules may be enlarged beyond what is needed to hold its internal detail at a subordinate type size; at a glance, all four should read as members of the same set, none more prominent than another.</p>
+
+    <h4>Visual rhythm and balance</h4>
+    <p>Spacing among the four dimensions is even throughout — no gap is longer than another between any two of them, in deliberate contrast to Figure A, which broke its own rhythm at its one dominant anchor. Balance across the whole canvas is asymmetric by design: the outcome layer and the non-panel reasoning domain sit at different distances and different visual weights from the dimension group, so the canvas does not read as mirror-symmetric, which would wrongly suggest they are equivalent, competing branches rather than one shared outcome layer and one entirely separate reasoning domain.</p>
+  </section>
+
+  <!-- 11. Reading Order -->
+  <section>
+    <h2><span class="num">11</span>Reading Order</h2>
+    <ol>
+      <li>The reader first takes in the four dimensions as one composed group — same size, same weight — in under five seconds, before reading a single word: "authorization is the combination of four equally necessary dimensions, and none of them outranks the others."</li>
+      <li>The reader takes in each dimension by name — Role Model, Business Membership, Authorization Scope, Governance Rules — reconstructing them as conditions that jointly hold, not as stages visited in order. Which one the eye happens to notice first is incidental; none is a prerequisite the others wait on.</li>
+      <li>The reader notices the short internal lists inside Authorization Scope and Governance Rules, understanding these as richness within one dimension, never as further dimensions of their own.</li>
+      <li>The reader notices that Access Denied is reachable from more than one dimension, understanding "a decision can be turned away by any of three of them, immediately" as a single idea, not three separate endings.</li>
+      <li>The reader notices the single connection from Role Model to Non-Panel Actor Authorization, understanding that Customer, Bot, and System are resolved by an entirely different reasoning domain the rest of the figure never touches.</li>
+      <li>Last, the reader reaches Business Operation, the model's sole positive resolution — reached not because a sequence completed, but because every dimension held at once.</li>
+    </ol>
+    <p>A reader who comes away thinking "step 1, step 2, step 3, step 4" has misread the figure, even if the node count is right. A reader who comes away thinking "authorization is the combination of four equally necessary decision dimensions — and non-panel actors are a separate story" has read it correctly.</p>
+  </section>
+
+  <!-- 12. Visual Grammar -->
+  <section>
+    <h2><span class="num">12</span>Visual Grammar</h2>
+
+    <h4>Shapes</h4>
+    <table>
+      <tr><th style="width:220px">Element</th><th>Shape</th><th>Rationale</th></tr>
+      <tr><td>The four primary-tier nodes</td><td>Rounded rectangle, identical corner radius across all four</td><td>Sameness of shape is itself part of the message: these four are peers, not a hierarchy.</td></tr>
+      <tr><td>Business Operation</td><td>Rectangle, double border</td><td>Reused exactly from Figure A's vocabulary — protected, not a decision-maker.</td></tr>
+      <tr><td>Access Denied</td><td>Octagon</td><td>Reused exactly from Figure A — a reader who has seen Figure A recognises this outcome instantly.</td></tr>
+      <tr><td>Non-Panel Actor Authorization</td><td>Pill</td><td>A shape used nowhere else in this figure, signalling "outside the spine's shape family entirely."</td></tr>
+    </table>
+
+    <h4>Borders</h4>
+    <p>All four primary-tier nodes share identical border weight — no exceptions, no "slightly heavier" anywhere in that tier. The two outcome nodes carry a visibly lighter border than the primary tier. Non-Panel Actor Authorization carries the lightest border on the canvas.</p>
+
+    <h4>Typography</h4>
+    <table>
+      <tr><th style="width:220px">Element</th><th>Specification</th></tr>
+      <tr><td>Primary-tier node titles</td><td>Sans-serif, medium weight, identical size across all four — no exceptions.</td></tr>
+      <tr><td>Internal sub-lists (Scope, Governance)</td><td>Sans-serif, regular weight, smaller than the node title, visibly subordinate — never styled as independent floating labels.</td></tr>
+      <tr><td>Outcome node labels</td><td>Sans-serif, medium weight, smaller than primary-tier titles.</td></tr>
+      <tr><td>Access Denied label</td><td>Upper case, reused from Figure A's convention for the same outcome.</td></tr>
+      <tr><td>Legend and captions</td><td>Sans-serif, regular weight, the smallest text tier on the canvas.</td></tr>
+    </table>
+
+    <h4>Spacing</h4>
+    <p>Identical, even spacing between each consecutive pair of primary-tier nodes — this is the figure's primary tool for expressing "these four are equally necessary," in deliberate contrast to Figure A's broken rhythm at its one dominant anchor. The denial lane sits in a consistent, narrow corridor beside the spine; the non-panel branch sits in the widest gap on the canvas.</p>
+
+    <h4>Accent colours</h4>
+    <p>The single reserved accent colour already established for this Journey is applied identically and lightly to all four primary-tier nodes, as a family marker distinguishing the spine from the outcomes and the parallel track — never to single out one node above the others. No primary-tier node may carry a heavier or more saturated use of the accent than any other. No other node, in any tier, carries colour.</p>
+
+    <h4>Weight</h4>
+    <p>Visual weight ranking: the four primary-tier nodes (equal to one another) → the two outcome nodes (equal to one another, lighter than the primary tier) → Non-Panel Actor Authorization (lightest on the canvas). No node outside this ranking may be styled to compete with the tier above it.</p>
+
+    <h4>Negative space</h4>
+    <p>The gap between the primary tier and the denial lane, and the larger gap between the spine and the non-panel branch, are themselves part of the grammar — their relative size communicates relative conceptual distance without requiring a single additional colour, icon, or label.</p>
+  </section>
+
+  <!-- 13. Publication Checklist -->
+  <section>
+    <h2><span class="num">13</span>Publication Checklist</h2>
+    <ul class="checklist">
+      <li>Every node maps to a sentence already present in <code>AUTHORIZATION.md</code>'s Figure B section, Governance Rules section, or Role Model section.</li>
+      <li>No node represents an implementation detail — no class, no method, no endpoint, no aggregate.</li>
+      <li>No connector implies chronology, execution order, or request lifecycle.</li>
+      <li>Access Denied is rendered as a single shared outcome, reachable from three points, never as a fourth or fifth sequential stage.</li>
+      <li>Customer, Bot, and System remain visibly outside the platform role hierarchy, connected only to Role Model.</li>
+      <li>Every visual distinction on the canvas has an architectural meaning stated somewhere in this document — nothing is decorative.</li>
+      <li>The figure survives being reproduced in greyscale, with no loss of any distinction described in §12.</li>
+      <li>Colour is never required to understand the figure — shape, size, weight, and spacing carry the meaning first.</li>
+      <li>Shapes carry semantics consistently: rounded rectangle = primary-tier concept, double border = granted outcome, octagon = denied outcome, pill = non-panel mechanism.</li>
+      <li>No decorative elements: no gradients, no drop shadows, no icons, no illustrative imagery.</li>
+    </ul>
+  </section>
+
+  <!-- 14. Non-negotiable Constraints -->
+  <section>
+    <h2><span class="num">14</span>Non-Negotiable Constraints</h2>
+    <ul class="constraint-list">
+      <li>Exactly seven nodes: Role Model, Business Membership, Authorization Scope, Governance Rules, Business Operation, Access Denied, Non-Panel Actor Authorization. No node may be added, and no internal sub-list item (the three scope breadths, the four governance rules) may be promoted to a node of its own.</li>
+      <li>Exactly nine connectors, exactly as enumerated in §8. No connector may be added, removed, or repointed.</li>
+      <li>No node among Role Model, Business Membership, Authorization Scope, and Governance Rules may be rendered larger, heavier, or more saturated than any other in that group, under any circumstance, including differences in internal content volume.</li>
+      <li>No pixel coordinates, absolute positioning, or fixed canvas dimensions may govern the rendering — only the relational rules in §10.</li>
+      <li>No new architecture, no new governance rule, and no reinterpretation of <code>AUTHORIZATION.md</code> may be introduced through this figure. If a rendering choice would require inventing a fact not already documented, the rendering choice is wrong, not the documentation.</li>
+      <li>The only class or component name permitted anywhere in the figure is <span class="mono">AuthorizationService</span> — already published in AX-4's Related Source Artefacts — and only in prose, never as a node label, and the figure must not require it to be understood.</li>
+      <li>No individual endpoint, business operation instance, or aggregate name (Appointment, BlockedSlot, User, etc.) may appear as a node anywhere in the figure.</li>
+      <li>Business Operation and Access Denied must use the exact shape vocabulary already defined for them in <code>Figure-A-v2.html</code> — a renderer may not invent new shapes for outcomes already established elsewhere in this Journey.</li>
+      <li>The published caption must follow the Architecture Style Guide's caption format, link to ADR-016, and include one explicit sentence distinguishing this figure's conceptual-narrowing axis from Figure A's enforcement-tier axis, so the two are never mistaken for two views of the same thing.</li>
+    </ul>
+  </section>
+
+  <!-- 15. Rendering Notes -->
+  <section>
+    <h2><span class="num">15</span>Rendering Notes</h2>
+    <p>Practical guidance for whoever converts this specification into the final publication asset:</p>
+    <ul>
+      <li><b>If a rendered image still resembles a traditional flowchart, the renderer has misunderstood this blueprint.</b> The rendered figure should immediately communicate "decision model," never "request lifecycle." An ordered column of boxes with arrows running straight down is the single most likely failure mode for this figure, and it must be treated as a rendering defect, not a stylistic variation.</li>
+      <li><b>Seek a distinct visual identity for this figure, not merely a compliant one.</b> Figure A is memorable because everything visibly converges toward one anchor. Figure B needs an equally strong identity of its own — as a balanced decision model built from a conceptual backbone, surrounding reasoning domains, and grouped decision dimensions — without borrowing Figure A's single-anchor solution and without defaulting to an unstyled column of boxes. The specific compositional technique is the renderer's to find; the requirement is only that the result feels composed, not listed.</li>
+      <li>Treat the four dimensions as a single reusable template — same box, same type scale, same border, same accent — populated with different titles and (for two of them) a short internal list. Do not design each of the four independently; design one template and instantiate it four times.</li>
+      <li>The accent colour used here is the same variable already reserved for Figure A's dominant anchor. Do not introduce a new colour for this figure — reusing the existing accent, applied evenly rather than concentrated, is what signals "same Journey, different emphasis."</li>
+      <li>Reuse Figure A's exact Business Operation and Access Denied shapes without modification. These outcome nodes are shared vocabulary across the whole AX-4 figure set, not new designs.</li>
+      <li>This figure is intended to sit immediately after Figure A in the published document. Its caption should explicitly note the shift from "where" to "how," so a reader moving from one figure to the next understands why the composition changed from a single-anchor hierarchy to an even, four-dimension decision model.</li>
+      <li>If a future rendering pass is tempted to give Authorization Scope or Governance Rules extra visual weight because they contain more text, that temptation should be resisted — see §9's explicit warning. The correct response to "this node has more to say" is smaller internal type, not a bigger box.</li>
+      <li>This document supersedes no architecture and introduces none. Any question about what a node means should be answered by re-reading <code>AUTHORIZATION.md</code>'s Figure B section and Governance Rules section, not by inferring further detail from this blueprint.</li>
+    </ul>
+  </section>
+
+  <footer>
+    Editorial blueprint for figure production only — not a published artefact of the Architecture Experience Journey until rendered and reviewed.
+  </footer>
+
+</div>
+</body>
+</html>

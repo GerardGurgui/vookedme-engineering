@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AX-4 — Figure A — Engineering Blueprint (v2)</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --paper: #ffffff;
+    --paper-soft: #f6f6f4;
+    --rule: #d8d8d4;
+    --line-soft: #8a8a8a;
+    --accent: #1c3d5a;   /* the colour of last resort — see Colour Language */
+    --deny: #7a2727;     /* outcome marker only — never a fill */
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 40px 24px 80px;
+    background: var(--paper-soft);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .doc {
+    max-width: 980px;
+    margin: 0 auto;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+  }
+
+  .doc-header { padding: 32px 40px 24px; border-bottom: 2px solid var(--ink); }
+  .doc-header .kicker {
+    font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-soft); margin: 0 0 6px;
+  }
+  .doc-header h1 { font-size: 24px; margin: 0 0 4px; font-weight: 600; }
+  .doc-header .subtitle { font-size: 14px; color: var(--ink-soft); margin: 0; }
+
+  .version-banner {
+    background: var(--paper-soft);
+    border-bottom: 1px solid var(--rule);
+    padding: 10px 40px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+
+  section { padding: 28px 40px; border-bottom: 1px solid var(--rule); }
+  section:last-child { border-bottom: none; }
+
+  h2 {
+    font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-soft); margin: 0 0 14px; font-weight: 600;
+  }
+  h2 .num { display: inline-block; width: 22px; color: var(--line-soft); }
+  h3 { font-size: 14px; margin: 18px 0 8px; font-weight: 600; color: var(--ink); }
+  h4 { font-size: 12.5px; margin: 14px 0 6px; font-weight: 600; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.04em; }
+
+  p { margin: 0 0 10px; }
+
+  .eq-block {
+    border-left: 3px solid var(--accent);
+    background: #eaf0f5;
+    padding: 14px 18px;
+    font-size: 15px;
+    font-style: italic;
+  }
+
+  .principle-block {
+    border-left: 3px solid var(--ink);
+    background: var(--paper-soft);
+    padding: 12px 18px;
+    margin: 10px 0;
+  }
+  .principle-block b { display: block; margin-bottom: 3px; }
+
+  code, .mono {
+    font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+    font-size: 13px; background: var(--paper-soft); border: 1px solid var(--rule);
+    padding: 1px 5px; border-radius: 2px;
+  }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin: 10px 0 6px; }
+  th, td { text-align: left; padding: 8px 10px; border: 1px solid var(--rule); vertical-align: top; }
+  th {
+    background: var(--paper-soft); font-size: 11.5px; text-transform: uppercase;
+    letter-spacing: 0.04em; color: var(--ink-soft); font-weight: 600;
+  }
+
+  ul, ol { margin: 6px 0 12px; padding-left: 22px; }
+  li { margin-bottom: 5px; }
+
+  .checklist { list-style: none; padding-left: 0; }
+  .checklist li { padding-left: 26px; position: relative; margin-bottom: 8px; }
+  .checklist li::before { content: "☐"; position: absolute; left: 0; color: var(--line-soft); }
+
+  .swatch {
+    display: inline-block; width: 26px; height: 12px; vertical-align: middle;
+    margin-right: 8px; border: 1px solid var(--line-soft);
+  }
+  .lineswatch {
+    display: inline-block; width: 30px; height: 0; vertical-align: middle;
+    margin-right: 8px; border-top: 2px solid var(--ink);
+  }
+  .lineswatch.dashed { border-top-style: dashed; border-top-color: var(--line-soft); }
+  .shapeswatch {
+    display: inline-block; width: 18px; height: 14px; vertical-align: middle; margin-right: 8px;
+  }
+
+  footer { padding: 18px 40px; font-size: 11.5px; color: var(--line-soft); text-align: center; }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <div class="doc-header">
+    <p class="kicker">Architecture Experience Journey — AX-4 — Authorization Architecture</p>
+    <h1>Figure A — Authorization Enforcement Architecture</h1>
+    <p class="subtitle">Engineering blueprint, Version 2 · Source of truth: <code>docs/architecture/AUTHORIZATION.md</code> (frozen) · Baseline: <code>Figure-A.html</code> (v1)</p>
+  </div>
+
+  <div class="version-banner">
+    <b>This is an editorial redesign, not an architectural revision.</b> Every fact in this document is identical in meaning to Version 1 and to the frozen <code>AUTHORIZATION.md</code> specification. What changes here is how the blueprint is expressed — architecturally rather than as coordinates, and by responsibility rather than by execution sequence.
+  </div>
+
+  <!-- 1. Engineering Question -->
+  <section>
+    <h2><span class="num">01</span>Engineering Question</h2>
+    <div class="eq-block">
+      Where in the request lifecycle is a business-authorization decision actually made, and by what mechanism?
+    </div>
+  </section>
+
+  <!-- 2. Purpose -->
+  <section>
+    <h2><span class="num">02</span>Purpose</h2>
+    <p>
+      This figure teaches a reader that business authorization is not a single check — it is a small number of
+      responsibility tiers of increasing precision, and one of those tiers carries almost all of the real weight.
+      Two tiers are coarse and cover only a small, fixed set of platform-wide cases. One tier — a single dedicated
+      component — is where the overwhelming majority of business, ownership, and self-scoped decisions are actually
+      resolved. The figure exists to make that imbalance of responsibility unmistakable at a glance.
+    </p>
+    <p>
+      This figure does not explain how identity is established, how credentials are issued, or how the
+      request-security pipeline is ordered. Those questions belong to AX-5 — Security Architecture. This figure
+      begins at the point where identity is already known.
+    </p>
+  </section>
+
+  <!-- 3. Visual Philosophy (NEW) -->
+  <section>
+    <h2><span class="num">03</span>Visual Philosophy</h2>
+
+    <div class="principle-block">
+      <b>This figure explains WHERE authorization decisions are made — not HOW a request executes internally.</b>
+      It is a responsibility map, not a sequence diagram. A reader should come away understanding which part of the
+      system owns which category of decision. Whether one tier happens to run before another in a given millisecond
+      is incidental information, not the figure's subject.
+    </div>
+
+    <div class="principle-block">
+      <b>Chronology is secondary. Architectural responsibility is primary.</b>
+      Where the figure must show order (because a decision genuinely narrows in scope as it passes through the
+      tiers), that order is expressed as a hierarchy of precision — coarse to fine — not as a countdown of
+      execution steps. Nothing in this figure should read as "step 1, step 2, step 3." Everything should read as
+      "this tier owns a little of the decision, this tier owns a little more, this tier owns almost all of it."
+    </div>
+
+    <div class="principle-block">
+      <b>Every visual decision reinforces responsibility, never sequence.</b>
+      Size, weight, and spacing are allocated according to how much of the authorization question each element
+      resolves — never according to when it happens to act. This is the single test for every layout, colour, and
+      typography choice in the sections that follow: does it communicate <i>how much responsibility</i> this
+      element holds?
+    </div>
+
+    <h4>Connector Philosophy</h4>
+    <ul>
+      <li><b>Nodes dominate edges.</b> A reader should be able to understand the entire architecture from the nodes alone, with the connectors closed off from view.</li>
+      <li><b>Relationships never dominate components.</b> No connector may be styled — in weight, colour, or length — so that it competes with a node for attention.</li>
+      <li><b>Connectors explain; nodes teach.</b> A connector's only job is to clarify which relationship links two already-understood nodes. It introduces no new concept of its own.</li>
+      <li><b>No connector should visually attract attention before the nodes.</b> This applies even to the connectors touching the primary anchor — proximity to the most important node does not entitle a connector to borrow its visual weight.</li>
+    </ul>
+  </section>
+
+  <!-- 4. Visual composition -->
+  <section>
+    <h2><span class="num">04</span>Visual Composition</h2>
+    <table>
+      <tr><th style="width:180px">Property</th><th>Specification</th></tr>
+      <tr><td>Organising principle</td><td>Responsibility hierarchy, expressed spatially as a single primary axis with one lateral branch for the shared negative outcome.</td></tr>
+      <tr><td>Reading direction</td><td>The axis reads top to bottom, but this expresses increasing decision precision (coarse → fine), not elapsed time.</td></tr>
+      <tr><td>Visual hierarchy</td><td>One dominant element (Business Authorization) and everything else deliberately recessive. There is no meaningful visual difference in importance among the entry marker, the two coarse tiers, and the two outcome nodes — they all recede equally in service of the one focal point.</td></tr>
+      <tr><td>Focus</td><td>Business Authorization is the only semantic focal point on the canvas. No second point of emphasis is permitted anywhere in the figure.</td></tr>
+      <tr><td>Balance</td><td>Deliberately asymmetric. The lateral outcome breaks the vertical symmetry on purpose, so it cannot be mistaken for a continuation of the primary axis.</td></tr>
+      <tr><td>Primary anchor</td><td>Business Authorization (the dedicated component).</td></tr>
+      <tr><td>Recessive elements</td><td>Incoming Request, Platform Authorization, Endpoint Authorization, Business Operation, Access Denied — five elements, one uniform recessive tier, no further ranking among them.</td></tr>
+    </table>
+  </section>
+
+  <!-- 5. Layout Blueprint (replaces coordinate-based spec) -->
+  <section>
+    <h2><span class="num">05</span>Layout Blueprint</h2>
+    <p>This section describes relationships and proportions, not coordinates. Nothing here should be read as a pixel value or a fixed measurement — a renderer should interpret it as a set of relative rules to satisfy, in whatever concrete layout it produces.</p>
+
+    <h4>Primary vertical axis</h4>
+    <p>The spine of the figure. It expresses a hierarchy of increasing decision precision, not a sequence of execution steps. A position's place on the axis answers "how much of the authorization question does this tier resolve," never "what happens at time T." Five elements share this axis: the entry marker, the two coarse tiers, the primary anchor, and the granted outcome.</p>
+
+    <h4>Anchor points</h4>
+    <p>Business Authorization is the structural centre of gravity for the entire figure — not necessarily its geometric midpoint, but the point every other element's size, weight, and spacing is chosen relative to. No element's proportions should be decided by looking at the canvas as a whole; they should be decided by looking at Business Authorization and asking "how much smaller and quieter should this be, by comparison."</p>
+
+    <h4>Secondary branch</h4>
+    <p>A region set apart from the primary axis, reserved for Access Denied — the single shared negative outcome. Its separation from the axis is itself meaningful and load-bearing: if this region were ever placed inline with the primary axis, a reader would misread the outcome as a fourth tier rather than a shared exit available to all three tiers. The branch must remain visually and spatially distinct from the axis at every stage of rendering.</p>
+
+    <h4>Negative space</h4>
+    <p>Whitespace is the primary technique — alongside size — used to establish Business Authorization's dominance without leaning on colour. The clearance surrounding Business Authorization must exceed the clearance surrounding any other element, proportionally and unmistakably, not subtly.</p>
+
+    <h4>Visual rhythm and reading cadence</h4>
+    <p>The spacing between the entry marker, Platform Authorization, and Endpoint Authorization should feel like an even, steady cadence — a reader moves past them without pausing. That cadence deliberately breaks at Business Authorization: the pause before and after it should be longer than any other gap on the axis, signalling "slow down, this is where the figure's meaning lives." The cadence resumes evenly between Business Authorization and Business Operation.</p>
+
+    <h4>Alignment rules</h4>
+    <ul>
+      <li>The entry marker, both coarse tiers, Business Authorization, and Business Operation share one common centreline. This is the primary axis.</li>
+      <li>Access Denied is deliberately off this centreline. It must never share the centreline, regardless of how the surrounding layout is otherwise adjusted.</li>
+      <li>Business Operation remains on the centreline because it is the direct continuation of the responsibility chain when a decision is granted — it is an outcome of the axis, not a branch from it.</li>
+    </ul>
+
+    <h4>Proportional sizing</h4>
+    <p>Business Authorization must be unmistakably larger than every other element — not by a subtle margin, but enough that scale alone communicates its role before any label is read. The entry marker, the two coarse tiers, and the two outcome nodes share one common, smaller scale among themselves; none of them should be sized to suggest it is more important than the others.</p>
+  </section>
+
+  <!-- 6. Every visual node -->
+  <section>
+    <h2><span class="num">06</span>Every Visual Node</h2>
+    <p>Nodes are grouped into three categories, matching the responsibility model: an entry marker, the three authorization tiers, and the two terminal outcomes. The two outcomes are described separately from the tiers deliberately — they are not a fourth and fifth tier, they are what a tier's decision resolves <i>into</i>.</p>
+
+    <h3>Entry Marker</h3>
+    <table>
+      <tr><td style="width:160px">Node</td><td>Incoming Request</td></tr>
+      <tr><td>Purpose</td><td>Marks where the figure begins. Identity is already established at this point — establishing it is out of scope for this figure.</td></tr>
+      <tr><td>Meaning</td><td>Boundary marker only. Carries no authorization semantics of its own and holds no responsibility in the model.</td></tr>
+      <tr><td>Shape</td><td>Fully rounded (pill), distinct from the rectangular tiers — signals "this is a marker, not a decision-making element," through shape rather than colour.</td></tr>
+      <tr><td>Weight</td><td>Lightest border and smallest label on the canvas, tied with Access Denied.</td></tr>
+      <tr><td>Relative importance</td><td>Recessive — holds no responsibility, and its visual treatment must communicate that immediately.</td></tr>
+      <tr><td>Position</td><td>Top of the primary axis.</td></tr>
+    </table>
+
+    <h3>Tier 1 — Platform Authorization</h3>
+    <table>
+      <tr><td style="width:160px">Purpose</td><td>The coarsest responsibility tier: establishes whether the caller is authenticated at all, and holds responsibility for gating a small, fixed number of platform-wide operations by role alone.</td></tr>
+      <tr><td>Meaning</td><td>Owns a small slice of the overall authorization question — the slice that applies uniformly to the whole platform regardless of business or record.</td></tr>
+      <tr><td>Shape</td><td>Rectangle, sharp corners.</td></tr>
+      <tr><td>Weight</td><td>Same recessive weight as Tier 2 — no visual distinction between the two coarse tiers.</td></tr>
+      <tr><td>Relative importance</td><td>Recessive — a small, clearly bounded slice of responsibility.</td></tr>
+      <tr><td>Position</td><td>On the primary axis, directly beneath the entry marker.</td></tr>
+    </table>
+
+    <h3>Tier 2 — Endpoint Authorization</h3>
+    <table>
+      <tr><td style="width:160px">Purpose</td><td>A narrower responsibility tier: holds responsibility for a handful of declared operations that require a single specific global role.</td></tr>
+      <tr><td>Meaning</td><td>Owns a slightly narrower, still small, slice of the authorization question than Tier 1 — declared per operation rather than applied uniformly.</td></tr>
+      <tr><td>Shape</td><td>Rectangle, sharp corners — identical shape language to Tier 1, signalling "the same order of magnitude of responsibility."</td></tr>
+      <tr><td>Weight</td><td>Same recessive weight as Tier 1.</td></tr>
+      <tr><td>Relative importance</td><td>Recessive — a small, clearly bounded slice of responsibility, distinct in scope from Tier 1 but not in visual weight.</td></tr>
+      <tr><td>Position</td><td>On the primary axis, directly beneath Tier 1.</td></tr>
+    </table>
+
+    <h3>Tier 3 — Business Authorization (Primary Anchor)</h3>
+    <table>
+      <tr><td style="width:160px">Purpose</td><td>Holds responsibility for nearly all of the authorization question: every decision that depends on which business, which record, or which actor is involved.</td></tr>
+      <tr><td>Meaning</td><td>The figure's subject. Where a reader's understanding of "who is actually in charge of authorization in this system" should form.</td></tr>
+      <tr><td>Shape</td><td>Rectangle, sharp corners — same shape family as the other two tiers, deliberately, so that dominance is read through scale and weight rather than through an unrelated shape vocabulary.</td></tr>
+      <tr><td>Weight</td><td>The heaviest border on the canvas, by a clear margin. Colour is used here too, but only as the least important of several signals — see Colour Language.</td></tr>
+      <tr><td>Typography</td><td>The largest label on the canvas. A secondary line gives the canonical component name, exactly as already published in AX-4's Related Source Artefacts, set in monospace. A third line names the three categories of decision it owns — business membership, ownership, self-scope — combined into a single line.</td></tr>
+      <tr><td>Relative importance</td><td>Dominant. The only element on the canvas permitted to command attention on its own, independent of reading order.</td></tr>
+      <tr><td>Position</td><td>Centre of the primary axis, with the largest clearance of any element above and below it.</td></tr>
+    </table>
+
+    <h3>Outcome — Business Operation (Granted)</h3>
+    <table>
+      <tr><td style="width:160px">Purpose</td><td>Represents the protected business operation — the thing the entire responsibility model exists to guard. Any operation scoped to a business, a record, or a specific actor.</td></tr>
+      <tr><td>Meaning</td><td>What a granted decision resolves into. Not itself a responsibility-holder — it is guarded, not guarding.</td></tr>
+      <tr><td>Shape</td><td>Rectangle with a double border — distinct from the tiers, signalling "this is the protected thing, not a decision-maker," through shape rather than colour.</td></tr>
+      <tr><td>Weight</td><td>Same recessive weight as the two coarse tiers.</td></tr>
+      <tr><td>Relative importance</td><td>Recessive — an outcome, not a responsibility-holder.</td></tr>
+      <tr><td>Position</td><td>On the primary axis, directly beneath Business Authorization.</td></tr>
+    </table>
+
+    <h3>Outcome — Access Denied (Denied)</h3>
+    <table>
+      <tr><td style="width:160px">Purpose</td><td>Represents the shared negative outcome available to any of the three responsibility tiers.</td></tr>
+      <tr><td>Meaning</td><td>An outcome, not a fourth tier. It performs no authorization work of its own — it is what any tier's negative decision resolves into. Its visual treatment must never let a reader mistake it for another processing stage in sequence with the others.</td></tr>
+      <tr><td>Shape</td><td>Octagon — the one shape on the canvas that belongs to neither the tier vocabulary (rectangle) nor the entry-marker vocabulary (pill), precisely because it is not a processing element of any kind.</td></tr>
+      <tr><td>Weight</td><td>Same recessive weight as the entry marker — the lightest on the canvas.</td></tr>
+      <tr><td>Relative importance</td><td>Recessive, and additionally positioned off the primary axis, so that both its shape and its placement communicate "shared exit," not "next step."</td></tr>
+      <tr><td>Position</td><td>Off-axis, in the lateral branch region described in the Layout Blueprint.</td></tr>
+    </table>
+
+    <h4>Node Taxonomy — Naming Rationale</h4>
+    <p>Two node names were revised from Version 1 for architectural clarity. No meaning changed; only the label. Both revisions remain fully traceable to the frozen specification.</p>
+    <table>
+      <tr><th>v1 name</th><th>v2 name</th><th>Grounding in AUTHORIZATION.md</th></tr>
+      <tr><td>Route-Level Check</td><td>Platform Authorization</td><td>"a coarse route-level check that establishes whether the request is authenticated at all and gates a small number of platform-wide operations by role"</td></tr>
+      <tr><td>Declarative Endpoint Check</td><td>Endpoint Authorization</td><td>"a declarative per-endpoint check that narrows a handful of operations to a single global role"</td></tr>
+      <tr><td>Dedicated Authorization Component</td><td>Business Authorization</td><td>"a dedicated authorization component that resolves every business-, ownership-, and self-scoped decision"</td></tr>
+    </table>
+    <p>The rationale for each rename: "Route-Level" and "Declarative Endpoint Check" describe <i>how</i> a check is implemented (as an HTTP route rule, as a declarative annotation) — implementation-flavoured language this figure should avoid per the Visual Philosophy above. "Platform Authorization," "Endpoint Authorization," and "Business Authorization" describe <i>what each tier is responsible for</i>, which is this figure's actual subject.</p>
+  </section>
+
+  <!-- 7. Every connection -->
+  <section>
+    <h2><span class="num">07</span>Every Connection</h2>
+    <p>Connectors exist only to show which tiers hand an unresolved question to which other tier, and which tier's decision resolves into which outcome. No connector introduces a concept not already present in the two nodes it joins.</p>
+
+    <h3>Chain connectors (solid)</h3>
+    <table>
+      <tr><th>ID</th><th>Origin</th><th>Destination</th><th>Meaning</th></tr>
+      <tr><td>C1</td><td>Incoming Request</td><td>Platform Authorization</td><td>Marks where the responsibility chain begins. Carries no meaning beyond initiation.</td></tr>
+      <tr><td>C2</td><td>Platform Authorization</td><td>Endpoint Authorization</td><td>Platform Authorization defers whatever it does not resolve to a narrower-scoped tier.</td></tr>
+      <tr><td>C3</td><td>Endpoint Authorization</td><td>Business Authorization</td><td>Endpoint Authorization defers whatever it does not resolve to the tier that owns nearly all remaining responsibility.</td></tr>
+      <tr><td>C4</td><td>Business Authorization</td><td>Business Operation</td><td>A granted decision resolves into the protected operation proceeding.</td></tr>
+    </table>
+
+    <h3>Outcome connectors (dashed)</h3>
+    <table>
+      <tr><th>ID</th><th>Origin</th><th>Destination</th><th>Meaning</th></tr>
+      <tr><td>C5</td><td>Platform Authorization</td><td>Access Denied</td><td>Platform Authorization is capable of resolving directly into the shared denied outcome.</td></tr>
+      <tr><td>C6</td><td>Endpoint Authorization</td><td>Access Denied</td><td>Endpoint Authorization is capable of resolving directly into the shared denied outcome.</td></tr>
+      <tr><td>C7</td><td>Business Authorization</td><td>Access Denied</td><td>Business Authorization is capable of resolving directly into the shared denied outcome — for example, when the caller does not belong to the requested business, or lacks standing over the specific record.</td></tr>
+    </table>
+
+    <h3>Connector styling rules</h3>
+    <ul>
+      <li>Every connector, without exception, is styled more quietly than the quietest node — including the connectors touching Business Authorization. Proximity to the primary anchor does not raise a connector's visual rank.</li>
+      <li>Solid vs. dashed is the only stylistic distinction between the two connector families. Neither family uses colour, and neither uses a label.</li>
+      <li>C1–C4 form a single unbroken line down the primary axis; no other connector may cross it.</li>
+      <li>C5, C6, and C7 converge on Access Denied from three distinct points, without overlapping one another or passing through any node other than their own two endpoints.</li>
+    </ul>
+  </section>
+
+  <!-- 8. Colour language -->
+  <section>
+    <h2><span class="num">08</span>Colour Language</h2>
+    <p>Colour is the least important tool available for expressing this figure's hierarchy, and is used last, after shape, size, weight, and spacing have already done the work. If every colour in this figure were removed and rendered in greyscale, the hierarchy — one dominant tier, everything else recessive, one shared negative outcome — must still be fully legible.</p>
+    <table>
+      <tr><th style="width:220px">Colour</th><th>Rank</th><th>Semantic meaning</th></tr>
+      <tr><td><span class="swatch" style="border-color:#1c3d5a;"></span>Accent (Business Authorization border, and optionally a very light fill)</td><td>Least important of five signals (after size, weight, spacing, and shape)</td><td>Reinforces — does not establish — the dominance already communicated by scale and whitespace.</td></tr>
+      <tr><td><span class="swatch" style="border-color:#7a2727;"></span>Muted dark red (Access Denied border only)</td><td>Reinforces shape and off-axis position</td><td>Signals "outcome, not stage" alongside the octagon and the lateral placement — never the only signal.</td></tr>
+      <tr><td><span class="swatch" style="background:#ffffff;border-color:#1a1a1a;"></span>White fill, ink border</td><td>Default / no meaning</td><td>Every recessive node. Colour carries no information here at all.</td></tr>
+    </table>
+    <p>No other colour may appear anywhere in the figure. No connector may carry colour of any kind.</p>
+  </section>
+
+  <!-- 9. Typography -->
+  <section>
+    <h2><span class="num">09</span>Typography</h2>
+    <table>
+      <tr><th style="width:220px">Element</th><th>Specification</th></tr>
+      <tr><td>Figure title / caption</td><td>Sans-serif, regular weight, sentence case, per the Architecture Style Guide caption format.</td></tr>
+      <tr><td>Recessive node labels</td><td>Sans-serif, medium weight, sentence case. Identical size across the entry marker, both coarse tiers, and both outcomes — no further ranking by typography among recessive elements.</td></tr>
+      <tr><td>Business Authorization label</td><td>Sans-serif, semibold, the largest size on the canvas.</td></tr>
+      <tr><td>Canonical component name</td><td>Monospace, regular weight, reserved exclusively for the one verbatim source-artefact name in this figure, set smaller than the label above it.</td></tr>
+      <tr><td>Access Denied label</td><td>Sans-serif, medium weight, small, upper case — the one deliberate upper-case label on the canvas, reinforcing "outcome" through typographic convention as well as shape.</td></tr>
+      <tr><td>Legend</td><td>Sans-serif, regular weight, small — the smallest text tier alongside recessive annotations.</td></tr>
+    </table>
+  </section>
+
+  <!-- 10. Legend -->
+  <section>
+    <h2><span class="num">10</span>Legend</h2>
+    <p><span class="lineswatch"></span>Solid line — a tier defers an unresolved question to the next tier, or a granted decision reaches the protected operation.</p>
+    <p><span class="lineswatch dashed"></span>Dashed line — a tier resolves directly into the shared denied outcome.</p>
+    <p><span class="shapeswatch" style="border:2.5px solid #1c3d5a; background:#eaf0f5;"></span>Heaviest border, largest size — the primary anchor; owns nearly all authorization responsibility.</p>
+    <p><span class="shapeswatch" style="border:2px solid #7a2727; clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);"></span>Octagon — shared denied outcome, not a processing tier.</p>
+    <p><span class="shapeswatch" style="border:3px double #1a1a1a;"></span>Double border — the protected business operation; guarded, not guarding.</p>
+    <p><span class="shapeswatch" style="border-radius: 999px; border:1.5px solid #8a8a8a;"></span>Pill — the entry marker; a boundary, not a decision-maker.</p>
+  </section>
+
+  <!-- 11. Reading order -->
+  <section>
+    <h2><span class="num">11</span>Reading Order</h2>
+    <p>Reading order here is governed by visual weight, not by physical position on the axis. This is a deliberate departure from a literal top-to-bottom trace.</p>
+    <ol>
+      <li>The eye is drawn first to <b>Business Authorization</b> — its scale and clearance should command attention before any deliberate scanning begins. This establishes the figure's main takeaway immediately: one component holds nearly all of the responsibility.</li>
+      <li>Only afterward does the reader trace the axis for context — noticing <b>Incoming Request</b> at the top, and <b>Platform Authorization</b> and <b>Endpoint Authorization</b> as smaller, evenly-paced elements above the anchor, understood as narrowing tiers rather than as steps in a countdown.</li>
+      <li>The reader then follows the chain downward to <b>Business Operation</b>, understanding it as what a granted decision resolves into.</li>
+      <li>Last, the reader notices the three dashed lines reaching <b>Access Denied</b> off to the side, understanding it as a shared exit available to any tier — not a fourth step reached only after the other three.</li>
+    </ol>
+    <p>A reader who comes away thinking "there are four sequential steps" has misread the figure. A reader who comes away thinking "one component does almost all of the work, and two lightweight gates handle the rest" has read it correctly.</p>
+  </section>
+
+  <!-- 12. Accessibility -->
+  <section>
+    <h2><span class="num">12</span>Accessibility</h2>
+    <ul>
+      <li>No information in this figure depends on colour perception alone. Business Authorization is distinguished by size, border weight, whitespace, and label size, with colour contributing last. Access Denied is distinguished by shape (octagon), off-axis position, and an explicit upper-case label, with colour contributing last.</li>
+      <li>The distinction between "defer to the next tier" and "resolve into denial" is carried by line style (solid vs. dashed), legible in greyscale.</li>
+      <li>The distinction between an outcome node and a responsibility-holding tier is carried by shape (double border vs. plain rectangle vs. octagon vs. pill), not by colour.</li>
+      <li>If this figure is ever reproduced in greyscale or print, every distinction described above must remain fully legible without exception.</li>
+    </ul>
+  </section>
+
+  <!-- 13. Publication checklist -->
+  <section>
+    <h2><span class="num">13</span>Non-Negotiable Constraints — Publication Checklist</h2>
+    <ul class="checklist">
+      <li>Exactly six nodes: Incoming Request, Platform Authorization, Endpoint Authorization, Business Authorization, Business Operation, Access Denied. No additional node.</li>
+      <li>Exactly seven connectors (four chain, three outcome). No additional connector.</li>
+      <li>Business Authorization is the only semantic focal point. No second point of emphasis is permitted anywhere on the canvas.</li>
+      <li>Dominance is established primarily through size, weight, and spacing. Colour is the least important signal and must remain removable without loss of legibility (see Accessibility).</li>
+      <li>Access Denied must never be rendered inline with the primary axis, and must never be styled to resemble a fourth processing tier.</li>
+      <li>No connector may be styled with greater visual weight than the least prominent node on the canvas.</li>
+      <li>No connector carries a text label.</li>
+      <li>The only class or component name appearing anywhere in the figure is <span class="mono">AuthorizationService</span> — already published in AX-4's Related Source Artefacts. No other class name, package name, method name, file path, or line number may appear.</li>
+      <li>Platform Authorization and Endpoint Authorization must remain generic — no specific role name may be attached to either tier. The frozen specification deliberately does not name which role gates these tiers.</li>
+      <li>The figure must not depict, label, or hint at the legacy-authorization-check consolidation note from the surrounding prose in AUTHORIZATION.md. That note is Level B content for the accompanying text, never for the figure itself.</li>
+      <li>No gradients, no drop shadows, no decorative icons, no photographic or illustrative imagery.</li>
+      <li>No absolute coordinates, fixed canvas dimensions, or pixel measurements may govern the final rendering — only the relational rules in the Layout Blueprint.</li>
+      <li>Every element in this specification maps to a sentence already present in the frozen <code>AUTHORIZATION.md</code> Figure A description, or to the Node Taxonomy Rationale table above. Nothing in this blueprint may be traced to a source not already approved for publication.</li>
+      <li>The published caption must follow the Architecture Style Guide's caption format exactly, and must link only to ADR-016.</li>
+    </ul>
+  </section>
+
+  <footer>
+    Engineering blueprint for figure production only — not a published artefact of the Architecture Experience Journey until rendered and reviewed.
+  </footer>
+
+</div>
+</body>
+</html>
